@@ -39,6 +39,9 @@ public class Register extends AppCompatActivity {
     }
 
     public void B_Register(View view) {
+        Intent intent = new Intent(Register.this, com.example.projectandroid1.Home.class);
+        startActivity(intent);
+        /*
         final String username = editTextUserName.getText().toString();
         final String password = editTextPass.getText().toString();
         final String phone = editTextPhone.getText().toString();
@@ -87,6 +90,8 @@ public class Register extends AppCompatActivity {
                 Toast.makeText(Register.this, "Database error", Toast.LENGTH_SHORT).show();
             }
         });
+
+         */
     }
 
 

@@ -7,19 +7,43 @@
     tools:context=".Home">
 
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="729dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp"
+
         tools:ignore="MissingConstraints">
 
-        <TextView
-            android:id="@+id/userDetailMSG"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="24sp" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/B_Open_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="Parking"
+                android:text="magnifying glass" />
+
+            <Button
+                android:id="@+id/B_Add_Parking"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="AddParking"
+                android:text="AddParking" />
+
+            <Button
+                android:id="@+id/B_Profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="Profile"
+                android:text="Profile" />
+        </LinearLayout>
 
         <EditText
             android:id="@+id/editText"

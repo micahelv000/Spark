@@ -1,8 +1,6 @@
 package com.example.projectandroid1;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -27,13 +18,13 @@ import java.util.ArrayList;
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
     private final ArrayList<com.example.projectandroid1.Item> dataSet;
     private final Context context;
-    private final DatabaseReference mDatabase;
-    private final String userid;
+//    private final DatabaseReference mDatabase;
+//   private final String userid;
 
     public CustomAdapter(ArrayList<com.example.projectandroid1.Item> dataSet, Context context) {
         this.dataSet = dataSet;
         this.context = context;
-        this.mDatabase = FirebaseDatabase.getInstance().getReference();
+/*      this.mDatabase = FirebaseDatabase.getInstance().getReference();
         userid = ((Activity) context).getIntent().getStringExtra("userId");
 
         mDatabase.child("users").child(userid).child("amounts").addValueEventListener(new ValueEventListener() {
@@ -63,7 +54,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                 // Handle any errors
             }
         });
-
+        */
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -78,9 +69,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewName = itemView.findViewById(R.id.textView);
-            textAmount = itemView.findViewById(R.id.textAmount);
+            textAmount = itemView.findViewById(R.id.textTimeUplode);
             imageView = itemView.findViewById(R.id.imageView);
-            textPrice = itemView.findViewById(R.id.textPrice);
+            textPrice = itemView.findViewById(R.id.NumberOfLikes);
             addButton = itemView.findViewById(R.id.button_Add);
             removeButton = itemView.findViewById(R.id.button_Remove);
         }
@@ -101,12 +92,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.textViewName.setText(dataModel.getName());
         holder.textAmount.setText("amount have: "+ dataModel.getAmount());
         holder.textPrice.setText(dataModel.getPrice() +" ₪");
-
         holder.imageView.setImageResource(dataModel.getImage());
-        holder.addButton.setOnClickListener(v -> addAmount(dataModel));
-        holder.removeButton.setOnClickListener(v -> removeAmount(dataModel));
-    }
 
+        //holder.addButton.setOnClickListener(v -> addAmount(dataModel));
+        //holder.removeButton.setOnClickListener(v -> removeAmount(dataModel));
+    }
+/*
     private void removeAmount(com.example.projectandroid1.Item dataModel) {
         if (dataModel.getAmount() > 0) {
             dataModel.setAmount(dataModel.getAmount() - 1);
@@ -120,7 +111,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         mDatabase.child("users").child(this.userid).child("amounts").child(dataModel.getName()).setValue(dataModel.getAmount());
         notifyDataSetChanged();
     }
-
+*/
     @Override
     public int getItemCount() {
         return dataSet.size();

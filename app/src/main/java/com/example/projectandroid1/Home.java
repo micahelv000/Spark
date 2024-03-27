@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -28,14 +30,13 @@ public class Home extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
         String username = getIntent().getStringExtra("username");
-        TextView TextMSGHello = findViewById(R.id.userDetailMSG);
-        TextMSGHello.setText("Hi, " + username + "    Welcome to home page");
 
         dataSet = new ArrayList<>();
         filteredDataSet = new ArrayList<>();
         recyclerView = findViewById(R.id.resView);
-        editTextSearch = findViewById(R.id.editText); // Correctly reference the EditText
+        editTextSearch = findViewById(R.id.editText);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -46,27 +47,29 @@ public class Home extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filterDataSet(s.toString());
+                filterDataSet(s.toString().trim()); // Trim the query
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                // Perform any necessary actions after text has changed
             }
         });
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        // Add items to the dataSet
         for (int i = 0; i < myData.nameArray.length; i++) {
             dataSet.add(new Item(
                     myData.nameArray[i],
-                    Integer.parseInt(myData.amount[i]), // add later pull from the firebase of actual amount.
+                    Integer.parseInt(myData.amount[i]),
                     Double.parseDouble(myData.price[i]),
                     myData.drawableArray[i]
             ));
         }
         filteredDataSet.addAll(dataSet);
 
-        adapter = new CustomAdapter(filteredDataSet, this); // Pass context here
+        adapter = new CustomAdapter(filteredDataSet, this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -80,7 +83,18 @@ public class Home extends AppCompatActivity {
         }
 
         adapter.notifyDataSetChanged();
+    }
 
-
+    public void AddParking(View view) {
+        Intent intent = new Intent(this, AddParking.class);
+        startActivity(intent);
+    }
+    public void Profile(View view) {
+        Intent intent = new Intent(this, Profile.class);
+        startActivity(intent);
+    }
+    public void Parking(View view) {
+        Intent intent = new Intent(this, Parking.class);
+        startActivity(intent);
     }
 }

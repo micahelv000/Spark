@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Normal state -->
+    <item android:state_enabled="true">
+        <shape android:shape="rectangle">
+            <stroke
+                android:width="4dp"
+                android:color="#FF0000" /> <!-- Color of the border -->
+            <corners android:radius="30dp" /> <!-- Radius of the corners (optional) -->
+        </shape>
+    </item>
+
+
+</selector>

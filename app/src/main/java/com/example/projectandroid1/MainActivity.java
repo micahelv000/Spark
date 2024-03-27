@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText usernameEditText;
     private EditText passwordEditText;
-
     private DatabaseReference mDatabase;
 
     @Override
@@ -30,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Login(View view) {
+        Intent intent = new Intent(MainActivity.this, Home.class);
+        startActivity(intent);
+        /*
         final String username = usernameEditText.getText().toString();
         final String password = passwordEditText.getText().toString();
 
@@ -70,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Database error", Toast.LENGTH_SHORT).show();
             }
         });
+
+         */
     }
 
     public void Register(View view) {
