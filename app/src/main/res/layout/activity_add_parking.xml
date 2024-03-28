@@ -53,6 +53,28 @@
 
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.6"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/B_AddPhotoFromGal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
+                    android:onClick="AddPhotoFromGal"
+                    android:text="Add from gallery" />
+
+                <Button
+                    android:id="@+id/B_TakePhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
+                    android:text="Take a photo now" />
+            </LinearLayout>
+
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="match_parent"
