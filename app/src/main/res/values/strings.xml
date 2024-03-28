@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ProjectAndroid1</string>
+    <string name="todo">TODO</string>
 </resources>
