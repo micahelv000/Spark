@@ -35,8 +35,8 @@ public class AddParking extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void B_Parking(View view) {
-        Intent intent = new Intent(this, Parking.class);
+    public void B_Home(View view) {
+        Intent intent = new Intent(this, Home.class);
         startActivity(intent);
     }
 

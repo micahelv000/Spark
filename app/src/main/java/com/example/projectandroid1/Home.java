@@ -93,7 +93,7 @@ public class Home extends AppCompatActivity {
         Intent intent = new Intent(this, Profile.class);
         startActivity(intent);
     }
-    public void B_Parking(View view) {
+    public void B_Home(View view) {
         Intent intent = new Intent(this, Parking.class);
         startActivity(intent);
     }

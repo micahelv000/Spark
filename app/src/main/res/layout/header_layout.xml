@@ -11,8 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:onClick="B_Parking"
-        android:text="magnifying glass" />
+        android:onClick="B_Home"
+        android:text="Home" />
 
     <Button
         android:id="@+id/B_Add_Parking"
