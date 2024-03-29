@@ -32,6 +32,7 @@ public class AddParking extends AppCompatActivity {
     RadioGroup radioGroup;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_SELECT_IMAGE = 2;
+    static final int MAP_POPUP_REQUEST_CODE = 101;
 
 
     @Override
@@ -63,6 +64,12 @@ public class AddParking extends AppCompatActivity {
             }
         });
     }
+    public void openMapPopup(View view) {
+        Intent intent = new Intent(this, MapPopupActivity.class);
+        startActivityForResult(intent, MAP_POPUP_REQUEST_CODE);
+    }
+
+
 
 
     public void B_AddParking(View view) {
@@ -110,14 +117,18 @@ public class AddParking extends AppCompatActivity {
             if (requestCode == REQUEST_SELECT_IMAGE) {
                 Uri selectedImage = data.getData();
                 Parking_photo.setImageURI(selectedImage);
-            }
-            else if (requestCode == REQUEST_IMAGE_CAPTURE) {
+            } else if (requestCode == REQUEST_IMAGE_CAPTURE) {
                 Bundle extras = data.getExtras();
                 if (extras != null) {
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
                     Parking_photo.setImageBitmap(imageBitmap);
                 }
             }
+        } else if (resultCode == MAP_POPUP_REQUEST_CODE && data != null) {
+            // Handle the selected location data from the pop-up window here
+            double latitude = data.getDoubleExtra("selected_latitude", 0.0);
+            double longitude = data.getDoubleExtra("selected_longitude", 0.0);
+
         }
     }
 

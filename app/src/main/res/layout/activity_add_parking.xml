@@ -191,6 +191,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:onClick="openMapPopup"
                         android:text="Pin Point 📍"
                         android:textAlignment="center"
                         android:textSize="20sp" />

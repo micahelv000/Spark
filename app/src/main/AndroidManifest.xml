@@ -2,21 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-
-
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -26,6 +24,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjectAndroid1"
         tools:targetApi="31">
+        <activity
+            android:name=".MapPopupActivity"
+            android:exported="false" />
         <activity
             android:name=".ParkingMaps"
             android:exported="false" />
@@ -62,10 +63,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB0AcAuXWMzyWIo8uVm25QytkQT4izGaUY" />
-
+            android:value="AIzaSyDsiDbsN5m2CnPPJ4tyKFHqZ5e7z7ZfV_s" />
     </application>
 
 </manifest>
