@@ -54,8 +54,17 @@
                 android:id="@+id/imageView3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.6"
+                android:layout_weight="0.7"
                 android:src="@drawable/ic_launcher_foreground" />
+
+            <EditText
+                android:id="@+id/editTextText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.6"
+                android:ems="10"
+                android:inputType="text"
+                android:text="Name" />
 
             <TextView
                 android:id="@+id/textView6"
@@ -177,9 +186,9 @@
             <com.google.android.gms.maps.MapView
                 android:id="@+id/mapView2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="240dp"
 
-                android:layout_weight="0.8" />
+                android:layout_weight="0.7" />
 
             <Button
                 android:id="@+id/b_Add_this"

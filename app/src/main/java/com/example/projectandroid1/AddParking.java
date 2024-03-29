@@ -1,5 +1,6 @@
 package com.example.projectandroid1;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,17 +14,30 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 public class AddParking extends AppCompatActivity {
     ImageView Parking_photo;
+    MapView mapView2;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_SELECT_IMAGE = 2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_parking);
         Parking_photo = findViewById(R.id.imageView3);
+
+        mapView2 = findViewById(R.id.mapView2); // Initialize MapView
+        mapView2.onCreate(savedInstanceState); // Handle MapView lifecycle
+
     }
+
 
     public void B_AddParking(View view) {
         Intent intent = new Intent(this, AddParking.class);
@@ -80,4 +94,47 @@ public class AddParking extends AppCompatActivity {
             }
         }
     }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mapView2.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mapView2.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mapView2.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mapView2.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mapView2.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView2.onLowMemory();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView2.onSaveInstanceState(outState);
+    }
+
+
 }
