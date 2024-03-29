@@ -85,15 +85,20 @@ public class Home extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    public void AddParking(View view) {
+    public void B_AddParking(View view) {
         Intent intent = new Intent(this, AddParking.class);
         startActivity(intent);
     }
-    public void Profile(View view) {
+    public void B_Profile(View view) {
         Intent intent = new Intent(this, Profile.class);
         startActivity(intent);
     }
-    public void Parking(View view) {
+    public void B_Parking(View view) {
+        Intent intent = new Intent(this, Parking.class);
+        startActivity(intent);
+    }
+
+    public void Openfilter(View view) {
         Dialog_filter dialog = new Dialog_filter();
         dialog.show(getSupportFragmentManager(), "Dialog_filter");
     }
