@@ -15,35 +15,10 @@
 
         tools:ignore="MissingConstraints">
 
-        <LinearLayout
+        <include
+            layout="@layout/header_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/B_Open_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="Parking"
-                android:text="magnifying glass" />
-
-            <Button
-                android:id="@+id/B_Add_Parking"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="AddParking"
-                android:text="AddParking" />
-
-            <Button
-                android:id="@+id/B_Profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="Profile"
-                android:text="Profile" />
-        </LinearLayout>
+            android:layout_height="wrap_content" />
 
         <EditText
             android:id="@+id/editText"

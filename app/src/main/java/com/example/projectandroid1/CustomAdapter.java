@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -59,21 +60,21 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView textViewName;
-        TextView textAmount;
-        TextView textPrice;
+        TextView Text_LocationName;
+        TextView Text_TimeUploaded;
+        TextView Text_NumberOfLikes;
         ImageView imageView;
-        Button addButton;
-        Button removeButton;
+        Button LikeButton;
+        Button ReportButton;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewName = itemView.findViewById(R.id.textView);
-            textAmount = itemView.findViewById(R.id.textTimeUplode);
+            Text_LocationName = itemView.findViewById(R.id.TextLocation);
+            Text_TimeUploaded = itemView.findViewById(R.id.textTimeUplode);
             imageView = itemView.findViewById(R.id.imageView);
-            textPrice = itemView.findViewById(R.id.NumberOfLikes);
-            addButton = itemView.findViewById(R.id.button_Add);
-            removeButton = itemView.findViewById(R.id.button_Remove);
+            Text_NumberOfLikes = itemView.findViewById(R.id.NumberOfLikes);
+            LikeButton = itemView.findViewById(R.id.button_Like);
+            ReportButton = itemView.findViewById(R.id.button_Report);
         }
     }
 
@@ -81,22 +82,35 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     @Override
     public CustomAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_cardrow, parent, false);
-
         return new MyViewHolder(view);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CustomAdapter.MyViewHolder holder, int position) {
-        final com.example.projectandroid1.Item dataModel = dataSet.get(position);
-        holder.textViewName.setText(dataModel.getName());
-        holder.textAmount.setText("amount have: "+ dataModel.getAmount());
-        holder.textPrice.setText(dataModel.getPrice() +" ₪");
+        final Item dataModel = dataSet.get(position);
+        holder.Text_LocationName.setText(dataModel.getName());
+        holder.Text_TimeUploaded.setText("Uploaded at: "+ dataModel.getAmount());
+        holder.Text_NumberOfLikes.setText(dataModel.getPrice() +" Likes");
         holder.imageView.setImageResource(dataModel.getImage());
 
-        //holder.addButton.setOnClickListener(v -> addAmount(dataModel));
-        //holder.removeButton.setOnClickListener(v -> removeAmount(dataModel));
+        holder.ReportButton.setOnClickListener(v -> showConfirmationDialogReport(position));
+        //holder.LikeButton.setOnClickListener(v -> addAmount(dataModel));
+        //holder.ReportButton.setOnClickListener(v -> removeAmount(dataModel));
     }
+
+    private void showConfirmationDialogReport(int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Confirmation");
+        builder.setMessage("Are you sure you want to Like the parking?");
+        builder.setPositiveButton("Yes", (dialog, which) -> {
+            notifyItemChanged(position);
+        });
+        builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
+        builder.show();
+    }
+
+
 /*
     private void removeAmount(com.example.projectandroid1.Item dataModel) {
         if (dataModel.getAmount() > 0) {
@@ -112,6 +126,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         notifyDataSetChanged();
     }
 */
+
+
     @Override
     public int getItemCount() {
         return dataSet.size();

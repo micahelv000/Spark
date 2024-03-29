@@ -15,71 +15,95 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="8dp"
-            android:outlineProvider="bounds"
-            android:scaleType="centerCrop"
-            tools:srcCompat="@tools:sample/avatars" />
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="10px"
-                android:text="Location"
-                android:textColor="#000000"
-                android:textSize="30sp" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/Distance"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="10px"
-                android:text="Distance"
-                android:textColor="#000000"
-                android:textSize="24sp" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:outlineProvider="bounds"
+                    android:scaleType="centerCrop"
+                    tools:srcCompat="@tools:sample/avatars" />
 
-            <TextView
-                android:id="@+id/amount"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:padding="10px"
-                android:text="Username"
-                android:textColor="#000000"
-                android:textSize="24sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textTimeUplode"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:padding="10px"
-                android:text="Time of Update"
-                android:textColor="#000000"
-                android:textSize="24sp" />
+                    <TextView
+                        android:id="@+id/TextLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="10px"
+                        android:text="Location"
+                        android:textColor="#000000"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:id="@+id/TextDistanceFromUser"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="10px"
+                        android:text="Distance"
+                        android:textColor="#000000"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:id="@+id/TextUsernameUploded"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:padding="10px"
+                        android:text="Username"
+                        android:textColor="#000000"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:id="@+id/textTimeUplode"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:padding="10px"
+                        android:text="Time of Update"
+                        android:textColor="#000000"
+                        android:textSize="24sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/Text_Probability"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.8"
+                    android:gravity="center"
+                    android:text="High Chance"
+                    android:textAlignment="center"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/NumberOfLikes"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="0.9"
                     android:gravity="center"
                     android:padding="10px"
                     android:text="NU. ♥"
@@ -87,21 +111,25 @@
                     android:textSize="20sp" />
 
                 <Button
-                    android:id="@+id/button_Add"
-                    android:layout_width="66dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:backgroundTint="#4CAF50"
-                    android:text="♥"
-                    android:textColor="#FFFFFF" />
-
-                <Button
-                    android:id="@+id/button_Remove"
+                    android:id="@+id/button_Like"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:backgroundTint="#4CAF50"
+                    android:bufferType="normal"
+                    android:gravity="center"
+                    android:text="♥"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/button_Report"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.92"
                     android:backgroundTint="#F44336"
                     android:bufferType="normal"
+                    android:gravity="center"
                     android:text="Report"
                     android:textColor="#FFFFFF" />
             </LinearLayout>

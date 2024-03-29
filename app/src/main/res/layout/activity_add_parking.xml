@@ -15,37 +15,11 @@
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp">
 
-        <LinearLayout
-            android:id="@+id/header"
+        <include
+            layout="@layout/header_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content" />
 
-            <Button
-                android:id="@+id/B_Open_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="B_Parking"
-                android:text="magnifying glass" />
-
-            <Button
-                android:id="@+id/B_Add_Parking"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="B_AddParking"
-                android:text="AddParking" />
-
-            <Button
-                android:id="@+id/B_Profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="B_Profile"
-                android:text="Profile" />
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
