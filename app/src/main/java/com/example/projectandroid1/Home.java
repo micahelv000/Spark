@@ -6,14 +6,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -103,7 +101,7 @@ public class Home extends AppCompatActivity {
         dialog.show(getSupportFragmentManager(), "Dialog_filter");
     }
     public void OpenMap(View view) {
-        Intent intent = new Intent(this, Parkings_Map.class);
+        Intent intent = new Intent(this, ParkingMaps.class);
         startActivity(intent);
     }
 }
