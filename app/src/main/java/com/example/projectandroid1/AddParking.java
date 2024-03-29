@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -12,7 +13,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Switch;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,7 +27,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class AddParking extends AppCompatActivity {
     ImageView Parking_photo;
-    MapView mapView2;
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    Switch Switch1;
+    RadioGroup radioGroup;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_SELECT_IMAGE = 2;
 
@@ -32,10 +39,29 @@ public class AddParking extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_parking);
         Parking_photo = findViewById(R.id.imageView3);
-
-        mapView2 = findViewById(R.id.mapView2); // Initialize MapView
-        mapView2.onCreate(savedInstanceState); // Handle MapView lifecycle
-
+        Switch1 = findViewById(R.id.switch1);
+        radioGroup = findViewById(R.id.radio_group);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // Uncheck all other radio buttons when one is checked
+                for (int i = 0; i < group.getChildCount(); i++) {
+                    RadioButton radioButton = (RadioButton) group.getChildAt(i);
+                    radioButton.setChecked(radioButton.getId() == checkedId);
+                }
+            }
+        });
+        Switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    Switch1.setText("Paid parking \uD83D\uDE22");
+                } else {
+                    Switch1.setText("Free parking \uD83E\uDD73");
+                }
+            }
+        });
     }
 
 
@@ -93,47 +119,6 @@ public class AddParking extends AppCompatActivity {
                 }
             }
         }
-    }
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mapView2.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mapView2.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mapView2.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mapView2.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mapView2.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mapView2.onLowMemory();
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        mapView2.onSaveInstanceState(outState);
     }
 
 
