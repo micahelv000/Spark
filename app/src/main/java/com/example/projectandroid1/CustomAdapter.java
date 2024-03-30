@@ -1,12 +1,19 @@
 package com.example.projectandroid1;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,7 +26,7 @@ import java.util.ArrayList;
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
     private final ArrayList<com.example.projectandroid1.Item> dataSet;
     private final Context context;
-//    private final DatabaseReference mDatabase;
+//   private final DatabaseReference mDatabase;
 //   private final String userid;
 
     public CustomAdapter(ArrayList<com.example.projectandroid1.Item> dataSet, Context context) {
@@ -60,11 +67,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
+        public View LikeButton;
         TextView Text_LocationName;
         TextView Text_TimeUploaded;
         TextView Text_NumberOfLikes;
         ImageView imageView;
-        Button LikeButton;
+        LinearLayout open;
         Button ReportButton;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -75,6 +83,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             Text_NumberOfLikes = itemView.findViewById(R.id.NumberOfLikes);
             LikeButton = itemView.findViewById(R.id.button_Like);
             ReportButton = itemView.findViewById(R.id.button_Report);
+            open = itemView.findViewById(R.id.open);
+
         }
     }
 
@@ -95,7 +105,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.imageView.setImageResource(dataModel.getImage());
 
         holder.ReportButton.setOnClickListener(v -> showConfirmationDialogReport(position));
-        //holder.LikeButton.setOnClickListener(v -> addAmount(dataModel));
+        holder.LikeButton.setOnClickListener(v -> B_Like(dataModel, holder.LikeButton));
+        holder.open.setOnClickListener(v -> B_OpenParking(position));
         //holder.ReportButton.setOnClickListener(v -> removeAmount(dataModel));
     }
 
@@ -110,6 +121,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         builder.show();
     }
 
+    private void B_Like(Item dataModel, View likeButton) {
+
+        Animation rotate = AnimationUtils.loadAnimation(context, R.anim.hearbeat_anim);
+        likeButton.startAnimation(rotate);
+        //dataModel.setAmount(dataModel.getAmount() + 1);
+        //mDatabase.child("users").child(this.userid).child("amounts").child(dataModel.getName()).setValue(dataModel.getAmount());
+        //notifyDataSetChanged();
+    }
 
 /*
     private void removeAmount(com.example.projectandroid1.Item dataModel) {
@@ -127,7 +146,14 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     }
 */
 
+    private void B_OpenParking(int position) {
 
+        Intent intent = new Intent(context, Parking.class);
+        context.startActivity(intent);
+        //dataModel.setAmount(dataModel.getAmount() + 1);
+        //mDatabase.child("users").child(this.userid).child("amounts").child(dataModel.getName()).setValue(dataModel.getAmount());
+        //notifyDataSetChanged();
+    }
     @Override
     public int getItemCount() {
         return dataSet.size();
