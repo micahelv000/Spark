@@ -65,8 +65,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.6"
                 android:ems="10"
-                android:inputType="text"
-                android:text="What is the adress" />
+                android:hint="What is the adress"
+                android:inputType="text" />
 
             <TextView
                 android:id="@+id/textView6"

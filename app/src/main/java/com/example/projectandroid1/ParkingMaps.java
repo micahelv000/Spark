@@ -17,6 +17,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -67,7 +68,23 @@ public class ParkingMaps extends AppCompatActivity implements OnMapReadyCallback
 
         // Add markers for each place
         for (LatLng location : locations) {
-            mMap.addMarker(new MarkerOptions().position(location).title("Marker Title"));
+            Marker marker =mMap.addMarker(new MarkerOptions().position(location).title("Location X"));
+            assert marker != null;
+            marker.setTag("SomeDataYouWantToPass"); // You can attach data to the marker if needed
+
+
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(@NonNull Marker marker) {
+                    // Retrieve data attached to the marker if needed
+                    String data = (String) marker.getTag();
+
+                    Intent intent = new Intent(ParkingMaps.this, Parking.class);
+                    intent.putExtra("key", data);
+                    startActivity(intent);
+                    return true;
+                }
+            });
         }
     }
     public void B_AddParking(View view) {

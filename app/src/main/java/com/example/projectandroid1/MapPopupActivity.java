@@ -88,7 +88,7 @@ public class MapPopupActivity extends AppCompatActivity implements OnMapReadyCal
     public void onLocationChanged(Location location) {
         LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.addMarker(new MarkerOptions().position(currentLocation).title("Current Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 18));
         locationManager.removeUpdates(this);
     }
 

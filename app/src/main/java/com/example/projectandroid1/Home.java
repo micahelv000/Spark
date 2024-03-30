@@ -101,7 +101,7 @@ public class Home extends AppCompatActivity {
         dialog.show(getSupportFragmentManager(), "Dialog_filter");
     }
     public void OpenMap(View view) {
-        Intent intent = new Intent(this, ParkingMaps.class);
+        Intent intent = new Intent(this, Loading_Map.class);
         startActivity(intent);
     }
 }
