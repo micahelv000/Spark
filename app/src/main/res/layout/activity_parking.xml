@@ -94,26 +94,33 @@
                 android:layout_weight="0.9"
                 android:orientation="horizontal">
 
-                <Button
+                <ImageView
                     android:id="@+id/B_Report"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Update Status" />
+                    android:src="@drawable/ic_flag" />
+                <ImageView
+                    android:id="@+id/B_Update"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_update" />
 
-                <Button
+
+                <ImageView
                     android:id="@+id/B_TakeTheParking"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="You Parked" />
+                    android:src="@drawable/ic_parked" />
 
-                <Button
+                <ImageView
                     android:id="@+id/B_Navi"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Navigation" />
+                    android:src="@drawable/ic_navi" />
 
             </LinearLayout>
 
