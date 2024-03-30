@@ -91,6 +91,10 @@ public class ParkingMaps extends AppCompatActivity implements OnMapReadyCallback
         Intent intent = new Intent(this, AddParking.class);
         startActivity(intent);
     }
+    public void B_Logout(View view) {
+        Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
+    }
     public void B_Profile(View view) {
         Intent intent = new Intent(this, Profile.class);
         startActivity(intent);

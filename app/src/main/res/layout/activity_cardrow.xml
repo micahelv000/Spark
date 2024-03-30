@@ -106,7 +106,7 @@
                     android:id="@+id/NumberOfLikes"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.9"
+                    android:layout_weight="0.82"
                     android:gravity="center"
                     android:padding="10px"
                     android:text="NU. ♥"
@@ -120,22 +120,20 @@
                     android:layout_weight="1"
                     android:backgroundTint="#4CAF50"
                     android:gravity="center"
-
                     android:src="@drawable/buttonfav2" />
 
 
-                <Button
+                <ImageView
                     android:id="@+id/button_Report"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="0dp"
                     android:layout_marginRight="4dp"
-                    android:layout_weight="0.9"
+                    android:layout_weight="1"
                     android:backgroundTint="#F44336"
                     android:bufferType="normal"
                     android:gravity="center"
-                    android:text="Report"
-                    android:textColor="#FFFFFF" />
+                    android:src="@drawable/ic_flag" />
             </LinearLayout>
 
         </LinearLayout>

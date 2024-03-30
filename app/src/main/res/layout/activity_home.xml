@@ -29,18 +29,18 @@
                 android:id="@+id/editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.3"
+                android:layout_weight="0.2"
                 android:ems="10"
                 android:hint="Search by Product"
                 android:inputType="text" />
 
-            <Button
+            <ImageView
                 android:id="@+id/B_filter"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:onClick="Openfilter"
-                android:text="Filter" />
+                android:src="@drawable/ic_filter" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/ic_nearme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:onClick="OpenMap"

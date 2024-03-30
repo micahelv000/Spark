@@ -73,7 +73,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         TextView Text_NumberOfLikes;
         ImageView imageView;
         LinearLayout open;
-        Button ReportButton;
+        ImageView ReportButton;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -104,13 +104,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.Text_NumberOfLikes.setText(dataModel.getPrice() +" Likes");
         holder.imageView.setImageResource(dataModel.getImage());
 
-        holder.ReportButton.setOnClickListener(v -> showConfirmationDialogReport(position));
+        holder.ReportButton.setOnClickListener(v -> showConfirmationDialogReport(position, holder.ReportButton));
         holder.LikeButton.setOnClickListener(v -> B_Like(dataModel, holder.LikeButton));
         holder.open.setOnClickListener(v -> B_OpenParking(position));
         //holder.ReportButton.setOnClickListener(v -> removeAmount(dataModel));
     }
 
-    private void showConfirmationDialogReport(int position) {
+    private void showConfirmationDialogReport(int position, View ReportButton) {
+        Animation rotate = AnimationUtils.loadAnimation(context, R.anim.hearbeat_anim);
+        ReportButton.startAnimation(rotate);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Confirmation");
         builder.setMessage("Are you sure you want to Like the parking?");
