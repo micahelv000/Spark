@@ -2,11 +2,18 @@ package com.example.projectandroid1;
 
 import static com.example.projectandroid1.AddParking.REQUEST_SELECT_IMAGE;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -23,9 +30,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Register extends AppCompatActivity {
 
-    private EditText editTextFullName, editTextPass, editTextInstagramHandle, editTextEmail;
+    private EditText editTextFullName, editTextPass, editTextInstagramHandle, editTextEmail, editTextCity, editTextCountry;
     private DatabaseReference mDatabase;
     private ImageView ProfilePIC;
+    private LocationHelper locationHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,23 +43,50 @@ public class Register extends AppCompatActivity {
         editTextPass = findViewById(R.id.editTextPassword);
         editTextInstagramHandle = findViewById(R.id.editTextInstagramHandle);
         editTextEmail = findViewById(R.id.editTextEmail);
+        editTextCity = findViewById(R.id.editTextCity);
+        editTextCountry = findViewById(R.id.editTextCountry);
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
         ProfilePIC = findViewById(R.id.profileIMG);
+
+        locationHelper = new LocationHelper(this);
+        locationHelper.checkLocationPermission(this);
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == locationHelper.getRequestLocationPermissionCode()) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Location location = locationHelper.getLocation();
+                if (location != null) {
+                    String[] cityCountry = locationHelper.getCityCountryFromLocation(location);
+                    if (cityCountry != null) {
+                        editTextCity.setText(cityCountry[0]);
+                        editTextCountry.setText(cityCountry[1]);
+                    }
+                }
+            }
+
+        }
+    }
+
+    ActivityResultLauncher<Intent> mGetContent = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(),
+        new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    if (data != null) {
+                        Uri selectedImage = data.getData();
+                        ProfilePIC.setImageURI(selectedImage);
+                    }
+                }
+            }
+        });
 
     public void UploaderPhoto(View view){
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, REQUEST_SELECT_IMAGE);
-    }
-    //update the profile photo to the new the user picked.
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && data != null) {
-            Uri selectedImage = data.getData();
-            ProfilePIC.setImageURI(selectedImage);
-
-        }
+        mGetContent.launch(intent);
     }
     public void Login(View view) {
         Intent intent = new Intent(this, com.example.projectandroid1.Login.class);
@@ -64,7 +99,7 @@ public class Register extends AppCompatActivity {
         final String password = editTextPass.getText().toString();
         final String instagram_handle = editTextInstagramHandle.getText().toString();
         final String email = editTextEmail.getText().toString();
-
+        
         FireBaseHandler fb = new FireBaseHandler();
         fb.registerAndSaveUser(email, password, full_name, instagram_handle)
                 .addOnCompleteListener(task -> {
