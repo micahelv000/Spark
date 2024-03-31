@@ -30,6 +30,7 @@ android {
 }
 
 dependencies {
+    implementation ("com.mikhaellopez:circularimageview:4.3.1")
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")

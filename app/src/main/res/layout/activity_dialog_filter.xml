@@ -25,24 +25,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="CheckBox" />
+                android:text="Big Car"
+                android:textSize="15sp" />
 
             <CheckBox
                 android:id="@+id/checkBox01"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="CheckBox" />
+                android:text="Regular Car"
+                android:textSize="15sp" />
 
             <CheckBox
                 android:id="@+id/checkBox02"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="CheckBox" />
+                android:text="Small Car"
+                android:textSize="15sp" />
 
 
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,24 +57,19 @@
 
             <CheckBox
                 android:id="@+id/checkBox10"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="CheckBox" />
+                android:text="Parller parking"
+                android:textSize="15sp" />
 
             <CheckBox
                 android:id="@+id/checkBox11"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="CheckBox" />
-
-            <CheckBox
-                android:id="@+id/checkBox12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="CheckBox" />
+                android:text="Horizontal parking"
+                android:textSize="15sp" />
 
 
         </LinearLayout>
@@ -81,28 +80,21 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-
             <CheckBox
                 android:id="@+id/checkBox20"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="CheckBox" />
+                android:text="Free parking"
+                android:textSize="15sp" />
 
             <CheckBox
                 android:id="@+id/checkBox21"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="CheckBox" />
-
-            <CheckBox
-                android:id="@+id/checkBox22"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="CheckBox" />
-
+                android:text="Paid parking"
+                android:textSize="15sp" />
 
         </LinearLayout>
 

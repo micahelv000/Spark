@@ -1,13 +1,20 @@
 package com.example.projectandroid1;
 
+import static com.example.projectandroid1.AddParking.REQUEST_SELECT_IMAGE;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
@@ -18,6 +25,7 @@ public class Register extends AppCompatActivity {
 
     private EditText editTextFullName, editTextPass, editTextInstagramHandle, editTextEmail;
     private DatabaseReference mDatabase;
+    private ImageView ProfilePIC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +36,28 @@ public class Register extends AppCompatActivity {
         editTextInstagramHandle = findViewById(R.id.editTextInstagramHandle);
         editTextEmail = findViewById(R.id.editTextEmail);
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        ProfilePIC = findViewById(R.id.profileIMG);
     }
 
+    public void UploaderPhoto(View view){
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_SELECT_IMAGE);
+    }
+    //update the profile photo to the new the user picked.
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null) {
+            Uri selectedImage = data.getData();
+            ProfilePIC.setImageURI(selectedImage);
+
+        }
+    }
     public void Login(View view) {
         Intent intent = new Intent(this, com.example.projectandroid1.Login.class);
         startActivity(intent);
     }
+
 
     public void B_Register(View view) {
         final String full_name = editTextFullName.getText().toString();

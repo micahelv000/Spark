@@ -45,38 +45,30 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="0.8"
                     android:orientation="vertical">
-
-                    <FrameLayout
-                        android:layout_width="170dp"
-                        android:layout_height="200dp"
-                        android:layout_margin="5dp"
-                        android:layout_weight="1">
-
-                        <!-- Your ImageView -->
-                        <ImageView
-                            android:id="@+id/imageView4"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/ic_launcher_background"
-                            android:scaleType="centerCrop" />
-
-                        <!-- View for the border -->
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/border_background_profile" />
-                    </FrameLayout>
-
 
                     <TextView
                         android:id="@+id/textView4"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="\@username"
+                        android:layout_gravity="center_horizontal"
+                        android:text="username"
                         android:textAlignment="center"
                         android:textSize="20sp" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/profileIMG"
+                        android:layout_width="130dp"
+                        android:layout_height="130dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="100dp"
+                        android:padding="5dp"
+                        android:src="@drawable/default_profile"
+                        app:shapeAppearanceOverlay="@style/circleImageView"
+                        app:strokeColor="@android:color/darker_gray"
+                        app:strokeWidth="10dp" />
+
                 </LinearLayout>
 
                 <TextView
@@ -108,6 +100,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:onClick="B_Report"
                         android:src="@drawable/ic_flag" />
 
                     <ImageView
@@ -115,6 +108,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:onClick="B_empty"
                         android:src="@drawable/ic_update" />
 
 
@@ -123,6 +117,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:onClick="B_TakeParking"
                         android:src="@drawable/ic_parked" />
 
                     <ImageView
@@ -130,6 +125,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:onClick="B_OpenNavi"
                         android:src="@drawable/ic_navi" />
 
                 </LinearLayout>

@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- rounded_border.xml -->
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Background circle -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:innerRadius="0dp"
+    android:shape="ring"
+    android:thicknessRatio="1.9"
+    android:useLevel="false" >
+    <solid android:color="@android:color/transparent" />
 
-    <!-- Border -->
-    <item android:top="8dp" android:bottom="8dp" android:left="8dp" android:right="8dp">
-        <shape>
-            <solid android:color="@android:color/transparent" />
-            <stroke
-                android:width="8dp"
-                android:color="#0064D0" />
-        </shape>
-    </item>
-</layer-list>
+    <stroke
+        android:width="10dp"
+        android:color="@android:color/white" />
+</shape>
