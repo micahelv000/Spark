@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:textAlignment="center"
     tools:context=".Profile">
 
     <LinearLayout
@@ -16,6 +17,7 @@
         tools:layout_editor_absoluteY="1dp">
 
         <include
+            android:id="@+id/we"
             layout="@layout/header_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -23,14 +25,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
 
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.8"
                 android:orientation="horizontal">
 
 
@@ -39,7 +41,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="User name \ndetails" />
+                    android:gravity="center"
+                    android:text="User name \n details \n details"
+                    android:textSize="20sp" />
 
 
                 <FrameLayout
@@ -56,8 +60,10 @@
 
                     <!-- View for the border -->
                     <View
-                        android:layout_width="211dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_margin="5sp"
+                        android:layout_marginRight="10sp"
                         android:background="@drawable/border_background" /> <!-- Set the border properties here -->
 
                 </FrameLayout>
@@ -68,25 +74,26 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Number Of likes Total: "
-                android:textAlignment="center" />
+                android:layout_weight="0.98"
+                android:text="Number Of likes Total: \n XXXX!!!"
+                android:textAlignment="center"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/Bio"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.8"
-                android:text="Bio text about the profile\nBio text about the profile\nBio text about the profile\nBio text about the profile\nBio text about the profile\nBio text about the profile\nBio text about the profile\nBio text about the profile\n the resView here is for the latest parking of the user"
+                android:layout_weight="0.9"
+                android:text="Bio text about the profile\nBio text about the profile\nBio text about the profile\nBio text about the profile\nBio text about the profile\n the resView here is for the latest parking of the user"
                 android:textAlignment="center" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/resView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5" />
+
         </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/resView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
 
 
     </LinearLayout>
@@ -96,13 +103,13 @@
         android:id="@+id/fabEditProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/todo"
         android:src="@drawable/ic_edit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@android:color/black"
-        android:contentDescription="@string/todo" />
+        app:tint="@android:color/black" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
