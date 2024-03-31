@@ -74,6 +74,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         ImageView imageView;
         LinearLayout open;
         ImageView ReportButton;
+        boolean LikeStatus;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -105,7 +106,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.imageView.setImageResource(dataModel.getImage());
 
         holder.ReportButton.setOnClickListener(v -> showConfirmationDialogReport(position, holder.ReportButton));
-        holder.LikeButton.setOnClickListener(v -> B_Like(dataModel, holder.LikeButton));
+        holder.LikeButton.setOnClickListener(v -> B_Like(dataModel, holder));
         holder.open.setOnClickListener(v -> B_OpenParking(position));
         //holder.ReportButton.setOnClickListener(v -> removeAmount(dataModel));
     }
@@ -115,18 +116,25 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         ReportButton.startAnimation(rotate);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Confirmation");
-        builder.setMessage("Are you sure you want to Like the parking?");
+        builder.setMessage("Are you sure you want to Report that the parking is taken?");
         builder.setPositiveButton("Yes", (dialog, which) -> {
+            //update status
             notifyItemChanged(position);
         });
         builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
         builder.show();
     }
 
-    private void B_Like(Item dataModel, View likeButton) {
-
+    private void B_Like(Item dataModel, MyViewHolder holder) {
         Animation rotate = AnimationUtils.loadAnimation(context, R.anim.hearbeat_anim);
-        likeButton.startAnimation(rotate);
+        holder.LikeButton.startAnimation(rotate);
+
+        if(holder.LikeStatus){
+            //remove -1
+        }else{
+            //add + 1
+        }
+
         //dataModel.setAmount(dataModel.getAmount() + 1);
         //mDatabase.child("users").child(this.userid).child("amounts").child(dataModel.getName()).setValue(dataModel.getAmount());
         //notifyDataSetChanged();
