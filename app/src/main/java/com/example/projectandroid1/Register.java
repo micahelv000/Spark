@@ -51,21 +51,30 @@ public class Register extends AppCompatActivity {
         ProfilePIC = findViewById(R.id.profileIMG);
 
         locationHelper = new LocationHelper(this);
-        locationHelper.checkLocationPermission(this);
+        if (!locationHelper.hasLocationPermission()) {
+            locationHelper.checkLocationPermission();
+        } else {
+            locationHelper.LocationUpdater(editTextCity, editTextCountry);
+        }
     }
+
+    public void updateLocation(){
+        Location location = locationHelper.getLocation();
+        if (location != null) {
+            String[] cityCountry = locationHelper.getCityCountryFromLocation(location);
+            if (cityCountry != null) {
+                editTextCity.setText(cityCountry[0]);
+                editTextCountry.setText(cityCountry[1]);
+            }
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == locationHelper.getRequestLocationPermissionCode()) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Location location = locationHelper.getLocation();
-                if (location != null) {
-                    String[] cityCountry = locationHelper.getCityCountryFromLocation(location);
-                    if (cityCountry != null) {
-                        editTextCity.setText(cityCountry[0]);
-                        editTextCountry.setText(cityCountry[1]);
-                    }
-                }
+                updateLocation();
             }
 
         }
