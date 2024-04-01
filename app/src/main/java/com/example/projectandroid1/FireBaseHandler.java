@@ -1,11 +1,15 @@
 package com.example.projectandroid1;
 
+import android.net.Uri;
+
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -19,10 +23,12 @@ import java.util.Map;
 public class FireBaseHandler {
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
+    private FirebaseStorage mStorage;
 
     public FireBaseHandler() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+        mStorage = FirebaseStorage.getInstance();
     }
 
     public DatabaseReference getmDatabase() {
@@ -103,7 +109,29 @@ public class FireBaseHandler {
     }
 
     public Task<FirebaseUser> registerAndSaveUser(String email, String password, String full_name,
+            String profile_picture,
             String instagram_handle) {
-        return registerAndSaveUser(email, password, full_name, "", "", instagram_handle);
+        return registerAndSaveUser(email, password, full_name, profile_picture, "", instagram_handle);
+    }
+
+    public Task<String> uploadImage(Uri imageUri, FirebaseUser user) {
+        String uid = user.getUid();
+        StorageReference imageRef = mStorage.getReference().child("images").child(uid)
+                .child(imageUri.getLastPathSegment());
+
+        return imageRef.putFile(imageUri)
+                .continueWithTask(task -> {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
+                    }
+                    return imageRef.getDownloadUrl();
+                })
+                .continueWithTask(task -> {
+                    if (task.isSuccessful()) {
+                        return Tasks.forResult(task.getResult().toString());
+                    } else {
+                        return Tasks.forResult(null);
+                    }
+                });
     }
 }
