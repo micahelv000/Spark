@@ -84,6 +84,22 @@ public class LocationHelper {
         return null;
     }
 
+    public Location getLocationFromCityCountry(String city, String country) {
+        try {
+            List<Address> addresses = geocoder.getFromLocationName(city + ", " + country, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                Address address = addresses.get(0);
+                Location location = new Location(LocationManager.GPS_PROVIDER);
+                location.setLatitude(address.getLatitude());
+                location.setLongitude(address.getLongitude());
+                return location;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public int getRequestLocationPermissionCode() {
         return REQUEST_LOCATION_PERMISSION;
     }

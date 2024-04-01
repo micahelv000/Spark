@@ -1,5 +1,6 @@
 package com.example.projectandroid1;
 
+import android.location.Location;
 import android.net.Uri;
 
 import com.google.android.gms.tasks.Task;
@@ -68,22 +69,28 @@ public class FireBaseHandler {
                 });
     }
 
-    public JSONObject buildUserJson(String full_name, String profile_picture, String bio, String instagram_handle) {
+    public JSONObject buildUserJson(String full_name, String bio, String instagram_handle, Location user_location, String city, String country) {
         JSONObject json = new JSONObject();
         try {
             json.put("full_name", full_name);
-            json.put("profile_picture", profile_picture);
+            json.put("profile_picture", "");
             json.put("bio", bio);
             json.put("instagram_handle", instagram_handle);
             json.put("posts", new JSONArray());
             json.put("total_likes", 0);
             JSONObject location = new JSONObject();
             JSONObject cordinates = new JSONObject();
-            cordinates.put("latitude", 0.0);
-            cordinates.put("longitude", 0.0);
+            if (user_location != null) {
+                cordinates.put("latitude", user_location.getLatitude());
+                cordinates.put("longitude", user_location.getLongitude());
+            }
+            else {
+                cordinates.put("latitude", 0);
+                cordinates.put("longitude", 0);
+            }
             location.put("cordinates", cordinates);
-            location.put("city", "");
-            location.put("country", "");
+            location.put("city", city);
+            location.put("country", country);
             json.put("location", location);
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,14 +98,13 @@ public class FireBaseHandler {
         return json;
     }
 
-    public Task<FirebaseUser> registerAndSaveUser(String email, String password, String full_name,
-            String profile_picture, String bio, String instagram_handle) {
+    public Task<FirebaseUser> registerAndSaveUser(String email, String password, String full_name, String bio, String instagram_handle, Location user_location, String city, String country) {
         return registerUser(email, password)
                 .continueWithTask(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = task.getResult();
                         if (user != null) {
-                            JSONObject userJson = buildUserJson(full_name, profile_picture, bio, instagram_handle);
+                            JSONObject userJson = buildUserJson(full_name, bio, instagram_handle, user_location, city, country);
                             SaveUserJsonData(user, userJson);
                         }
                         return Tasks.forResult(user);
@@ -109,9 +115,8 @@ public class FireBaseHandler {
     }
 
     public Task<FirebaseUser> registerAndSaveUser(String email, String password, String full_name,
-            String profile_picture,
-            String instagram_handle) {
-        return registerAndSaveUser(email, password, full_name, profile_picture, "", instagram_handle);
+            String instagram_handle, Location user_location, String city, String country) {
+        return registerAndSaveUser(email, password, full_name, "", instagram_handle, user_location, city, country);
     }
 
     public Task<String> uploadImage(Uri imageUri, FirebaseUser user) {
@@ -129,6 +134,18 @@ public class FireBaseHandler {
                 .continueWithTask(task -> {
                     if (task.isSuccessful()) {
                         return Tasks.forResult(task.getResult().toString());
+                    } else {
+                        return Tasks.forResult(null);
+                    }
+                });
+    }
+
+    public Task<Void> updateUserImage(Uri imageUri, FirebaseUser user) {
+        return uploadImage(imageUri, user)
+                .continueWithTask(task -> {
+                    if (task.isSuccessful()) {
+                        String imageUrl = task.getResult();
+                        return mDatabase.child("users").child(user.getUid()).child("profile_picture").setValue(imageUrl);
                     } else {
                         return Tasks.forResult(null);
                     }

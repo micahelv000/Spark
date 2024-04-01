@@ -36,6 +36,7 @@ public class Register extends AppCompatActivity {
     private ImageView ProfilePIC;
     private LocationHelper locationHelper;
     private Uri selectedImageUri;
+    private Location user_location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +60,9 @@ public class Register extends AppCompatActivity {
     }
 
     public void updateLocation(){
-        Location location = locationHelper.getLocation();
-        if (location != null) {
-            String[] cityCountry = locationHelper.getCityCountryFromLocation(location);
+        user_location = locationHelper.getLocation();
+        if (user_location != null) {
+            String[] cityCountry = locationHelper.getCityCountryFromLocation(user_location);
             if (cityCountry != null) {
                 editTextCity.setText(cityCountry[0]);
                 editTextCountry.setText(cityCountry[1]);
@@ -110,37 +111,42 @@ public class Register extends AppCompatActivity {
         final String password = editTextPass.getText().toString();
         final String instagram_handle = editTextInstagramHandle.getText().toString();
         final String email = editTextEmail.getText().toString();
+        final String city = editTextCity.getText().toString();
+        final String country = editTextCountry.getText().toString();
+
+        if (user_location == null) {
+            user_location = locationHelper.getLocationFromCityCountry(city, country);
+        }
 
         FireBaseHandler fb = new FireBaseHandler();
 
         Uri selectedImageUri = this.selectedImageUri;
-
-        fb.uploadImage(selectedImageUri, FirebaseAuth.getInstance().getCurrentUser())
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        String imageUrl = task.getResult();
-
-                        fb.registerAndSaveUser(email, password, full_name, imageUrl, instagram_handle)
-                                .addOnCompleteListener(registerTask -> {
-                                    if (registerTask.isSuccessful()) {
-                                        FirebaseUser user = registerTask.getResult();
-                                        if (user != null) {
-                                            Toast.makeText(Register.this, "Registration successful", Toast.LENGTH_LONG).show();
-                                            Intent intent = new Intent(Register.this, com.example.projectandroid1.Home.class);
-                                            intent.putExtra("username", full_name);
-                                            intent.putExtra("userId", user.getUid());
-                                            startActivity(intent);
-                                        } else {
-                                            Toast.makeText(Register.this, "Registration failed", Toast.LENGTH_LONG).show();
-                                        }
-                                    } else {
-                                        Exception e = registerTask.getException();
-                                    }
-                                });
+        
+        fb.registerAndSaveUser(email, password, full_name, instagram_handle, user_location, city, country)
+            .addOnCompleteListener(registerTask -> {
+                if (registerTask.isSuccessful()) {
+                    FirebaseUser user = registerTask.getResult();
+                    if (user != null) {
+                        fb.updateUserImage(selectedImageUri, user)
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(Register.this, "Registration successful", Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(Register.this, com.example.projectandroid1.Home.class);
+                                    intent.putExtra("username", full_name);
+                                    intent.putExtra("userId", user.getUid());
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(Register.this, "Image upload failed", Toast.LENGTH_LONG).show();
+                                    Exception e = task.getException();
+                                }
+                            });
                     } else {
-                        Exception e = task.getException();
+                        Toast.makeText(Register.this, "Registration failed", Toast.LENGTH_LONG).show();
                     }
-                });
+                } else {
+                    Exception e = registerTask.getException();
+                }
+            });
     }
 
     private boolean isValidUsername(String username) {
