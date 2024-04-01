@@ -96,7 +96,7 @@ public class Home extends AppCompatActivity {
         startActivity(intent);
     }
     public void B_Home(View view) {
-        Intent intent = new Intent(this, Parking.class);
+        Intent intent = new Intent(this, Home.class);
         startActivity(intent);
     }
 

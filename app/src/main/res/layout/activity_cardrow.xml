@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="5dp"
     android:padding="10dp"
-    app:cardBackgroundColor="#FFFFFF"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="5dp"
-    >
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="30dp"
+    app:cardElevation="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,18 +26,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="200dp"
-                    android:layout_height="match_parent"
-                    android:layout_margin="8dp"
-                    android:outlineProvider="bounds"
-                    android:scaleType="centerCrop"
-                    tools:srcCompat="@tools:sample/avatars" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
@@ -82,7 +74,25 @@
 
                 </LinearLayout>
 
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:layout_weight="0.02"
+                    android:outlineProvider="bounds"
+                    android:padding="5dp"
+                    android:scaleType="centerCrop"
+                    tools:srcCompat="@tools:sample/avatars" />
+
             </LinearLayout>
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="#F10000"
+                android:backgroundTint="#0064D0" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -91,6 +101,11 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:orientation="horizontal">
+
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent" />
 
                 <TextView
                     android:id="@+id/Text_Probability"
@@ -122,7 +137,6 @@
                     android:gravity="center"
                     android:src="@drawable/buttonfav2" />
 
-
                 <ImageView
                     android:id="@+id/button_Report"
                     android:layout_width="match_parent"
@@ -134,14 +148,11 @@
                     android:bufferType="normal"
                     android:gravity="center"
                     android:src="@drawable/ic_flag" />
+
             </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="#BDBDBD"/>
 
 </androidx.cardview.widget.CardView>

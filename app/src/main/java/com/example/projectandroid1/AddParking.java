@@ -1,11 +1,16 @@
 package com.example.projectandroid1;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -66,7 +71,7 @@ public class AddParking extends AppCompatActivity {
     }
     public void openMapPopup(View view) {
         Intent intent = new Intent(this, MapPopupActivity.class);
-        startActivityForResult(intent, MAP_POPUP_REQUEST_CODE);
+        mGetContent.launch(intent);
     }
 
 
@@ -91,15 +96,29 @@ public class AddParking extends AppCompatActivity {
         startActivity(intent);
     }
 
+    ActivityResultLauncher<Intent> mGetContent = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            Uri selectedImage = data.getData();
+                            Parking_photo.setImageURI(selectedImage);
+                        }
+                    }
+                }
+            });
     public void AddPhotoFromGal(View view) {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, REQUEST_SELECT_IMAGE);
+        mGetContent.launch(intent);
     }
 
     public void TakePhoto(View view) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            mGetContent.launch(takePictureIntent);
         } else {
             Log.e("AddParking", "No camera app available to handle photo capture intent");
             showNoCameraAppAlert();
