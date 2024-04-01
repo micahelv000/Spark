@@ -1,17 +1,21 @@
 package com.example.projectandroid1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -22,12 +26,19 @@ public class Home extends AppCompatActivity {
     private LinearLayoutManager layoutManager;
     private CustomAdapter adapter;
     private EditText editTextSearch;
+    private ImageView Bhome;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        //Change the color of the current page button
+        Bhome = findViewById(R.id.B_Open_search);
+        int color = Color.parseColor("#0064D1");
+        ColorStateList colorStateList = ColorStateList.valueOf(color);
+        Bhome.setImageTintList(colorStateList);
 
         String username = getIntent().getStringExtra("username");
 
@@ -96,6 +107,7 @@ public class Home extends AppCompatActivity {
         startActivity(intent);
     }
     public void B_Home(View view) {
+
         Intent intent = new Intent(this, Home.class);
         startActivity(intent);
     }

@@ -34,11 +34,13 @@
 
                 <TextView
                     android:id="@+id/textView2"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="50dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="User name \n details \n details"
+                    android:text="Full name \n@Instgram \nCountry \nCity"
+                    android:textAlignment="textStart"
                     android:textSize="20sp" />
 
                 <com.google.android.material.imageview.ShapeableImageView
@@ -61,16 +63,19 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Number Of likes Total: \n XXXX!!!"
+                android:layout_margin="5dp"
+                android:text="Number Of likes Total: 123 Likes"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/Bio"
+                android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bio text about the profile\nBio text about the profile\nBio text about the profile\nBio text about the profile\nBio text about the profile\n the resView here is for the latest parking of the user"
-                android:textAlignment="center" />
+                android:layout_margin="5dp"
+                android:text="The latest parking you posted"
+                android:textAlignment="center"
+                android:textSize="20sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/resView"

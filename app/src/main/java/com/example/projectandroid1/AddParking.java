@@ -12,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -31,7 +33,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class AddParking extends AppCompatActivity {
-    ImageView Parking_photo;
+    ImageView Parking_photo, Bplus;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch Switch1;
     RadioGroup radioGroup;
@@ -44,6 +46,13 @@ public class AddParking extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_parking);
+
+        //Change the color of the current page button
+        Bplus = findViewById(R.id.B_Add_Parking);
+        int color = Color.parseColor("#0064D1");
+        ColorStateList colorStateList = ColorStateList.valueOf(color);
+        Bplus.setImageTintList(colorStateList);
+
         Parking_photo = findViewById(R.id.imageView3);
         Switch1 = findViewById(R.id.switch1);
         radioGroup = findViewById(R.id.radio_group);
