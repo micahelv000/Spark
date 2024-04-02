@@ -23,7 +23,6 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new ParkingMapsFragment();
             case 1:
-                //return new AddParkingFragment();
                 return new HomeFragment();
             case 2:
                 //return new ProfileFragment();
