@@ -54,22 +54,7 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
         // Disable all gestures
         mMap.getUiSettings().setAllGesturesEnabled(false);
     }
-    public void B_AddParking(View view) {
-        Intent intent = new Intent(this, AddParking.class);
-        startActivity(intent);
-    }
-    public void B_Logout(View view) {
-        Intent intent = new Intent(this, Login.class);
-        startActivity(intent);
-    }
-    public void B_Profile(View view) {
-        Intent intent = new Intent(this, Profile.class);
-        startActivity(intent);
-    }
-    public void B_Home(View view) {
-        Intent intent = new Intent(this, Home.class);
-        startActivity(intent);
-    }
+
 
     public void B_Report(View view){
         Animation rotate = AnimationUtils.loadAnimation(Rep.getContext(), R.anim.hearbeat_anim);
@@ -84,7 +69,7 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
         builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
         builder.show();
     }
-    public void B_empty(View view){
+    public void B_Update(View view){
         Animation rotate = AnimationUtils.loadAnimation(empty.getContext(), R.anim.hearbeat_anim);
         takeIt.startAnimation(rotate);
         AlertDialog.Builder builder = new AlertDialog.Builder(empty.getContext());

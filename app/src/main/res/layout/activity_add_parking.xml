@@ -16,207 +16,208 @@
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp">
 
-        <include
-            layout="@layout/header_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="0.4"
+            android:orientation="horizontal">
 
+            <ImageView
+                android:id="@+id/B_AddPhotoFromGal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.6"
+                android:contentDescription="add photo from galeary"
+                android:onClick="AddPhotoFromGal"
+                android:src="@drawable/ic_image"
+                tools:ignore="NestedWeights" />
+
+            <ImageView
+                android:id="@+id/B_TakePhoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.6"
+                android:contentDescription="add photo from camera"
+                android:onClick="TakePhoto"
+                android:src="@drawable/ic_camera" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="300sp"
+            android:layout_weight="0.4"
+            android:src="@drawable/ic_launcher_foreground" />
+
+        <EditText
+            android:id="@+id/editTextName"
+            android:layout_width="match_parent"
+            android:layout_height="50sp"
+            android:layout_weight="0.4"
+            android:ems="10"
+            android:hint="What is the adress"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"
+            android:gravity="center"
+            android:text="What car would fit in there?"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:text=" (choose the biggest option possiable)"
+            android:textAlignment="center"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:id="@+id/cheackboxses"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.4"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/B_AddPhotoFromGal"
+                <RadioGroup
+                    android:id="@+id/radio_group"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.6"
-                    android:onClick="AddPhotoFromGal"
-                    android:src="@drawable/ic_image"
-                    tools:ignore="NestedWeights"
-                    android:contentDescription="add photo from galeary"
-                    />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/B_TakePhoto"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.6"
-                    android:onClick="TakePhoto"
-                    android:src="@drawable/ic_camera"
-                    android:contentDescription="add photo from camera"
-                    />
+                    <RadioButton
+                        android:id="@+id/checkBox00"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:text="Big Car"
+                        android:textSize="20sp" />
+
+                    <RadioButton
+                        android:id="@+id/checkBox01"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:text="Regular Car"
+                        android:textSize="20sp" />
+
+                    <RadioButton
+                        android:id="@+id/checkBox02"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:text="Small Car"
+                        android:textSize="20sp" />
+                </RadioGroup>
+
+
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="match_parent"
-                android:layout_height="300sp"
-                android:layout_weight="0.7"
-                android:src="@drawable/ic_launcher_foreground" />
-
-            <EditText
-                android:id="@+id/editTextName"
-                android:layout_width="match_parent"
-                android:layout_height="50sp"
-                android:layout_weight="0.5"
-                android:ems="10"
-                android:hint="What is the adress"
-                android:inputType="text" />
-
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="What car would fit in there?"
+                android:text="What is the type of the Parking?"
                 android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text=" (choose the biggest option possiable)"
-                android:textAlignment="center"
-                android:textSize="12sp" />
 
             <LinearLayout
-                android:id="@+id/cheackboxses"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+
+                <CheckBox
+                    android:id="@+id/checkBox10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:text="Parller parking"
+                    android:textSize="20sp" />
 
-                    <RadioGroup
-                        android:id="@+id/radio_group"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/checkBox00"
-                            android:layout_width="wrap_content"
-                            android:layout_height="48dp"
-                            android:layout_weight="1"
-                            android:text="Big Car"
-                            android:textSize="20sp" />
-
-                        <RadioButton
-                            android:id="@+id/checkBox01"
-                            android:layout_width="wrap_content"
-                            android:layout_height="48dp"
-                            android:layout_weight="1"
-                            android:text="Regular Car"
-                            android:textSize="20sp" />
-
-                        <RadioButton
-                            android:id="@+id/checkBox02"
-                            android:layout_width="wrap_content"
-                            android:layout_height="48dp"
-                            android:layout_weight="1"
-                            android:text="Small Car"
-                            android:textSize="20sp" />
-                    </RadioGroup>
+                <CheckBox
+                    android:id="@+id/checkBox11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:text="Horizontal parking"
+                    android:textSize="20sp" />
 
 
-                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Switch
+                    android:id="@+id/switch1"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.9"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Free parking 🥳"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.9"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/TextPinPoint"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"
+                    android:gravity="center"
+                    android:text="Adress by pin point"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/B_PinPoint"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="What is the type of the Parking?"
+                    android:onClick="openMapPopup"
+                    android:padding="5dp"
+                    android:text="📍"
+                    android:textAlignment="center"
                     android:textSize="20sp" />
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-
-                    <CheckBox
-                        android:id="@+id/checkBox10"
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:layout_weight="1"
-                        android:text="Parller parking"
-                        android:textSize="20sp" />
-
-                    <CheckBox
-                        android:id="@+id/checkBox11"
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:layout_weight="1"
-                        android:text="Horizontal parking"
-                        android:textSize="20sp" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <Switch
-                        android:id="@+id/switch1"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="0.9"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:text="Free parking 🥳"
-                        android:textSize="20sp" />
-
-                    <Button
-                        android:id="@+id/B_PinPoint"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:onClick="openMapPopup"
-                        android:padding="5dp"
-                        android:text="Pin Point 📍"
-                        android:textAlignment="center"
-                        android:textSize="20sp" />
-
-                </LinearLayout>
-
             </LinearLayout>
 
-            <Button
-                android:id="@+id/b_Add_this"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="0dp"
-                android:layout_weight="1"
-                android:padding="5dp"
-                android:text="Add to parkings"
-                android:textSize="20sp" />
-
         </LinearLayout>
+
+        <Button
+            android:id="@+id/b_Add_this"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="0dp"
+            android:layout_weight="0.4"
+            android:padding="5dp"
+            android:text="Add to parkings"
+            android:textSize="20sp" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

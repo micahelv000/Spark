@@ -1,38 +1,42 @@
 package com.example.projectandroid1;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
-public class MyPagerAdapter extends FragmentStateAdapter {
+import com.google.android.gms.maps.MapFragment;
+
+public class MyPagerAdapter extends FragmentPagerAdapter {
     private static final int NUM_PAGES = 3; // Number of pages
 
-    public MyPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
-        super(fragmentActivity);
+    public MyPagerAdapter(@NonNull FragmentManager fragmentManager) {
+        super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
 
     @NonNull
     @Override
-    public Fragment createFragment(int position) {
+    public Fragment getItem(int position) {
         // Return the fragment for each position
         switch (position) {
             case 0:
-                //return new Fragment1();
+                return new ParkingMapsFragment();
             case 1:
-                //return new Fragment2();
-            // Add more cases for additional fragments
+                //return new AddParkingFragment();
+                return new HomeFragment();
+            case 2:
+                //return new ProfileFragment();
+                return new ProfileFragment();
             default:
                 return null;
         }
     }
 
     @Override
-    public int getItemCount() {
+    public int getCount() {
         return NUM_PAGES;
     }
+
+
 }

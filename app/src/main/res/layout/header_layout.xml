@@ -18,7 +18,7 @@
 
 
     <ImageView
-        android:id="@+id/B_Add_Parking"
+        android:id="@+id/B_OpenMap"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"

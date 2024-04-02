@@ -131,7 +131,7 @@ public class Register extends AppCompatActivity {
                             .addOnCompleteListener(task -> {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(Register.this, "Registration successful", Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(Register.this, com.example.projectandroid1.Home.class);
+                                    Intent intent = new Intent(Register.this, com.example.projectandroid1.LayoutFragments.class);
                                     fb.getUserData(user).addOnCompleteListener(userDataTask -> {
                                         if (userDataTask.isSuccessful()) {
                                             intent.putExtra("user", userDataTask.getResult().toString());

@@ -1,0 +1,95 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <!-- Header Layout -->
+
+    <!-- Profile Information -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="50dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Full name \n@Instgram \nCountry \nCity"
+            android:textAlignment="textStart"
+            android:textSize="20sp" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/profileIMG"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginBottom="5dp"
+            android:padding="5dp"
+            android:src="@drawable/default_profile"
+            app:layout_constraintVertical_bias="0.0"
+            app:shapeAppearanceOverlay="@style/circleImageView"
+            app:strokeColor="@android:color/darker_gray"
+            app:strokeWidth="10dp" />
+
+    </LinearLayout>
+
+    <!-- RecyclerView for Parking Posts -->
+    <LinearLayout
+        android:id="@+id/temp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/BEditProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="BEditProfile" />
+
+        <Button
+            android:id="@+id/BLogOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="BLogOut" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="Number Of Likes Total: 123 Likes"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="The latest parking you posted"
+        android:textAlignment="center"
+        android:textSize="20sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/resView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <!-- Floating Action Button for Editing Profile -->
+
+
+</LinearLayout>

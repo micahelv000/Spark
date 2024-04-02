@@ -4,7 +4,6 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,14 +25,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 public class AddParking extends AppCompatActivity {
-    ImageView Parking_photo, Bplus;
+    ImageView Parking_photo;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch Switch1;
     RadioGroup radioGroup;
@@ -46,12 +39,6 @@ public class AddParking extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_parking);
-
-        //Change the color of the current page button
-        Bplus = findViewById(R.id.B_Add_Parking);
-        int color = Color.parseColor("#0064D1");
-        ColorStateList colorStateList = ColorStateList.valueOf(color);
-        Bplus.setImageTintList(colorStateList);
 
         Parking_photo = findViewById(R.id.imageView3);
         Switch1 = findViewById(R.id.switch1);
@@ -85,25 +72,6 @@ public class AddParking extends AppCompatActivity {
 
 
 
-
-    public void B_AddParking(View view) {
-        Intent intent = new Intent(this, AddParking.class);
-        startActivity(intent);
-    }
-    public void B_Logout(View view) {
-        Intent intent = new Intent(this, Login.class);
-        startActivity(intent);
-    }
-
-    public void B_Profile(View view) {
-        Intent intent = new Intent(this, Profile.class);
-        startActivity(intent);
-    }
-
-    public void B_Home(View view) {
-        Intent intent = new Intent(this, Home.class);
-        startActivity(intent);
-    }
 
     ActivityResultLauncher<Intent> mGetContent = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),

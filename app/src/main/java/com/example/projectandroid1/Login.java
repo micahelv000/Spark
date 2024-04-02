@@ -28,7 +28,7 @@ public class Login extends AppCompatActivity {
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
         if (fireBaseHandler.getmAuth().getCurrentUser() != null) {
             FirebaseUser user = fireBaseHandler.getmAuth().getCurrentUser();
-            Intent intent = new Intent(this, Home.class);
+            Intent intent = new Intent(this, LayoutFragments.class);
             fireBaseHandler.getUserData(user).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     JSONObject userJson = task.getResult();
@@ -54,7 +54,7 @@ public class Login extends AppCompatActivity {
                 FirebaseUser user = task.getResult();
                 if (user != null) {
                     Toast.makeText(Login.this, "Login successful", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(Login.this, Home.class);
+                    Intent intent = new Intent(Login.this, LayoutFragments.class);
                     fireBaseHandler.getUserData(user).addOnCompleteListener(task1 -> {
                         if (task1.isSuccessful()) {
                             JSONObject userJson = task1.getResult();
