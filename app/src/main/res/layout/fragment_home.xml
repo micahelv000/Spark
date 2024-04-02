@@ -24,7 +24,7 @@
                 android:layout_weight="0.2"
                 android:ems="10"
                 android:hint="Search by Product"
-                android:inputType="text" />
+                android:inputType="text|textNoSuggestions" />
 
             <ImageView
                 android:id="@+id/B_filter"

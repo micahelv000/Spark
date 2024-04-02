@@ -56,8 +56,8 @@
             android:layout_height="50sp"
             android:layout_weight="0.4"
             android:ems="10"
-            android:hint="What is the adress"
-            android:inputType="text" />
+            android:hint="What is the address?"
+            android:inputType="text|textPostalAddress|textNoSuggestions" />
 
         <TextView
             android:id="@+id/textView6"
@@ -191,7 +191,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.3"
                     android:gravity="center"
-                    android:text="Adress by pin point"
+                    android:text="Address by pin point"
                     android:textSize="20sp" />
 
                 <Button

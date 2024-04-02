@@ -37,6 +37,7 @@
             android:id="@+id/editTextEmailLogin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:inputType="text|textEmailAddress|textNoSuggestions"
             android:textColor="#5B5B5B"
             android:textSize="15sp"
             android:textStyle="bold"
@@ -63,10 +64,10 @@
             android:id="@+id/editTextNumberPassword2"
             android:layout_width="match_parent"
             android:layout_height="55dp"
+            android:inputType="text|textPassword|textNoSuggestions"
             android:textColor="#5B5B5B"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:inputType="textPassword"
             tools:ignore="TouchTargetSizeCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
