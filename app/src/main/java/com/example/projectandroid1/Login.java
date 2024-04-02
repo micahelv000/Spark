@@ -1,6 +1,10 @@
 package com.example.projectandroid1;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,6 +25,13 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (!isConnectedToInternet()) {
+            Intent intent = new Intent(this, NoInternet.class); 
+            startActivity(intent);
+            return;
+        }
+
         setContentView(R.layout.activity_login);
         emailEditText = findViewById(R.id.editTextEmailLogin);
         passwordEditText = findViewById(R.id.editTextNumberPassword2);
@@ -37,6 +48,19 @@ public class Login extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    boolean isConnectedToInternet() {
+        ConnectivityManager cm = (ConnectivityManager) Login.this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            Network network = cm.getActiveNetwork();
+            if (network == null) return false;
+            NetworkCapabilities capabilities = cm.getNetworkCapabilities(network);
+            return capabilities != null && 
+                   (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || 
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR));
+        }
+        return false;
     }
 
     public void B_Login(View view) {
