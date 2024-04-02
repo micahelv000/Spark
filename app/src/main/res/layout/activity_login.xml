@@ -66,6 +66,7 @@
             android:textColor="#5B5B5B"
             android:textSize="15sp"
             android:textStyle="bold"
+            android:inputType="textPassword"
             tools:ignore="TouchTargetSizeCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -88,32 +89,28 @@
     <TextView
         android:id="@+id/textView4"
         android:layout_width="139dp"
-        android:layout_height="15dp"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="283dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="48dp"
         android:text="Don't have account?"
         android:textColor="#A7A7A7"
-        android:textSize="13sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Login" />
 
     <TextView
         android:id="@+id/Register"
-        android:layout_width="135dp"
-        android:layout_height="16dp"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="68dp"
+        android:layout_width="151dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="128dp"
+        android:gravity="center"
         android:onClick="Register"
-        android:text="Create a new account"
+        android:text="Create a new account!"
         android:textColor="#3BA8BE"
-        android:textSize="12sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/Login" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

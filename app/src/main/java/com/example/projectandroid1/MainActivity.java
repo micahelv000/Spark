@@ -33,10 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         logo = findViewById(R.id.logo);
-
-        //MediaPlayer mediaPlayer = MediaPlayer.create(this, R.drawable.logo);
-        //mediaPlayer.start();
-
         rotate = AnimationUtils.loadAnimation(this, R.anim.fadein);
         logo.startAnimation(rotate);
 

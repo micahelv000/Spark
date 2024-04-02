@@ -98,16 +98,18 @@
                     <ImageView
                         android:id="@+id/B_Report"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="48dp"
                         android:layout_weight="1"
+                        android:contentDescription="Report button"
                         android:onClick="B_Report"
                         android:src="@drawable/ic_flag" />
 
                     <ImageView
                         android:id="@+id/B_Update"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="48dp"
                         android:layout_weight="1"
+                        android:contentDescription="add more time to the parking button"
                         android:onClick="B_Update"
                         android:src="@drawable/ic_update" />
 
@@ -115,16 +117,18 @@
                     <ImageView
                         android:id="@+id/B_TakeTheParking"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="48dp"
                         android:layout_weight="1"
+                        android:contentDescription="take the parking yourself"
                         android:onClick="B_TakeParking"
                         android:src="@drawable/ic_parked" />
 
                     <ImageView
                         android:id="@+id/B_Navi"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="48dp"
                         android:layout_weight="1"
+                        android:contentDescription="open navigation app "
                         android:onClick="B_OpenNavi"
                         android:src="@drawable/ic_navi" />
 
@@ -178,7 +182,8 @@
             android:layout_height="250dp"
             android:layout_margin="5sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="map of the current parking "/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

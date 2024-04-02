@@ -31,7 +31,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.5"
+                android:layout_weight="0.4"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -41,7 +41,9 @@
                     android:layout_weight="0.6"
                     android:onClick="AddPhotoFromGal"
                     android:src="@drawable/ic_image"
-                    tools:ignore="NestedWeights" />
+                    tools:ignore="NestedWeights"
+                    android:contentDescription="add photo from galeary"
+                    />
 
                 <ImageView
                     android:id="@+id/B_TakePhoto"
@@ -49,7 +51,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.6"
                     android:onClick="TakePhoto"
-                    android:src="@drawable/ic_camera" />
+                    android:src="@drawable/ic_camera"
+                    android:contentDescription="add photo from camera"
+                    />
             </LinearLayout>
 
             <ImageView
@@ -62,8 +66,8 @@
             <EditText
                 android:id="@+id/editTextName"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.6"
+                android:layout_height="50sp"
+                android:layout_weight="0.5"
                 android:ems="10"
                 android:hint="What is the adress"
                 android:inputType="text" />
@@ -108,7 +112,7 @@
                         <RadioButton
                             android:id="@+id/checkBox00"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="48dp"
                             android:layout_weight="1"
                             android:text="Big Car"
                             android:textSize="20sp" />
@@ -116,7 +120,7 @@
                         <RadioButton
                             android:id="@+id/checkBox01"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="48dp"
                             android:layout_weight="1"
                             android:text="Regular Car"
                             android:textSize="20sp" />
@@ -124,7 +128,7 @@
                         <RadioButton
                             android:id="@+id/checkBox02"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="48dp"
                             android:layout_weight="1"
                             android:text="Small Car"
                             android:textSize="20sp" />
@@ -153,7 +157,7 @@
                     <CheckBox
                         android:id="@+id/checkBox10"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="48dp"
                         android:layout_weight="1"
                         android:text="Parller parking"
                         android:textSize="20sp" />
@@ -161,7 +165,7 @@
                     <CheckBox
                         android:id="@+id/checkBox11"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="48dp"
                         android:layout_weight="1"
                         android:text="Horizontal parking"
                         android:textSize="20sp" />
@@ -178,20 +182,22 @@
                     <Switch
                         android:id="@+id/switch1"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="48dp"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
+                        android:layout_weight="0.9"
                         android:gravity="center"
+                        android:padding="5dp"
                         android:text="Free parking 🥳"
                         android:textSize="20sp" />
 
                     <Button
                         android:id="@+id/B_PinPoint"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="48dp"
                         android:layout_weight="1"
                         android:gravity="center"
                         android:onClick="openMapPopup"
+                        android:padding="5dp"
                         android:text="Pin Point 📍"
                         android:textAlignment="center"
                         android:textSize="20sp" />
@@ -206,6 +212,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="0dp"
                 android:layout_weight="1"
+                android:padding="5dp"
                 android:text="Add to parkings"
                 android:textSize="20sp" />
 

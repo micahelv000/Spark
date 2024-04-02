@@ -2,42 +2,50 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/header"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="50sp"
     android:background="#FFFFFF"
     android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/B_Open_search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:onClick="B_Home"
-        android:src="@drawable/icon_home" />
+        android:src="@drawable/icon_home"
+        android:contentDescription="open home button"
+        />
 
 
     <ImageView
         android:id="@+id/B_Add_Parking"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:onClick="B_AddParking"
-        android:src="@drawable/icon_plus" />
+        android:src="@drawable/icon_plus"
+        android:contentDescription="open add parking button"
+        />
 
     <ImageView
         android:id="@+id/B_Profile"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:onClick="B_Profile"
-        android:src="@drawable/icon_profile" />
+        android:src="@drawable/icon_profile"
+        android:contentDescription="open profile button"
+        />
 
     <ImageView
         android:id="@+id/B_Logout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="#FFFFFF"
         android:backgroundTint="#FFFFFF"
         android:onClick="B_Logout"
-        android:src="@drawable/ic_logout" />
+        android:src="@drawable/ic_logout"
+        android:contentDescription="logout button"
+        />
 </LinearLayout>

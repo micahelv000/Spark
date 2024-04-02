@@ -1,5 +1,5 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="45dp" android:height="45dp"
+    android:width="60dp" android:height="60dp"
     android:viewportWidth="1050"
     android:viewportHeight="1100"
     android:tint="?attr/colorControlNormal">
