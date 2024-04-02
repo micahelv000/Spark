@@ -1,77 +1,72 @@
 package com.example.projectandroid1;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseUser;
+
+import org.json.JSONObject;
 
 public class Login extends AppCompatActivity {
 
-    private EditText usernameEditText;
+    private EditText emailEditText;
     private EditText passwordEditText;
-    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        usernameEditText = findViewById(R.id.editTextTextusername);
+        emailEditText = findViewById(R.id.editTextEmailLogin);
         passwordEditText = findViewById(R.id.editTextNumberPassword2);
-        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+
+        FireBaseHandler fireBaseHandler = new FireBaseHandler();
+        if (fireBaseHandler.getmAuth().getCurrentUser() != null) {
+            FirebaseUser user = fireBaseHandler.getmAuth().getCurrentUser();
+            Intent intent = new Intent(this, Home.class);
+            fireBaseHandler.getUserData(user).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    JSONObject userJson = task.getResult();
+                    intent.putExtra("user", userJson.toString());
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     public void B_Login(View view) {
-        Intent intent = new Intent(Login.this, Home.class);
-        startActivity(intent);
-        /*
-        final String username = usernameEditText.getText().toString();
+        final String email = emailEditText.getText().toString();
         final String password = passwordEditText.getText().toString();
 
-        if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
-            // Username or password is empty, show error
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Please enter both username and password", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Query the database to retrieve the user's password
-        mDatabase.orderByChild("username").equalTo(username).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        User user = snapshot.getValue(User.class);
-                        if (user != null && user.getPassword().equals(password)) {
-                            // Password matches, login successful
-                            Toast.makeText(MainActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(MainActivity.this, Home.class);
-                            intent.putExtra("username", username);
-                            intent.putExtra("userId", snapshot.getKey());
+        FireBaseHandler fireBaseHandler = new FireBaseHandler();
+        fireBaseHandler.loginUser(email, password).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                FirebaseUser user = task.getResult();
+                if (user != null) {
+                    Toast.makeText(Login.this, "Login successful", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Login.this, Home.class);
+                    fireBaseHandler.getUserData(user).addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            JSONObject userJson = task1.getResult();
+                            intent.putExtra("user", userJson.toString());
                             startActivity(intent);
-                            return;
                         }
-                    }
-                    // Password does not match
-                    Toast.makeText(MainActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+                    });
                 } else {
-                    // User does not exist
-                    Toast.makeText(MainActivity.this, "User does not exist", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
                 }
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Error handling
-                Toast.makeText(MainActivity.this, "Database error", Toast.LENGTH_SHORT).show();
-            }
         });
-
-         */
     }
 
     public void Register(View view) {

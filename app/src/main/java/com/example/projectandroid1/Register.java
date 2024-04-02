@@ -132,9 +132,12 @@ public class Register extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(Register.this, "Registration successful", Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(Register.this, com.example.projectandroid1.Home.class);
-                                    intent.putExtra("username", full_name);
-                                    intent.putExtra("userId", user.getUid());
-                                    startActivity(intent);
+                                    fb.getUserData(user).addOnCompleteListener(userDataTask -> {
+                                        if (userDataTask.isSuccessful()) {
+                                            intent.putExtra("user", userDataTask.getResult().toString());
+                                            startActivity(intent);
+                                        }
+                                    });
                                 } else {
                                     Toast.makeText(Register.this, "Image upload failed", Toast.LENGTH_LONG).show();
                                     Exception e = task.getException();

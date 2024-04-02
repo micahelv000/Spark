@@ -99,9 +99,13 @@ public class Home extends AppCompatActivity {
         startActivity(intent);
     }
     public void B_Logout(View view) {
+        FireBaseHandler firebaseHandler = new FireBaseHandler();
+        firebaseHandler.logout();
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
+        finish();
     }
+
     public void B_Profile(View view) {
         Intent intent = new Intent(this, Profile.class);
         startActivity(intent);

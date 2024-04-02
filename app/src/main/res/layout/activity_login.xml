@@ -11,7 +11,7 @@
         android:layout_width="400dp"
         android:layout_height="100dp"
         android:src="@drawable/logo"
-        app:layout_constraintBottom_toTopOf="@+id/txtUsername"
+        app:layout_constraintBottom_toTopOf="@+id/txtEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,14 +19,14 @@
         app:layout_constraintVertical_bias="0.407" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/txtUsername"
+        android:id="@+id/txtEmail"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="271dp"
         android:layout_height="63dp"
         android:layout_marginStart="70dp"
         android:layout_marginTop="240dp"
         android:layout_marginEnd="70dp"
-        android:hint="Username"
+        android:hint="Email"
         android:textColorHint="#A7A7A7"
         app:boxStrokeColor="#EAEAEE"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +34,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextTextusername"
+            android:id="@+id/editTextEmailLogin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textColor="#5B5B5B"

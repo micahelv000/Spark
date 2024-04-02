@@ -40,11 +40,33 @@ public class FireBaseHandler {
         return mAuth;
     }
 
+    public void logout() {
+        mAuth.signOut();
+    }
+
     public void SaveUserJsonData(FirebaseUser user, JSONObject json) {
         String uid = user.getUid();
         Map<String, Object> userMap = new Gson().fromJson(json.toString(), new TypeToken<HashMap<String, Object>>() {
         }.getType());
         mDatabase.child("users").child(uid).setValue(userMap);
+    }
+
+    public Task<JSONObject> getUserData(FirebaseUser user) {
+        return mDatabase.child("users").child(user.getUid()).get()
+                .continueWithTask(task -> {
+                    if (task.isSuccessful()) {
+                        JSONObject userJson = new JSONObject();
+                        if (task.getResult().getValue() != null) {
+                            Map<String, Object> userMap = (Map<String, Object>) task.getResult().getValue();
+                            for (Map.Entry<String, Object> entry : userMap.entrySet()) {
+                                userJson.put(entry.getKey(), entry.getValue());
+                            }
+                        }
+                        return Tasks.forResult(userJson);
+                    } else {
+                        return Tasks.forResult(null);
+                    }
+                });
     }
 
     public Task<FirebaseUser> registerUser(String email, String password) {
@@ -69,7 +91,8 @@ public class FireBaseHandler {
                 });
     }
 
-    public JSONObject buildUserJson(String full_name, String bio, String instagram_handle, Location user_location, String city, String country) {
+    public JSONObject buildUserJson(String full_name, String bio, String instagram_handle, Location user_location,
+            String city, String country) {
         JSONObject json = new JSONObject();
         try {
             json.put("full_name", full_name);
@@ -83,8 +106,7 @@ public class FireBaseHandler {
             if (user_location != null) {
                 cordinates.put("latitude", user_location.getLatitude());
                 cordinates.put("longitude", user_location.getLongitude());
-            }
-            else {
+            } else {
                 cordinates.put("latitude", 0);
                 cordinates.put("longitude", 0);
             }
@@ -98,13 +120,15 @@ public class FireBaseHandler {
         return json;
     }
 
-    public Task<FirebaseUser> registerAndSaveUser(String email, String password, String full_name, String bio, String instagram_handle, Location user_location, String city, String country) {
+    public Task<FirebaseUser> registerAndSaveUser(String email, String password, String full_name, String bio,
+            String instagram_handle, Location user_location, String city, String country) {
         return registerUser(email, password)
                 .continueWithTask(task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser user = task.getResult();
                         if (user != null) {
-                            JSONObject userJson = buildUserJson(full_name, bio, instagram_handle, user_location, city, country);
+                            JSONObject userJson = buildUserJson(full_name, bio, instagram_handle, user_location, city,
+                                    country);
                             SaveUserJsonData(user, userJson);
                         }
                         return Tasks.forResult(user);
@@ -145,7 +169,8 @@ public class FireBaseHandler {
                 .continueWithTask(task -> {
                     if (task.isSuccessful()) {
                         String imageUrl = task.getResult();
-                        return mDatabase.child("users").child(user.getUid()).child("profile_picture").setValue(imageUrl);
+                        return mDatabase.child("users").child(user.getUid()).child("profile_picture")
+                                .setValue(imageUrl);
                     } else {
                         return Tasks.forResult(null);
                     }
