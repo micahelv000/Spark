@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/BEditProfile"
+        android:title="Edit profile"/>
+    <item
+        android:id="@+id/B_signOut"
+        android:title="SignOut"/>
+</menu>

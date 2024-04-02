@@ -4,11 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,15 +26,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 
 public class ProfileFragment extends Fragment {
+
     private ArrayList<Item> dataSet;
     private RecyclerView recyclerView;
     private CustomAdapter adapter;
     private LinearLayoutManager layoutManager;
-    private ImageView profileImage;
+    private ImageView profileImage, BMenu;
     private TextView fullNameTextView, likesTextView, latestPostTextView;
     private Button BeditProfile, BLogOut;
 
-    @SuppressLint("WrongViewCast")
+    @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,36 +44,56 @@ public class ProfileFragment extends Fragment {
         // Initialize views
         profileImage = rootView.findViewById(R.id.profileIMG);
         fullNameTextView = rootView.findViewById(R.id.textView2);
-        likesTextView = rootView.findViewById(R.id.textView3);
+        //likesTextView = rootView.findViewById(R.id.textView3);
         latestPostTextView = rootView.findViewById(R.id.textView4);
         BeditProfile = rootView.findViewById(R.id.BEditProfile);
-        BLogOut =rootView.findViewById(R.id.BLogOut);
-
+        BMenu = rootView.findViewById(R.id.B_options);
 
         dataSet = new ArrayList<>();
         recyclerView = rootView.findViewById(R.id.resView);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+        BMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Creating a PopupMenu instance
+                PopupMenu popupMenu = new PopupMenu(getContext(), BMenu);
 
-        BeditProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Handle the edit profile action here
-                Intent intent = new Intent(getActivity(), EditProfileActivity.class);
-                startActivity(intent);
+                // Inflating the menu layout
+                popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+
+                // Adding click listener for menu items
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        Intent intent;
+                        // Handle menu item clicks
+
+                        CharSequence title = item.getTitle();
+
+                        if (title.equals("Edit profile")) {// EditProfile
+                            intent = new Intent(getActivity(), EditProfileActivity.class);
+                            startActivity(intent);
+                            return true;
+                        } else if (title.equals("SignOut")) {// sign out
+                            FirebaseAuth.getInstance().signOut();
+                            // Redirect to login screen
+                            intent = new Intent(getActivity(), Login.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            getActivity().finish();
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+
+
+                // Showing the PopupMenu
+                popupMenu.show();
             }
         });
-        BLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                // Redirect to login screen
-                Intent intent = new Intent(getActivity(), Login.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                getActivity().finish();
-            }
-        });
+
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 

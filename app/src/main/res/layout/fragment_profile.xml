@@ -6,90 +6,204 @@
     android:orientation="vertical">
 
     <!-- Header Layout -->
+    <!--Top Header Layout-->
+    <LinearLayout
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3" />
+
+        <TextView
+            android:id="@+id/TextIG"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text=".@profile"
+            android:textSize="30sp" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/B_options"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="0dp"
+            android:layout_weight="1"
+            android:padding="6dp"
+            android:src="@drawable/ic_options" />
+
+    </LinearLayout>
+
 
     <!-- Profile Information -->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="50dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Full name \n@Instgram \nCountry \nCity"
-            android:textAlignment="textStart"
-            android:textSize="20sp" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/profileIMG"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginBottom="5dp"
-            android:padding="5dp"
-            android:src="@drawable/default_profile"
-            app:layout_constraintVertical_bias="0.0"
-            app:shapeAppearanceOverlay="@style/circleImageView"
-            app:strokeColor="@android:color/darker_gray"
-            app:strokeWidth="10dp" />
-
-    </LinearLayout>
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profileIMG"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginBottom="5dp"
+                android:padding="5dp"
+                android:src="@drawable/default_profile"
+                app:layout_constraintVertical_bias="0.0"
+                app:shapeAppearanceOverlay="@style/circleImageView"
+                app:strokeColor="@android:color/darker_gray"
+                app:strokeWidth="10dp" />
 
     <!-- RecyclerView for Parking Posts -->
-    <LinearLayout
-        android:id="@+id/temp"
+    <TextView
+        android:id="@+id/textFname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:gravity="center"
+        android:text="Full name"
+        android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/BEditProfile"
+    <TextView
+        android:id="@+id/textZone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Country, City"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="10dp">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="BEditProfile" />
+            android:layout_weight="0.001"
+            android:gravity="center"
+            android:padding="8dp">
 
-        <Button
-            android:id="@+id/BLogOut"
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_profile_back"
+                android:padding="10dp"
+                android:src="@drawable/ic_like" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="123"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Total Likes"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="BLogOut" />
+            android:layout_weight="0.001"
+            android:gravity="center"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ic_profile_back"
+                android:outlineSpotShadowColor="#000000"
+                android:padding="10dp"
+                android:src="@drawable/ic_posts" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Total posts"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/textView3"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="Number Of Likes Total: 123 Likes"
-        android:textAlignment="center"
-        android:textSize="20sp" />
+        android:layout_height="match_parent"
+        android:layout_margin="5dp">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="The latest parking you posted"
-        android:textAlignment="center"
-        android:textSize="20sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/resView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="The latest parking you posted"
+                android:textAlignment="center"
+                android:textSize="20sp" />
 
-    </androidx.recyclerview.widget.RecyclerView>
 
-    <!-- Floating Action Button for Editing Profile -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/resView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
+            </androidx.recyclerview.widget.RecyclerView>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!--Top Header Layout-->
 
 </LinearLayout>
