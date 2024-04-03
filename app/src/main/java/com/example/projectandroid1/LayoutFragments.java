@@ -1,5 +1,7 @@
 package com.example.projectandroid1;
 
+import static android.app.PendingIntent.getActivity;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -13,6 +15,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LayoutFragments extends AppCompatActivity {
 

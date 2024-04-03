@@ -39,6 +39,7 @@
         android:hint="Full Name"
         android:textColorHint="#A7A7A7"
         app:boxStrokeColor="#EAEAEE"
+        app:errorTextAppearance="@style/ErrorTextAppearance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -63,6 +64,7 @@
         android:hint="Email"
         android:textColorHint="#A7A7A7"
         app:boxStrokeColor="#EAEAEE"
+        app:errorTextAppearance="@style/ErrorTextAppearance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/TextFullName">
@@ -87,6 +89,8 @@
         android:hint="Instagram Handle"
         android:textColorHint="#A7A7A7"
         app:boxStrokeColor="#EAEAEE"
+        app:errorTextAppearance="@style/ErrorTextAppearance"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtemail">
@@ -112,6 +116,8 @@
         android:hint="Password"
         android:textColorHint="#A7A7A7"
         app:boxStrokeColor="#EAEAEE"
+        app:errorTextAppearance="@style/ErrorTextAppearance"
+
         app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -135,6 +141,8 @@
         android:layout_height="63dp"
         android:layout_marginTop="15dp"
         android:hint="Country"
+        app:errorTextAppearance="@style/ErrorTextAppearance"
+
         android:textColorHint="#A7A7A7"
         app:boxStrokeColor="#EAEAEE"
         app:layout_constraintEnd_toEndOf="parent"
@@ -161,6 +169,8 @@
         android:layout_marginTop="15dp"
         android:hint="City"
         android:textColorHint="#A7A7A7"
+        app:errorTextAppearance="@style/ErrorTextAppearance"
+
         app:boxStrokeColor="#EAEAEE"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -190,6 +200,8 @@
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         android:textStyle="bold"
+        app:errorTextAppearance="@style/ErrorTextAppearance"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TextCity" />
@@ -218,6 +230,7 @@
         android:onClick="Login"
         android:text="Sign in"
         android:textColor="#3BA8BE"
+
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

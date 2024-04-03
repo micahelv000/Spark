@@ -32,6 +32,7 @@ public class Register extends AppCompatActivity {
     private LocationHelper locationHelper;
     private Uri selectedImageUri;
     private Location user_location;
+    boolean flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,19 +78,19 @@ public class Register extends AppCompatActivity {
     }
 
     ActivityResultLauncher<Intent> mGetContent = registerForActivityResult(
-        new ActivityResultContracts.StartActivityForResult(),
-        new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult result) {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result.getData();
-                    if (data != null) {
-                        selectedImageUri = data.getData();
-                        ProfilePIC.setImageURI(selectedImageUri);
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            selectedImageUri = data.getData();
+                            ProfilePIC.setImageURI(selectedImageUri);
+                        }
                     }
                 }
-            }
-        });
+            });
 
     public void UploaderPhoto(View view){
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -100,6 +101,17 @@ public class Register extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private boolean isValidUsername(String username) {
+        return !TextUtils.isEmpty(username) && username.length() >= 3;
+    }
+
+    private boolean isValidPassword(String password) {
+        return !TextUtils.isEmpty(password) && password.length() >= 6 && password.length() <= 14;
+    }
+
+    private boolean isValidEmail(String email) {
+        return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
 
     public void B_Register(View view) {
         final String full_name = editTextFullName.getText().toString();
@@ -109,6 +121,32 @@ public class Register extends AppCompatActivity {
         final String city = editTextCity.getText().toString();
         final String country = editTextCountry.getText().toString();
 
+        // Reset flag
+        flag = false;
+
+        // Validate inputs
+        if (!isValidUsername(full_name)) {
+            editTextFullName.setError("Invalid Full name");
+            flag = true;
+        }
+
+        if (!isValidPassword(password)) {
+            editTextPass.setError("Password must be between 6 and 14 characters long");
+            flag = true;
+        }
+
+        if (!isValidEmail(email)) {
+            editTextEmail.setError("Invalid email format");
+            flag = true;
+        }
+
+
+        // If any validation failed, return
+        if (flag) {
+            return;
+        }
+
+        // Location handling...
         if (user_location == null) {
             user_location = locationHelper.getLocationFromCityCountry(city, country);
         }
@@ -116,50 +154,35 @@ public class Register extends AppCompatActivity {
         FireBaseHandler fb = new FireBaseHandler();
 
         Uri selectedImageUri = this.selectedImageUri;
-        
+
         fb.registerAndSaveUser(email, password, full_name, instagram_handle, user_location, city, country)
-            .addOnCompleteListener(registerTask -> {
-                if (registerTask.isSuccessful()) {
-                    FirebaseUser user = registerTask.getResult();
-                    if (user != null) {
-                        fb.updateUserImage(selectedImageUri, user)
-                            .addOnCompleteListener(task -> {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(Register.this, "Registration successful", Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(Register.this, com.example.projectandroid1.LayoutFragments.class);
-                                    fb.getUserData(user).addOnCompleteListener(userDataTask -> {
-                                        if (userDataTask.isSuccessful()) {
-                                            intent.putExtra("user", userDataTask.getResult().toString());
-                                            startActivity(intent);
+                .addOnCompleteListener(registerTask -> {
+                    if (registerTask.isSuccessful()) {
+                        FirebaseUser user = registerTask.getResult();
+                        if (user != null) {
+                            fb.updateUserImage(selectedImageUri, user)
+                                    .addOnCompleteListener(task -> {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(Register.this, "Registration successful", Toast.LENGTH_LONG).show();
+                                            Intent intent = new Intent(Register.this, com.example.projectandroid1.LayoutFragments.class);
+                                            fb.getUserData(user).addOnCompleteListener(userDataTask -> {
+                                                if (userDataTask.isSuccessful()) {
+                                                    intent.putExtra("user", userDataTask.getResult().toString());
+                                                    startActivity(intent);
+                                                }
+                                            });
+                                        } else {
+                                            Toast.makeText(Register.this, "Image upload failed", Toast.LENGTH_LONG).show();
+                                            Exception e = task.getException();
                                         }
                                     });
-                                } else {
-                                    Toast.makeText(Register.this, "Image upload failed", Toast.LENGTH_LONG).show();
-                                    Exception e = task.getException();
-                                }
-                            });
+                        } else {
+                            Toast.makeText(Register.this, "Registration failed", Toast.LENGTH_LONG).show();
+                        }
                     } else {
-                        Toast.makeText(Register.this, "Registration failed", Toast.LENGTH_LONG).show();
+                        Toast.makeText(Register.this, "Registration failed: " + registerTask.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
-                } else {
-                    Exception e = registerTask.getException();
-                }
-            });
+                });
     }
 
-    private boolean isValidUsername(String username) {
-        return !TextUtils.isEmpty(username) && username.length() >= 3;
-    }
-
-    private boolean isValidPassword(String password) {
-        return !TextUtils.isEmpty(password) && password.length() >= 6 && password.length() <= 14;
-    }
-
-    private boolean isValidPhone(String phone) {
-        return !TextUtils.isEmpty(phone) && phone.length() == 10 && TextUtils.isDigitsOnly(phone);
-    }
-
-    private boolean isValidEmail(String email) {
-        return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
 }

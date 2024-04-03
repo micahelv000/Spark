@@ -71,11 +71,11 @@ public class ProfileFragment extends Fragment {
 
                         CharSequence title = item.getTitle();
 
-                        if (title.equals("Edit profile")) {// EditProfile
+                        if (title.equals("Edit Profile")) {// EditProfile
                             intent = new Intent(getActivity(), EditProfileActivity.class);
                             startActivity(intent);
                             return true;
-                        } else if (title.equals("SignOut")) {// sign out
+                        } else if (title.equals("Sign Out")) {// sign out
                             FirebaseAuth.getInstance().signOut();
                             // Redirect to login screen
                             intent = new Intent(getActivity(), Login.class);

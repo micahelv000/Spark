@@ -21,11 +21,12 @@ public class Login extends AppCompatActivity {
 
     private EditText emailEditText;
     private EditText passwordEditText;
+    boolean flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        flag = true;
         if (!isConnectedToInternet()) {
             Intent intent = new Intent(this, NoInternet.class); 
             startActivity(intent);
@@ -67,10 +68,20 @@ public class Login extends AppCompatActivity {
         final String email = emailEditText.getText().toString();
         final String password = passwordEditText.getText().toString();
 
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            Toast.makeText(this, "Please enter both username and password", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(email)) {
+            emailEditText.setError("Please enter your email");
+            flag = false;
+        }
+        if (TextUtils.isEmpty(password)) {
+            passwordEditText.setError("Please enter your password");
+            flag = false;
+        }
+        if(!flag){
+            flag = false;
             return;
         }
+
+
 
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
         fireBaseHandler.loginUser(email, password).addOnCompleteListener(this, task -> {
