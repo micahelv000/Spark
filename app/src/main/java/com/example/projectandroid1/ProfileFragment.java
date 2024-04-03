@@ -23,6 +23,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class ProfileFragment extends Fragment {
@@ -42,6 +45,18 @@ public class ProfileFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
         // Initialize views
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            String userDataString = bundle.getString("userData");
+            // Parse user data JSON string and update UI accordingly
+            try {
+                JSONObject userData = new JSONObject(userDataString);
+                // Update UI with user data
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
         profileImage = rootView.findViewById(R.id.profileIMG);
         fullNameTextView = rootView.findViewById(R.id.textView2);
         //likesTextView = rootView.findViewById(R.id.textView3);

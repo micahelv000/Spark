@@ -112,7 +112,15 @@ public class Register extends AppCompatActivity {
     private boolean isValidEmail(String email) {
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
-
+    private boolean isValidIG(String instagramHandle) {
+        return(instagramHandle.length() > 2);
+    }
+    private boolean isValidCountry(String country) {
+        return(country.length() > 2);
+    }
+    private boolean isValidCity(String city) {
+        return(city.length() > 2);
+    }
     public void B_Register(View view) {
         final String full_name = editTextFullName.getText().toString();
         final String password = editTextPass.getText().toString();
@@ -137,6 +145,19 @@ public class Register extends AppCompatActivity {
 
         if (!isValidEmail(email)) {
             editTextEmail.setError("Invalid email format");
+            flag = true;
+        }
+
+        if (!isValidIG(instagram_handle)) {
+            editTextInstagramHandle.setError("Invalid instagram handle");
+            flag = true;
+        }
+        if (!isValidCity(city)) {
+            editTextCity.setError("Invalid instagram handle");
+            flag = true;
+        }
+        if (!isValidCountry(country)) {
+            editTextCountry.setError("Invalid instagram handle");
             flag = true;
         }
 
@@ -184,5 +205,7 @@ public class Register extends AppCompatActivity {
                     }
                 });
     }
+
+
 
 }

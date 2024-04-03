@@ -36,6 +36,16 @@ public class LayoutFragments extends AppCompatActivity {
         ColorStateList colorStateActive = ColorStateList.valueOf(color);
         ColorStateList colorStateInactive = ColorStateList.valueOf(Color.GRAY);
 
+        // Retrieve user data from intent
+        Intent intent = getIntent();
+        String userDataString = intent.getStringExtra("user");
+
+        // Pass user data to ProfileFragment
+        ProfileFragment profileFragment = new ProfileFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("userData", userDataString);
+        profileFragment.setArguments(bundle);
+
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
         Bhome = findViewById(R.id.B_Open_search);
