@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
-import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,8 +25,8 @@ public class Dialog_filter extends DialogFragment {
         CheckBox checkbox00 = dialogView.findViewById(R.id.checkBox00);
         CheckBox checkbox01 = dialogView.findViewById(R.id.checkBox01);
         CheckBox checkbox02 = dialogView.findViewById(R.id.checkBox02);
-        CheckBox checkbox10 = dialogView.findViewById(R.id.checkBox10);
-        CheckBox checkbox11 = dialogView.findViewById(R.id.checkBox11);
+        CheckBox checkbox10 = dialogView.findViewById(R.id.ParallelParkingCheckBox);
+        CheckBox checkbox11 = dialogView.findViewById(R.id.PerpendicularParkingCheckBox);
         CheckBox checkbox20 = dialogView.findViewById(R.id.checkBox20);
         CheckBox checkbox21 = dialogView.findViewById(R.id.checkBox21);
 

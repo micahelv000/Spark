@@ -84,6 +84,36 @@ public class LocationHelper {
         return null;
     }
 
+    public static Location getLocationFromAddress(String address, Context context) {
+        Geocoder geocoder = new Geocoder(context);
+        try {
+            List<Address> addresses = geocoder.getFromLocationName(address, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                Address addr = addresses.get(0);
+                Location location = new Location(LocationManager.GPS_PROVIDER);
+                location.setLatitude(addr.getLatitude());
+                location.setLongitude(addr.getLongitude());
+                return location;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getAddressFromLocation(Location location, Context context) {
+        Geocoder geocoder = new Geocoder(context);
+        try {
+            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                return addresses.get(0).getAddressLine(0);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public Location getLocationFromCityCountry(String city, String country) {
         try {
             List<Address> addresses = geocoder.getFromLocationName(city + ", " + country, 1);

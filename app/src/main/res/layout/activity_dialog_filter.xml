@@ -57,7 +57,7 @@
 
 
             <CheckBox
-                android:id="@+id/checkBox10"
+                android:id="@+id/ParallelParkingCheckBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -65,7 +65,7 @@
                 android:textSize="15sp" />
 
             <CheckBox
-                android:id="@+id/checkBox11"
+                android:id="@+id/PerpendicularParkingCheckBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
