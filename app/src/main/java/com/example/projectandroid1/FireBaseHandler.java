@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 
 public class FireBaseHandler {
     private DatabaseReference mDatabase;
@@ -146,7 +147,7 @@ public class FireBaseHandler {
     public Task<String> uploadImage(Uri imageUri, FirebaseUser user) {
         String uid = user.getUid();
         StorageReference imageRef = mStorage.getReference().child("images").child(uid)
-                .child(imageUri.getLastPathSegment());
+                .child(Objects.requireNonNull(imageUri.getLastPathSegment()));
 
         return imageRef.putFile(imageUri)
                 .continueWithTask(task -> {

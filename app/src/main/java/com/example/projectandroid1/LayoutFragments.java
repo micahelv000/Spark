@@ -1,20 +1,17 @@
 package com.example.projectandroid1;
 
-import static android.app.PendingIntent.getActivity;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayout.Tab;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -24,10 +21,9 @@ public class LayoutFragments extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    ImageView Bhome, BMap, Bprofile;
-    ImageView fabAddPark;
+    private ImageView Bhome, BMap, Bprofile;
+    private ImageView fabAddPark;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +48,7 @@ public class LayoutFragments extends AppCompatActivity {
         BMap = findViewById(R.id.B_OpenMap);
         Bprofile = findViewById(R.id.B_Profile);
         fabAddPark = findViewById(R.id.fabAddPark);
+
         // Create and set up the ViewPager adapter
         MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapter);
@@ -69,6 +66,7 @@ public class LayoutFragments extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         // Set up click listeners for the buttons to mimic tab selection
         Bhome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +74,6 @@ public class LayoutFragments extends AppCompatActivity {
                 viewPager.setCurrentItem(1); // Select the second tab
             }
         });
-
 
         BMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,11 +89,10 @@ public class LayoutFragments extends AppCompatActivity {
             }
         });
 
-
         // Set up a listener to handle tab selection and change button colors accordingly
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
+            public void onTabSelected(Tab tab) {
                 int position = tab.getPosition();
                 switch (position) {
                     case 0:
@@ -118,12 +114,12 @@ public class LayoutFragments extends AppCompatActivity {
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+            public void onTabUnselected(Tab tab) {
                 // No action needed
             }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+            public void onTabReselected(Tab tab) {
                 // No action needed
             }
         });

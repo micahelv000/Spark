@@ -2,6 +2,7 @@ package com.example.projectandroid1;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -35,39 +37,43 @@ public class ProfileFragment extends Fragment {
     private CustomAdapter adapter;
     private LinearLayoutManager layoutManager;
     private ImageView profileImage, BMenu;
-    private TextView fullNameTextView, likesTextView, latestPostTextView;
+    private TextView fullNameTextView, likesTextView, latestPostTextView,textZone,TextPosts;
     private Button BeditProfile, BLogOut;
-
-    @SuppressLint({"WrongViewCast", "MissingInflatedId"})
+    private JSONObject userData;
+    @SuppressLint({"WrongViewCast", "MissingInflatedId", "SetTextI18n", "ShowToast"})
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
-
+        fullNameTextView = rootView.findViewById(R.id.textFname);
+        textZone = rootView.findViewById(R.id.textZone);
+        likesTextView = rootView.findViewById(R.id.textLikes);
+        TextPosts = rootView.findViewById(R.id.TextPosts);
+        BMenu = rootView.findViewById(R.id.B_options);
         // Initialize views
         Bundle bundle = getArguments();
         if (bundle != null) {
             String userDataString = bundle.getString("userData");
-            // Parse user data JSON string and update UI accordingly
             try {
-                JSONObject userData = new JSONObject(userDataString);
+                userData = new JSONObject(userDataString);
                 // Update UI with user data
+                fullNameTextView.setText(userData.getString("full_name"));
+                textZone.setText(userData.getString("country") + ", " + userData.getString("city"));
+                likesTextView.setText(userData.getString("total_likes"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        } else {
+            // Handle the case where bundle is null (e.g., display an error message)
+            Toast.makeText(getActivity(), "Bundle is null", Toast.LENGTH_SHORT).show();
         }
 
-        profileImage = rootView.findViewById(R.id.profileIMG);
-        fullNameTextView = rootView.findViewById(R.id.textView2);
-        //likesTextView = rootView.findViewById(R.id.textView3);
-        latestPostTextView = rootView.findViewById(R.id.textView4);
-        BeditProfile = rootView.findViewById(R.id.BEditProfile);
-        BMenu = rootView.findViewById(R.id.B_options);
 
         dataSet = new ArrayList<>();
         recyclerView = rootView.findViewById(R.id.resView);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+
         BMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
