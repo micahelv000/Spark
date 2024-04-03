@@ -2,7 +2,6 @@ package com.example.projectandroid1;
 
 import android.content.Context;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 
 import com.google.android.gms.tasks.Task;
@@ -20,27 +19,18 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
 public class FireBaseHandler {
-    private DatabaseReference mDatabase;
-    private FirebaseAuth mAuth;
-    private FirebaseStorage mStorage;
+    private final DatabaseReference mDatabase;
+    private final FirebaseAuth mAuth;
+    private final FirebaseStorage mStorage;
 
     public FireBaseHandler() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         mStorage = FirebaseStorage.getInstance();
-    }
-
-    public DatabaseReference getmDatabase() {
-        return mDatabase;
-    }
-
-    public FirebaseAuth getmAuth() {
-        return mAuth;
     }
 
     public static FirebaseUser getCurrentUser() {
@@ -76,9 +66,12 @@ public class FireBaseHandler {
                     if (task.isSuccessful()) {
                         JSONObject userJson = new JSONObject();
                         if (task.getResult().getValue() != null) {
-                            Map<String, Object> userMap = (Map<String, Object>) task.getResult().getValue();
-                            for (Map.Entry<String, Object> entry : userMap.entrySet()) {
-                                userJson.put(entry.getKey(), entry.getValue());
+                            Object result = task.getResult().getValue();
+                            if (result instanceof Map<?, ?>) { 
+                                Map<?, ?> resultMap = (Map<?, ?>) result; 
+                                for (Map.Entry<?, ?> entry : resultMap.entrySet()) {
+                                    userJson.put(entry.getKey().toString(), entry.getValue());
+                                }
                             }
                         }
                         return Tasks.forResult(userJson);
@@ -87,7 +80,6 @@ public class FireBaseHandler {
                     }
                 });
     }
-
     public Task<FirebaseUser> registerUser(String email, String password) {
         return mAuth.createUserWithEmailAndPassword(email, password)
                 .continueWithTask(task -> {
@@ -121,15 +113,15 @@ public class FireBaseHandler {
             json.put("posts", new JSONArray());
             json.put("total_likes", 0);
             JSONObject location = new JSONObject();
-            JSONObject cordinates = new JSONObject();
+            JSONObject coordinates = new JSONObject();
             if (user_location != null) {
-                cordinates.put("latitude", user_location.getLatitude());
-                cordinates.put("longitude", user_location.getLongitude());
+                coordinates.put("latitude", user_location.getLatitude());
+                coordinates.put("longitude", user_location.getLongitude());
             } else {
-                cordinates.put("latitude", 0);
-                cordinates.put("longitude", 0);
+                coordinates.put("latitude", 0);
+                coordinates.put("longitude", 0);
             }
-            location.put("cordinates", cordinates);
+            location.put("coordinates", coordinates);
             location.put("city", city);
             location.put("country", country);
             json.put("location", location);
@@ -140,7 +132,7 @@ public class FireBaseHandler {
     }
 
     public JSONObject buildPostJson(String user_id, String image_url, String car_type, String[] parking_type,
-            boolean is_free, Location location, int total_likes, int reports) {
+            boolean is_free, Location location, String address, int total_likes, int reports) {
         JSONObject json = new JSONObject();
         try {
             json.put("user_id", user_id);
@@ -153,7 +145,7 @@ public class FireBaseHandler {
             coordinates.put("latitude", location.getLatitude());
             coordinates.put("longitude", location.getLongitude());
             locationJson.put("coordinates", coordinates);
-            locationJson.put("address", "");
+            locationJson.put("address", address);
             json.put("location", locationJson);
             json.put("total_likes", total_likes);
             json.put("reports", reports);
@@ -187,6 +179,9 @@ public class FireBaseHandler {
     }
 
     public Task<String> uploadImage(Uri imageUri, FirebaseUser user) {
+        if (imageUri == null) {
+            return Tasks.forResult(null);
+        }
         String uid = user.getUid();
         StorageReference imageRef = mStorage.getReference().child("images").child(uid)
                 .child(Objects.requireNonNull(imageUri.getLastPathSegment()));
@@ -194,7 +189,7 @@ public class FireBaseHandler {
         return imageRef.putFile(imageUri)
                 .continueWithTask(task -> {
                     if (!task.isSuccessful()) {
-                        throw task.getException();
+                        throw Objects.requireNonNull(task.getException());
                     }
                     return imageRef.getDownloadUrl();
                 })
@@ -228,12 +223,10 @@ public class FireBaseHandler {
                     if (task.isSuccessful()) {
                         String imageUrl = task.getResult();
                         JSONObject postJson = buildPostJson(user.getUid(), imageUrl, car_type, parking_type, is_free,
-                                post_location, 0, 0);
+                                post_location, address, 0, 0);
                         SavePostJsonData(user, postJson);
-                        return Tasks.forResult(null);
-                    } else {
-                        return Tasks.forResult(null);
                     }
+                    return Tasks.forResult(null);
                 });
 
     }

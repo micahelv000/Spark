@@ -38,8 +38,8 @@ public class Login extends AppCompatActivity {
         passwordEditText = findViewById(R.id.editTextNumberPassword2);
 
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
-        if (fireBaseHandler.getmAuth().getCurrentUser() != null) {
-            FirebaseUser user = fireBaseHandler.getmAuth().getCurrentUser();
+        if (FireBaseHandler.getCurrentUser() != null) {
+            FirebaseUser user = FireBaseHandler.getCurrentUser();
             Intent intent = new Intent(this, LayoutFragments.class);
             fireBaseHandler.getUserData(user).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
