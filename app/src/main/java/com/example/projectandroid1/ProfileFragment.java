@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,10 +39,25 @@ public class ProfileFragment extends Fragment {
     private TextView fullNameTextView, likesTextView, latestPostTextView,textZone,TextPosts;
     private Button BeditProfile, BLogOut;
     private JSONObject userData;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
+                // We use a String here, but any type that can be put in a Bundle is supported.
+                String result = bundle.getString("bundleKey");
+                // Do something with the result.
+            }
+        });
+    }
+
     @SuppressLint({"WrongViewCast", "MissingInflatedId", "SetTextI18n", "ShowToast"})
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
         fullNameTextView = rootView.findViewById(R.id.textFname);
         textZone = rootView.findViewById(R.id.textZone);
@@ -49,9 +65,10 @@ public class ProfileFragment extends Fragment {
         TextPosts = rootView.findViewById(R.id.TextPosts);
         BMenu = rootView.findViewById(R.id.B_options);
         // Initialize views
+
         Bundle bundle = getArguments();
         if (bundle != null) {
-            String userDataString = bundle.getString("userData");
+             String userDataString = bundle.getString("userData");
             try {
                 userData = new JSONObject(userDataString);
                 // Update UI with user data

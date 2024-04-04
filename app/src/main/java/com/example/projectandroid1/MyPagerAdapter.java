@@ -1,5 +1,8 @@
 package com.example.projectandroid1;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -10,23 +13,34 @@ import com.google.android.gms.maps.MapFragment;
 
 public class MyPagerAdapter extends FragmentPagerAdapter {
     private static final int NUM_PAGES = 3; // Number of pages
+    private String userdata;
 
-    public MyPagerAdapter(@NonNull FragmentManager fragmentManager) {
+    public MyPagerAdapter(@NonNull FragmentManager fragmentManager ,String userDataString) {
         super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+       userdata = userDataString;
     }
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
         // Return the fragment for each position
+        Bundle bundle = new Bundle();
+        bundle.putString("userData", userdata);
+
         switch (position) {
+            // Pass user data to ProfileFragment
             case 0:
-                return new ParkingMapsFragment();
+                ParkingMapsFragment parkingMapsFragment = new ParkingMapsFragment();
+                parkingMapsFragment.setArguments(bundle);
+                return parkingMapsFragment;
             case 1:
-                return new HomeFragment();
+                HomeFragment homeFragment = new HomeFragment();
+                homeFragment.setArguments(bundle);
+                return homeFragment;
             case 2:
-                //return new ProfileFragment();
-                return new ProfileFragment();
+                ProfileFragment profileFragment = new ProfileFragment();
+                profileFragment.setArguments(bundle);
+                return profileFragment;
             default:
                 return null;
         }

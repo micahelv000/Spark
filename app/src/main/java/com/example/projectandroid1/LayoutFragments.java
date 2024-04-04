@@ -1,7 +1,9 @@
 package com.example.projectandroid1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.Navigation;
 import androidx.viewpager.widget.ViewPager;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -10,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.android.material.internal.NavigationMenu;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayout.Tab;
 import com.google.gson.Gson;
@@ -17,7 +20,7 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LayoutFragments extends AppCompatActivity {
+public class LayoutFragments extends AppCompatActivity  {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -36,11 +39,11 @@ public class LayoutFragments extends AppCompatActivity {
         Intent intent = getIntent();
         String userDataString = intent.getStringExtra("user");
 
-        // Pass user data to ProfileFragment
-        ProfileFragment profileFragment = new ProfileFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("userData", userDataString);
-        profileFragment.setArguments(bundle);
+
+
+
+
+        //Navigation.findNavController(viewPager).navigate(viewPager,String.valueOf(bundle));
 
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
@@ -50,7 +53,7 @@ public class LayoutFragments extends AppCompatActivity {
         fabAddPark = findViewById(R.id.fabAddPark);
 
         // Create and set up the ViewPager adapter
-        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
+        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager(),userDataString);
         viewPager.setAdapter(adapter);
 
         // Set initial page to home fragment
@@ -129,4 +132,5 @@ public class LayoutFragments extends AppCompatActivity {
         BMap.setImageTintList(colorStateInactive);
         Bprofile.setImageTintList(colorStateInactive);
     }
+
 }
