@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Locale;
+
 public class myData {
     static String[] addressArray = {"Apple", "Banana", "Cherry", "Date", "Elderberry", "Fig", "Grape", "Honeydew", "Iced Tea", "Juice"};
     static String[] epochsArray = {"0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
@@ -29,8 +31,21 @@ public class myData {
                     for (int i = 0; i < posts.length(); i++) {
                         try {
                             JSONObject post = posts.getJSONObject(i);
-                            addressArray[i] = post.has("location") ? post.getString("location") : null;
-                            epochsArray[i] = post.has("epoch_time") ? post.getString("epoch_time") : null;
+                            if (post.has("location")) {
+                                JSONObject location = post.getJSONObject("location");
+                                addressArray[i] = location.has("address") ? location.getString("address") : null;
+                            } else {
+                                addressArray[i] = null;
+                            }
+
+                            if (post.has("epoch_time")) {
+                                long epochTime = Long.parseLong(post.getString("epoch_time"));
+                                String date = java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.MEDIUM, java.text.DateFormat.SHORT, Locale.getDefault()).format(new java.util.Date (epochTime*1000));
+                                epochsArray[i] = date;
+                            } else {
+                                epochsArray[i] = null;
+                            }
+
                             likesArray[i] = post.has("total_likes") ? String.valueOf(post.getLong("total_likes")) : null;
                             drawableArray[i] = R.drawable.ic_launcher_background;
                         } catch (JSONException e) {

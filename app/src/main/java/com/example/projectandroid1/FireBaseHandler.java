@@ -249,7 +249,12 @@ public class FireBaseHandler {
                                     postJson.put("car_type", ((Map<?, ?>) entry.getValue()).get("car_type"));
                                     postJson.put("parking_type", ((Map<?, ?>) entry.getValue()).get("parking_type"));
                                     postJson.put("is_free", ((Map<?, ?>) entry.getValue()).get("is_free"));
-                                    postJson.put("location", ((Map<?, ?>) entry.getValue()).get("location"));
+                                    
+                                    Map<?, ?> locationMap = (Map<?, ?>) ((Map<?, ?>) entry.getValue()).get("location");
+                                    assert locationMap != null;
+                                    JSONObject locationJson = new JSONObject(locationMap);
+                                    postJson.put("location", locationJson);
+                                    
                                     postJson.put("total_likes", ((Map<?, ?>) entry.getValue()).get("total_likes"));
                                     postJson.put("reports", ((Map<?, ?>) entry.getValue()).get("reports"));
                                     postJson.put("epoch_time", ((Map<?, ?>) entry.getValue()).get("epoch_time"));
