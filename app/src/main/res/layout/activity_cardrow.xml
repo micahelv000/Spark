@@ -41,7 +41,7 @@
                         android:padding="10px"
                         android:text="Location"
                         android:textColor="#000000"
-                        android:textSize="30sp" />
+                        android:textSize="24sp" />
 
                     <TextView
                         android:id="@+id/TextDistanceFromUser"
@@ -51,7 +51,7 @@
                         android:padding="10px"
                         android:text="Distance"
                         android:textColor="#000000"
-                        android:textSize="24sp" />
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/TextUsernameUploded"
@@ -61,7 +61,7 @@
                         android:padding="10px"
                         android:text="Username"
                         android:textColor="#000000"
-                        android:textSize="24sp" />
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/textTimeUplode"
@@ -71,7 +71,7 @@
                         android:padding="10px"
                         android:text="Time of Update"
                         android:textColor="#000000"
-                        android:textSize="24sp" />
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.example.projectandroid1;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,9 +38,11 @@ public class ProfileFragment extends Fragment {
     private CustomAdapter adapter;
     private LinearLayoutManager layoutManager;
     private ImageView profileImage, BMenu;
-    private TextView fullNameTextView, likesTextView, latestPostTextView,textZone,TextPosts;
+    private TextView fullNameTextView, likesTextView, latestPostTextView,textZone,TextPosts,TextIG;
     private Button BeditProfile, BLogOut;
-    private JSONObject userData;
+    private JSONObject userData,location;
+    private JSONArray postsArray;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,17 +68,36 @@ public class ProfileFragment extends Fragment {
         likesTextView = rootView.findViewById(R.id.textLikes);
         TextPosts = rootView.findViewById(R.id.TextPosts);
         BMenu = rootView.findViewById(R.id.B_options);
+        TextIG = rootView.findViewById(R.id.TextIG);
+        profileImage = rootView.findViewById(R.id.profileIMG);
         // Initialize views
 
         Bundle bundle = getArguments();
         if (bundle != null) {
              String userDataString = bundle.getString("userData");
             try {
-                userData = new JSONObject(userDataString);
+                userData = new JSONObject(userDataString); //{"instagram_handle":"asdca","full_name":"askk","bio":"","location":"{country=Israel, cordinates={latitude=32.015833, longitude=34.787383999999996}, city=Holon}","profile_picture":"https:\/\/firebasestorage.googleapis.com\/v0\/b\/projectandroid1-3dfb0.appspot.com\/o\/images%2Fl47J2K5mNPcO0zJnE03l4pfKz4i1%2F2117381231?alt=media&token=8b788b4d-6031-4518-8079-5f9f6d7dfe63","total_likes":0,"posts":"{-NudWJf8Al75ERzggDEk=true}"}
                 // Update UI with user data
                 fullNameTextView.setText(userData.getString("full_name"));
-                textZone.setText(userData.getString("country") + ", " + userData.getString("city"));
-                likesTextView.setText(userData.getString("total_likes"));
+                TextIG.setText("@"+userData.getString("instagram_handle"));
+
+                int totalLikes = userData.getInt("total_likes");
+                likesTextView.setText(String.valueOf(totalLikes));
+
+                location = userData.getJSONObject("location");
+                textZone.setText(location.getString("country") + ", " + location.getString("city"));
+
+                postsArray = userData.getJSONArray("posts");
+                int totalPosts = postsArray.length();
+                TextPosts.setText(String.valueOf(totalPosts));
+
+                //Uri uri = Uri.parse(userData.getString("profile_picture"));
+                //profileImage.setImageURI(uri);
+                Toast.makeText(getActivity(), "all good", Toast.LENGTH_SHORT).show();
+
+
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

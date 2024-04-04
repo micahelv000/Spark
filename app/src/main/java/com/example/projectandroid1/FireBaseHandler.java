@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -67,10 +68,10 @@ public class FireBaseHandler {
                         JSONObject userJson = new JSONObject();
                         if (task.getResult().getValue() != null) {
                             Object result = task.getResult().getValue();
-                            if (result instanceof Map<?, ?>) { 
-                                Map<?, ?> resultMap = (Map<?, ?>) result; 
+                            if (result instanceof Map<?, ?>) {
+                                Map<?, ?> resultMap = (Map<?, ?>) result;
                                 for (Map.Entry<?, ?> entry : resultMap.entrySet()) {
-                                    userJson.put(entry.getKey().toString(), entry.getValue());
+                                    userJson.put(entry.getKey().toString(), convertToJSONObject(entry.getValue()));
                                 }
                             }
                         }
@@ -101,7 +102,18 @@ public class FireBaseHandler {
                     }
                 });
     }
-
+    private Object convertToJSONObject(Object value) throws JSONException {
+        if (value instanceof Map<?, ?>) {
+            JSONObject json = new JSONObject();
+            Map<?, ?> map = (Map<?, ?>) value;
+            for (Map.Entry<?, ?> entry : map.entrySet()) {
+                json.put(entry.getKey().toString(), convertToJSONObject(entry.getValue()));
+            }
+            return json;
+        } else {
+            return value;
+        }
+    }
     public JSONObject buildUserJson(String full_name, String bio, String instagram_handle, Location user_location,
             String city, String country) {
         JSONObject json = new JSONObject();
