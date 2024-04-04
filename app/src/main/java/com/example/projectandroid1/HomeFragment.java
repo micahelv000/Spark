@@ -1,16 +1,12 @@
 package com.example.projectandroid1;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -67,19 +63,21 @@ public class HomeFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         // Add items to the dataSet
-        for (int i = 0; i < myData.nameArray.length; i++) {
-            dataSet.add(new Item(
-                    myData.nameArray[i],
-                    Integer.parseInt(myData.amount[i]),
-                    Double.parseDouble(myData.price[i]),
-                    myData.drawableArray[i]
-            ));
-        }
-        filteredDataSet.addAll(dataSet);
+        myData.populateArrays(() -> {
+            for (int i = 0; i < myData.addressArray.length; i++) {
+                dataSet.add(new Item(
+                        myData.addressArray[i],
+                        myData.epochsArray[i],
+                        myData.likesArray[i],
+                        myData.drawableArray[i]
+                ));
+            }
+            filteredDataSet.addAll(dataSet);
 
-        adapter = new CustomAdapter(filteredDataSet, getActivity());
-        recyclerView.setAdapter(adapter);
-
+            adapter = new CustomAdapter(filteredDataSet, getActivity());
+            recyclerView.setAdapter(adapter);
+        });
+    
         return rootView;
     }
     @Override

@@ -2,16 +2,16 @@ package com.example.projectandroid1;
 
 public class Item {
     private String name;
-    private int amount;
-    private double price;
+    private String epoch;
+    private String likes;
 
     private int image;
 
     public Item() {}
-    public Item(String name, int amount, double price, int image) {
-        this.name = name;
-        this.amount = amount;
-        this.price = price;
+    public Item(String address, String epoch, String likes, int image) {
+        this.name = address;
+        this.epoch = epoch;
+        this.likes = likes;
         this.image = image;
     }
 
@@ -24,20 +24,12 @@ public class Item {
         this.name = name;
     }
 
-    public int getAmount() {
-        return amount;
+    public String getEpoch() {
+        return epoch;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
+    public String getLikes() {
+        return likes;
     }
 
     public int getImage() {

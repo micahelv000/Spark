@@ -149,6 +149,7 @@ public class FireBaseHandler {
             json.put("location", locationJson);
             json.put("total_likes", total_likes);
             json.put("reports", reports);
+            json.put("epoch_time", System.currentTimeMillis() / 1000L);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -229,5 +230,37 @@ public class FireBaseHandler {
                     return Tasks.forResult(null);
                 });
 
+    }
+
+    public Task<JSONArray> getAllPosts() {
+        return mDatabase.child("posts").get()
+                .continueWithTask(task -> {
+                    if (task.isSuccessful()) {
+                        JSONArray posts = new JSONArray();
+                        if (task.getResult().getValue() != null) {
+                            Object result = task.getResult().getValue();
+                            if (result instanceof Map<?, ?>) {
+                                Map<?, ?> resultMap = (Map<?, ?>) result;
+                                for (Map.Entry<?, ?> entry : resultMap.entrySet()) {
+                                    JSONObject postJson = new JSONObject();
+                                    postJson.put("post_id", entry.getKey());
+                                    postJson.put("user_id", ((Map<?, ?>) entry.getValue()).get("user_id"));
+                                    postJson.put("image_url", ((Map<?, ?>) entry.getValue()).get("image_url"));
+                                    postJson.put("car_type", ((Map<?, ?>) entry.getValue()).get("car_type"));
+                                    postJson.put("parking_type", ((Map<?, ?>) entry.getValue()).get("parking_type"));
+                                    postJson.put("is_free", ((Map<?, ?>) entry.getValue()).get("is_free"));
+                                    postJson.put("location", ((Map<?, ?>) entry.getValue()).get("location"));
+                                    postJson.put("total_likes", ((Map<?, ?>) entry.getValue()).get("total_likes"));
+                                    postJson.put("reports", ((Map<?, ?>) entry.getValue()).get("reports"));
+                                    postJson.put("epoch_time", ((Map<?, ?>) entry.getValue()).get("epoch_time"));
+                                    posts.put(postJson);
+                                }
+                            }
+                        }
+                        return Tasks.forResult(posts);
+                    } else {
+                        return Tasks.forResult(null);
+                    }
+                });
     }
 }

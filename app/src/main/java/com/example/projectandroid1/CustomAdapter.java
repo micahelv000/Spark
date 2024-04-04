@@ -1,17 +1,13 @@
 package com.example.projectandroid1;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -101,8 +97,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     public void onBindViewHolder(@NonNull CustomAdapter.MyViewHolder holder, int position) {
         final Item dataModel = dataSet.get(position);
         holder.Text_LocationName.setText(dataModel.getName());
-        holder.Text_TimeUploaded.setText("Uploaded at: "+ dataModel.getAmount());
-        holder.Text_NumberOfLikes.setText(dataModel.getPrice() +" Likes");
+        holder.Text_TimeUploaded.setText("Uploaded at: "+ dataModel.getEpoch());
+        holder.Text_NumberOfLikes.setText(dataModel.getLikes() +" Likes");
         holder.imageView.setImageResource(dataModel.getImage());
 
         holder.ReportButton.setOnClickListener(v -> showConfirmationDialogReport(position, holder.ReportButton));

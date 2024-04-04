@@ -2,7 +2,6 @@ package com.example.projectandroid1;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -22,7 +21,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONException;
@@ -119,11 +117,11 @@ public class ProfileFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         // Add items to the dataSet (Replace with your own data)
-        for (int i = 0; i < myData.nameArray.length; i++) {
+        for (int i = 0; i < myData.addressArray.length; i++) {
             dataSet.add(new Item(
-                    myData.nameArray[i],
-                    Integer.parseInt(myData.amount[i]),
-                    Double.parseDouble(myData.price[i]),
+                    myData.addressArray[i],
+                    myData.epochsArray[i],
+                    myData.likesArray[i],
                     myData.drawableArray[i]
             ));
         }
