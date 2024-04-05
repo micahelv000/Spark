@@ -16,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 
@@ -66,7 +68,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         public View LikeButton;
         TextView Text_LocationName;
         TextView Text_TimeUploaded;
-        TextView Text_NumberOfLikes;
+        TextView Text_NumberOfLikes,TextDistanceFromUser,TextUsernameUploded,Text_Probability;
         ImageView imageView;
         LinearLayout open;
         ImageView ReportButton;
@@ -76,6 +78,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             super(itemView);
             Text_LocationName = itemView.findViewById(R.id.TextLocation);
             Text_TimeUploaded = itemView.findViewById(R.id.textTimeUplode);
+            TextDistanceFromUser = itemView.findViewById(R.id.TextDistanceFromUser);
+            TextUsernameUploded = itemView.findViewById(R.id.TextUsernameUploded);
+            Text_Probability = itemView.findViewById(R.id.Text_Probability);
             imageView = itemView.findViewById(R.id.imageView);
             Text_NumberOfLikes = itemView.findViewById(R.id.NumberOfLikes);
             LikeButton = itemView.findViewById(R.id.button_Like);
@@ -155,6 +160,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     private void B_OpenParking(int position) {
 
         Intent intent = new Intent(context, Parking.class);
+        //crate a json for the parking
+        final Item dataModel = dataSet.get(position);
+        //JSONObject parkingJson =
+        //intent.putExtra("Parking", parkingJson.toString());
+
         context.startActivity(intent);
         //dataModel.setAmount(dataModel.getAmount() + 1);
         //mDatabase.child("users").child(this.userid).child("amounts").child(dataModel.getName()).setValue(dataModel.getAmount());

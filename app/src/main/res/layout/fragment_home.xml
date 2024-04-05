@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
                 android:ems="10"
-                android:hint="Search by Product"
+                android:hint="Search by Address"
                 android:inputType="text|textNoSuggestions" />
 
             <ImageView

@@ -37,18 +37,6 @@ public class Login extends AppCompatActivity {
         emailEditText = findViewById(R.id.editTextEmailLogin);
         passwordEditText = findViewById(R.id.editTextNumberPassword2);
 
-        FireBaseHandler fireBaseHandler = new FireBaseHandler();
-        if (FireBaseHandler.getCurrentUser() != null) {
-            FirebaseUser user = FireBaseHandler.getCurrentUser();
-            Intent intent = new Intent(this, LayoutFragments.class);
-            fireBaseHandler.getUserData(user).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    JSONObject userJson = task.getResult();
-                    intent.putExtra("user", userJson.toString());
-                    startActivity(intent);
-                }
-            });
-        }
     }
 
     boolean isConnectedToInternet() {

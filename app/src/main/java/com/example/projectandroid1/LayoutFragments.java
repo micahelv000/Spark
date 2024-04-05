@@ -1,5 +1,6 @@
 package com.example.projectandroid1;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.Navigation;
 import androidx.viewpager.widget.ViewPager;
@@ -11,6 +12,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.material.internal.NavigationMenu;
 import com.google.android.material.tabs.TabLayout;
@@ -34,13 +36,20 @@ public class LayoutFragments extends AppCompatActivity  {
         int color = Color.parseColor("#0064D1");
         ColorStateList colorStateActive = ColorStateList.valueOf(color);
         ColorStateList colorStateInactive = ColorStateList.valueOf(Color.GRAY);
-
         // Retrieve user data from intent
         Intent intent = getIntent();
         String userDataString = intent.getStringExtra("user");
 
 
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                Toast.makeText(LayoutFragments.this, "Back button is disabled in this screen.", Toast.LENGTH_SHORT).show();
+            }
+        };
 
+        // Add the callback to the onBackPressedDispatcher
+        getOnBackPressedDispatcher().addCallback(this, callback);
 
 
         //Navigation.findNavController(viewPager).navigate(viewPager,String.valueOf(bundle));
@@ -132,5 +141,7 @@ public class LayoutFragments extends AppCompatActivity  {
         BMap.setImageTintList(colorStateInactive);
         Bprofile.setImageTintList(colorStateInactive);
     }
+
+
 
 }
