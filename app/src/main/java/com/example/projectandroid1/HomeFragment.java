@@ -52,6 +52,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (adapter == null) return;
                 filterDataSet(s.toString().trim()); // Trim the query
             }
 
@@ -63,14 +64,14 @@ public class HomeFragment extends Fragment {
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        // Add items to the dataSet
-        myData.populateArrays(() -> {
-            for (int i = 0; i < myData.addressArray.length; i++) {
+        myData data = new myData();
+        data.populateArrays(() -> {
+            for (int i = 0; i < data.addressArray.length; i++) {
                 dataSet.add(new Item(
-                        myData.addressArray[i],
-                        myData.epochsArray[i],
-                        myData.likesArray[i],
-                        myData.drawableArray[i]
+                        data.addressArray[i],
+                        data.epochsArray[i],
+                        data.likesArray[i],
+                        data.drawableArray[i]
                 ));
             }
             filteredDataSet.addAll(dataSet);

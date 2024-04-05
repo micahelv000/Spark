@@ -14,7 +14,6 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -38,11 +37,10 @@ public class ProfileFragment extends Fragment {
     private CustomAdapter adapter;
     private LinearLayoutManager layoutManager;
     private ImageView profileImage, BMenu;
-    private TextView fullNameTextView, likesTextView, latestPostTextView,textZone,TextPosts,TextIG;
+    private TextView fullNameTextView, likesTextView, latestPostTextView, textZone, TextPosts, TextIG;
     private Button BeditProfile, BLogOut;
-    private JSONObject userData,location;
+    private JSONObject userData, location;
     private JSONArray postsArray;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,10 +55,11 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-    @SuppressLint({"WrongViewCast", "MissingInflatedId", "SetTextI18n", "ShowToast"})
+    @SuppressLint({ "WrongViewCast", "MissingInflatedId", "SetTextI18n", "ShowToast" })
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
         fullNameTextView = rootView.findViewById(R.id.textFname);
@@ -74,12 +73,15 @@ public class ProfileFragment extends Fragment {
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-             String userDataString = bundle.getString("userData");
+            String userDataString = bundle.getString("userData");
             try {
-                userData = new JSONObject(userDataString); //{"instagram_handle":"asdca","full_name":"askk","bio":"","location":"{country=Israel, cordinates={latitude=32.015833, longitude=34.787383999999996}, city=Holon}","profile_picture":"https:\/\/firebasestorage.googleapis.com\/v0\/b\/projectandroid1-3dfb0.appspot.com\/o\/images%2Fl47J2K5mNPcO0zJnE03l4pfKz4i1%2F2117381231?alt=media&token=8b788b4d-6031-4518-8079-5f9f6d7dfe63","total_likes":0,"posts":"{-NudWJf8Al75ERzggDEk=true}"}
+                userData = new JSONObject(userDataString); // {"instagram_handle":"asdca","full_name":"askk","bio":"","location":"{country=Israel,
+                                                           // cordinates={latitude=32.015833,
+                                                           // longitude=34.787383999999996},
+                                                           // city=Holon}","profile_picture":"https:\/\/firebasestorage.googleapis.com\/v0\/b\/projectandroid1-3dfb0.appspot.com\/o\/images%2Fl47J2K5mNPcO0zJnE03l4pfKz4i1%2F2117381231?alt=media&token=8b788b4d-6031-4518-8079-5f9f6d7dfe63","total_likes":0,"posts":"{-NudWJf8Al75ERzggDEk=true}"}
                 // Update UI with user data
                 fullNameTextView.setText(userData.getString("full_name"));
-                TextIG.setText("@"+userData.getString("instagram_handle"));
+                TextIG.setText("@" + userData.getString("instagram_handle"));
 
                 int totalLikes = userData.getInt("total_likes");
                 likesTextView.setText(String.valueOf(totalLikes));
@@ -91,12 +93,9 @@ public class ProfileFragment extends Fragment {
                 int totalPosts = postsArray.length();
                 TextPosts.setText(String.valueOf(totalPosts));
 
-                //Uri uri = Uri.parse(userData.getString("profile_picture"));
-                //profileImage.setImageURI(uri);
+                // Uri uri = Uri.parse(userData.getString("profile_picture"));
+                // profileImage.setImageURI(uri);
                 Toast.makeText(getActivity(), "all good", Toast.LENGTH_SHORT).show();
-
-
-
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -105,7 +104,6 @@ public class ProfileFragment extends Fragment {
             // Handle the case where bundle is null (e.g., display an error message)
             Toast.makeText(getActivity(), "Bundle is null", Toast.LENGTH_SHORT).show();
         }
-
 
         dataSet = new ArrayList<>();
         recyclerView = rootView.findViewById(R.id.resView);
@@ -147,26 +145,26 @@ public class ProfileFragment extends Fragment {
                     }
                 });
 
-
                 // Showing the PopupMenu
                 popupMenu.show();
             }
         });
 
-
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        // Add items to the dataSet (Replace with your own data)
-        for (int i = 0; i < myData.addressArray.length; i++) {
-            dataSet.add(new Item(
-                    myData.addressArray[i],
-                    myData.epochsArray[i],
-                    myData.likesArray[i],
-                    myData.drawableArray[i]
-            ));
-        }
-        adapter = new CustomAdapter(dataSet, getActivity());
-        recyclerView.setAdapter(adapter);
+        myData data = new myData();
+        data.populateUserArrays(FireBaseHandler.getCurrentUser(), () -> {
+            for (int i = 0; i < data.addressArray.length; i++) {
+                dataSet.add(new Item(
+                        data.addressArray[i],
+                        data.epochsArray[i],
+                        data.likesArray[i],
+                        data.drawableArray[i]));
+            }
+
+            adapter = new CustomAdapter(dataSet, getActivity());
+            recyclerView.setAdapter(adapter);
+        });
 
         return rootView;
     }

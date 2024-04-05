@@ -61,6 +61,48 @@ public class FireBaseHandler {
         mDatabase.updateChildren(childUpdates);
     }
 
+    public Task<JSONObject> getPostData(String post_id) {
+        return mDatabase.child("posts").child(post_id).get()
+                .continueWithTask(task -> {
+                    if (task.isSuccessful()) {
+                        JSONObject postJson = new JSONObject();
+                        if (task.getResult().getValue() != null) {
+                            Object result = task.getResult().getValue();
+                            if (result instanceof Map<?, ?>) {
+                                Map<?, ?> resultMap = (Map<?, ?>) result;
+                                for (Map.Entry<?, ?> entry : resultMap.entrySet()) {
+                                    postJson.put(entry.getKey().toString(), convertToJSONObject(entry.getValue()));
+                                }
+                            }
+                        }
+                        return Tasks.forResult(postJson);
+                    } else {
+                        return Tasks.forResult(null);
+                    }
+                });
+    }
+
+    public Task<JSONArray> getUserPosts(FirebaseUser user) {
+        return mDatabase.child("users").child(user.getUid()).child("posts").get()
+                .continueWithTask(task -> {
+                    if (task.isSuccessful()) {
+                        JSONArray posts = new JSONArray();
+                        if (task.getResult().getValue() != null) {
+                            Object result = task.getResult().getValue();
+                            if (result instanceof Map<?, ?>) {
+                                Map<?, ?> resultMap = (Map<?, ?>) result;
+                                for (Map.Entry<?, ?> entry : resultMap.entrySet()) {
+                                    posts.put(getPostData(entry.getKey().toString()).getResult());
+                                }
+                            }
+                        }
+                        return Tasks.forResult(posts);
+                    } else {
+                        return Tasks.forResult(null);
+                    }
+                });
+    }
+
     public Task<JSONObject> getUserData(FirebaseUser user) {
         return mDatabase.child("users").child(user.getUid()).get()
                 .continueWithTask(task -> {
