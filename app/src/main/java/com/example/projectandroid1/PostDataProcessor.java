@@ -17,6 +17,12 @@ public class PostDataProcessor {
     String[] postPicturesArray;
     Location[] locationArray;
     String[] userIdArray;
+    String[] postIdsArray;
+    boolean[] likeStatusArray;
+
+    public boolean[] getLikeStatusArray() {
+        return this.likeStatusArray;
+    }
 
     public interface OnArraysPopulatedListener {
         void onArraysPopulated();
@@ -29,11 +35,14 @@ public class PostDataProcessor {
         postPicturesArray = new String[posts.length()];
         locationArray = new Location[posts.length()];
         userIdArray = new String[posts.length()];
+        postIdsArray = new String[posts.length()];
+        likeStatusArray = new boolean[posts.length()];
 
         for (int i = 0; i < posts.length(); i++) {
             try {
                 JSONObject post = posts.getJSONObject(i);
 
+                postIdsArray[i] = post.getString("post_id") != null ? post.getString("post_id") : null;
                 if (post.has("user_id")) {
                     userIdArray[i] = post.getString("user_id");
                 } else {
@@ -73,6 +82,20 @@ public class PostDataProcessor {
                     postPicturesArray[i] = post.getString("image_url");
                 } else {
                     postPicturesArray[i] = null;
+                }
+
+                if (post.has("likes")) {
+                    JSONArray likes = post.getJSONArray("likes");
+                    for (int j = 0; j < likes.length(); j++) {
+                        if (likes.getString(j).equals(FireBaseHandler.getCurrentUser().getUid())) {
+                            likeStatusArray[i] = true;
+                            break;
+                        } else {
+                            likeStatusArray[i] = false;
+                        }
+                    }
+                } else {
+                    likeStatusArray[i] = false;
                 }
             } catch (JSONException ignored) {
             }
@@ -129,6 +152,7 @@ public class PostDataProcessor {
         public String[] getUserIdArray() {
             return userIdArray;
         }
+        public String[] getPostIdsArray() {return postIdsArray; }
     }
 
 

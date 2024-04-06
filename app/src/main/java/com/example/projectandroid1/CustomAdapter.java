@@ -89,7 +89,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
         //algorithm for Probability
         String dateString = dataModel.getEpoch();
-        DateFormat format = new SimpleDateFormat("MMM d, yyyy h:mm a", Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat("MMM d, yyyy h:mm", Locale.ENGLISH);
         long epochMillis;
         try {
             Date date = format.parse(dateString);
@@ -129,13 +129,20 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     private void B_Like(Post dataModel, MyViewHolder holder) {
         Animation rotate = AnimationUtils.loadAnimation(context, R.anim.hearbeat_anim);
         holder.LikeButton.startAnimation(rotate);
-
-        if(holder.LikeStatus){
-            //remove -1
+        String post_id = dataModel.getPostID();
+        if(dataModel.getLikeStatus()){
+            FireBaseHandler fireBaseHandler = new FireBaseHandler();
+            fireBaseHandler.unlikePost(post_id);
+            dataModel.setLikes(String.valueOf(Integer.parseInt(dataModel.getLikes())-1));
+            dataModel.setLikeStatus(false);
         }else{
-            //add + 1
+            FireBaseHandler fireBaseHandler = new FireBaseHandler();
+            fireBaseHandler.likePost(post_id);
+            dataModel.setLikes(String.valueOf(Integer.parseInt(dataModel.getLikes())+1));
+            dataModel.setLikeStatus(true);
         }
 
+        notifyDataSetChanged();
         //dataModel.setAmount(dataModel.getAmount() + 1);
         //mDatabase.child("users").child(this.userid).child("amounts").child(dataModel.getName()).setValue(dataModel.getAmount());
         //notifyDataSetChanged();

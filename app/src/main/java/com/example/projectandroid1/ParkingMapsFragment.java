@@ -39,6 +39,8 @@ public class ParkingMapsFragment extends Fragment implements OnMapReadyCallback 
     private String[] postPicturesArray;
     private Location[] locationArray;
     private String[] userIdArray;
+    private String[] postIDArray;
+    private boolean[] likeStatusArray;
     private Post[] posts;
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -55,6 +57,8 @@ public class ParkingMapsFragment extends Fragment implements OnMapReadyCallback 
             postPicturesArray = postDataProcessor.getPostPicturesArray();
             locationArray = postDataProcessor.getLocationArray();
             userIdArray = postDataProcessor.getUserIdArray();
+            postIDArray = postDataProcessor.getPostIdsArray();
+            likeStatusArray = postDataProcessor.getLikeStatusArray();
 
             // Access locationArray only after it's populated
             locations = new ArrayList<>();
@@ -105,7 +109,7 @@ public class ParkingMapsFragment extends Fragment implements OnMapReadyCallback 
         // Check if locations ArrayList is null or not
         if (locations != null) {
             for (int i = 0; i < locations.size(); i++) {
-                posts[i] = new Post(addressArray[i],epochsArray[i],likesArray[i],postPicturesArray[i],locationArray[i],userIdArray[i]);
+                posts[i] = new Post(addressArray[i],epochsArray[i],likesArray[i],postPicturesArray[i],locationArray[i],userIdArray[i], postIDArray[i], likeStatusArray[i]);
                 LatLng location = locations.get(i);
                 mMap.addMarker(new MarkerOptions().position(location).title(String.valueOf(i)));
             }

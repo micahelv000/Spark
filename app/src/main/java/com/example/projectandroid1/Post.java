@@ -10,26 +10,30 @@ import androidx.annotation.NonNull;
 public class Post {
     private final String address;
     private final String epoch;
-    private final String likes;
+    private String likes;
     private final String image;
     private final String userID;
+    private final String postID;
     private final Location location;
+    private boolean likeStatus = false;
 
-    public Post(String address, String epoch, String likes, String image, Location location, String userID){
+    public Post(String address, String epoch, String likes, String image, Location location, String userID, String postID, boolean likeStatus){
         this.address = address;
         this.epoch = epoch;
         this.likes = likes;
         this.image = image;
         this.location = location;
         this.userID = userID;
+        this.postID = postID;
+        this.likeStatus = likeStatus;
     }
 
     @SuppressLint("DefaultLocale")
     @NonNull
     @Override
     public String toString() {
-        return String.format("%s|%s|%s|%s|%s|%.6f|%.6f",
-                address, epoch, likes, image, userID, location.getLatitude(),location.getLongitude());
+        return String.format("%s|%s|%s|%s|%s|%s|%s|%.6f|%.6f",
+                address, epoch, likes, image, userID,postID,likeStatus,location.getLatitude(),location.getLongitude());
     }
 
     // fromString method to parse a string and create a Post object
@@ -40,15 +44,17 @@ public class Post {
         String likes = parts[2];
         String image = parts[3];
         String userID = parts[4];
-        double Lat = Double.parseDouble(parts[5]);
-        double Long = Double.parseDouble(parts[6]);
+        String postID = parts[5];
+        boolean likeStatus = Boolean.parseBoolean(parts[6]);
+        double Lat = Double.parseDouble(parts[7]);
+        double Long = Double.parseDouble(parts[8]);
 
         // Assuming the location string is in the format "latitude,longitude"
         //String location = parts[5];
         Location location = new Location("");
         location.setLatitude(Lat);
         location.setLongitude(Long);
-        return new Post(address, epoch, likes, image, location, userID);
+        return new Post(address, epoch, likes, image, location, userID, postID,likeStatus);
     }
 
 
@@ -83,5 +89,21 @@ public class Post {
                 textView.setText(String.format("\uD83D\uDC64 %s", task.getResult()));
             }
         });
+    }
+
+    public String getPostID() {
+        return postID;
+    }
+
+    public boolean getLikeStatus() {
+        return likeStatus;
+    }
+
+    public void setLikeStatus(boolean status){
+        this.likeStatus = status;
+    }
+
+    public void setLikes(String s) {
+        this.likes = s;
     }
 }

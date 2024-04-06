@@ -129,7 +129,10 @@ public class ProfileFragment extends Fragment {
                         data.likesArray[i],
                         data.postPicturesArray[i],
                         data.locationArray[i],
-                        data.userIdArray[i]));
+                        data.userIdArray[i],
+                        data.postIdsArray[i],
+                        data.likeStatusArray[i]
+                        ));
             }
 
             adapter = new CustomAdapter(dataSet, getActivity());

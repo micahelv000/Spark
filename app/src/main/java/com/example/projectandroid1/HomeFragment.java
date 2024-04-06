@@ -70,7 +70,9 @@ public class HomeFragment extends Fragment {
                         data.likesArray[i],
                         data.postPicturesArray[i],
                         data.locationArray[i],
-                        data.userIdArray[i]
+                        data.userIdArray[i],
+                        data.postIdsArray[i],
+                        data.likeStatusArray[i]
                 ));
             }
             filteredDataSet.addAll(dataSet);
