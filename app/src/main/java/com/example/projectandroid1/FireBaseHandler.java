@@ -182,6 +182,7 @@ public class FireBaseHandler {
                                 Map<?, ?> resultMap = (Map<?, ?>) result;
                                 for (Map.Entry<?, ?> entry : resultMap.entrySet()) {
                                     postJson.put(entry.getKey().toString(), convertToJSONObject(entry.getValue()));
+                                    postJson.put("post_id", entry.getKey());
                                 }
                             }
                         }
