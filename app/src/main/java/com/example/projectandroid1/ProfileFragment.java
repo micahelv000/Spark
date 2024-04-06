@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,15 +15,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentResultListener;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,24 +32,9 @@ public class ProfileFragment extends Fragment {
     private ArrayList<Post> dataSet;
     private RecyclerView recyclerView;
     private CustomAdapter adapter;
-    private LinearLayoutManager layoutManager;
-    private ImageView profileImage, BMenu;
-    private TextView fullNameTextView, likesTextView, latestPostTextView, textZone, TextPosts, TextIG;
+    private ImageView BMenu;
+    private TextView latestPostTextView;
     private Button BeditProfile;
-    private JSONObject userData, location;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getParentFragmentManager().setFragmentResultListener("requestKey", this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle bundle) {
-                // We use a String here, but any type that can be put in a Bundle is supported.
-                String result = bundle.getString("bundleKey");
-                // Do something with the result.
-            }
-        });
-    }
 
     @SuppressLint({ "WrongViewCast", "MissingInflatedId", "SetTextI18n", "ShowToast" })
     @Nullable
@@ -62,40 +43,39 @@ public class ProfileFragment extends Fragment {
             @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
-        fullNameTextView = rootView.findViewById(R.id.textFname);
-        textZone = rootView.findViewById(R.id.textZone);
-        likesTextView = rootView.findViewById(R.id.textLikes);
-        TextPosts = rootView.findViewById(R.id.TextPosts);
+        TextView fullNameTextView = rootView.findViewById(R.id.textFname);
+        TextView textZone = rootView.findViewById(R.id.textZone);
+        TextView likesTextView = rootView.findViewById(R.id.textLikes);
+        TextView textPosts = rootView.findViewById(R.id.TextPosts);
         BMenu = rootView.findViewById(R.id.B_options);
-        TextIG = rootView.findViewById(R.id.TextIG);
-        profileImage = rootView.findViewById(R.id.profileIMG);
+        TextView textIG = rootView.findViewById(R.id.TextIG);
+        ImageView profileImage = rootView.findViewById(R.id.profileIMG);
         // Initialize views
 
         Bundle bundle = getArguments();
         if (bundle != null) {
             String userDataString = bundle.getString("userData");
             try {
-                userData = new JSONObject(Objects.requireNonNull(userDataString));
+                JSONObject userData = new JSONObject(Objects.requireNonNull(userDataString));
                 fullNameTextView.setText(userData.getString("full_name"));
-                TextIG.setText("@" + userData.getString("instagram_handle"));
+                textIG.setText("@" + userData.getString("instagram_handle"));
 
                 int totalLikes = userData.getInt("total_likes");
                 likesTextView.setText(String.valueOf(totalLikes));
 
-                location = userData.getJSONObject("location");
+                JSONObject location = userData.getJSONObject("location");
                 textZone.setText(location.getString("country") + ", " + location.getString("city"));
 
                 if (userData.has("posts")) {
                     int totalPosts = userData.getJSONObject("posts").length();
-                    TextPosts.setText(String.valueOf(totalPosts));
+                    textPosts.setText(String.valueOf(totalPosts));
                 } else {
-                    TextPosts.setText("0");
+                    textPosts.setText("0");
                 }
 
                 Picasso.get().load(userData.getString("profile_picture")).placeholder(R.drawable.progress_animation).into(profileImage);
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } catch (JSONException ignored) {
             }
         } else {
             // Handle the case where bundle is null (e.g., display an error message)
@@ -104,7 +84,7 @@ public class ProfileFragment extends Fragment {
 
         dataSet = new ArrayList<>();
         recyclerView = rootView.findViewById(R.id.resView);
-        layoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
         BMenu.setOnClickListener(v -> {

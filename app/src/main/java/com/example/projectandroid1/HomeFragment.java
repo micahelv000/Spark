@@ -25,9 +25,7 @@ public class HomeFragment extends Fragment {
     private ArrayList<Post> dataSet;
     private ArrayList<Post> filteredDataSet;
     private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
     private CustomAdapter adapter;
-    private EditText editTextSearch;
     ImageView Bfilter,Bhome;
 
     @SuppressLint("MissingInflatedId")
@@ -39,8 +37,8 @@ public class HomeFragment extends Fragment {
         dataSet = new ArrayList<>();
         filteredDataSet = new ArrayList<>();
         recyclerView = rootView.findViewById(R.id.resView);
-        editTextSearch = rootView.findViewById(R.id.editText);
-        layoutManager = new LinearLayoutManager(getActivity());
+        EditText editTextSearch = rootView.findViewById(R.id.editText);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         Bfilter = rootView.findViewById(R.id.B_filter);
 

@@ -74,8 +74,7 @@ public class PostDataProcessor {
                 } else {
                     postPicturesArray[i] = null;
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } catch (JSONException ignored) {
             }
         }
 

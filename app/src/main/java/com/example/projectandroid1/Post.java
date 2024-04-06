@@ -4,14 +4,13 @@ import android.location.Location;
 import android.widget.TextView;
 
 public class Post {
-    private String address;
-    private String epoch;
-    private String likes;
-    private String image;
-    private String userID;
-    private Location location;
+    private final String address;
+    private final String epoch;
+    private final String likes;
+    private final String image;
+    private final String userID;
+    private final Location location;
 
-    public Post() {}
     public Post(String address, String epoch, String likes, String image, Location location, String userID){
         this.address = address;
         this.epoch = epoch;
@@ -37,8 +36,6 @@ public class Post {
     public String getImage() {
         return image;
     }
-
-    public String getUserID(){ return userID; }
 
     public Location getLocation() {
         return location;

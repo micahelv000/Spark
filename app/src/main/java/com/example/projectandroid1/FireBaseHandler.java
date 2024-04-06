@@ -4,6 +4,8 @@ import android.content.Context;
 import android.location.Location;
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
@@ -144,6 +146,7 @@ public class FireBaseHandler {
                     }
                 });
     }
+
     public Task<FirebaseUser> registerUser(String email, String password) {
         return mAuth.createUserWithEmailAndPassword(email, password)
                 .continueWithTask(task -> {
@@ -165,6 +168,7 @@ public class FireBaseHandler {
                     }
                 });
     }
+
     private Object convertToJSONObject(Object value) throws JSONException {
         if (value instanceof Map<?, ?>) {
             JSONObject json = new JSONObject();
@@ -177,6 +181,7 @@ public class FireBaseHandler {
             return value;
         }
     }
+
     public JSONObject buildUserJson(String full_name, String bio, String instagram_handle, Location user_location,
             String city, String country) {
         JSONObject json = new JSONObject();
@@ -187,23 +192,28 @@ public class FireBaseHandler {
             json.put("instagram_handle", instagram_handle);
             json.put("posts", new JSONArray());
             json.put("total_likes", 0);
-            JSONObject location = new JSONObject();
-            JSONObject coordinates = new JSONObject();
-            if (user_location != null) {
-                coordinates.put("latitude", user_location.getLatitude());
-                coordinates.put("longitude", user_location.getLongitude());
-            } else {
-                coordinates.put("latitude", 0);
-                coordinates.put("longitude", 0);
-            }
-            location.put("coordinates", coordinates);
-            location.put("city", city);
-            location.put("country", country);
+            JSONObject location = getJsonObject(user_location, city, country);
             json.put("location", location);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
         return json;
+    }
+
+    @NonNull
+    private static JSONObject getJsonObject(Location user_location, String city, String country) throws JSONException {
+        JSONObject location = new JSONObject();
+        JSONObject coordinates = new JSONObject();
+        if (user_location != null) {
+            coordinates.put("latitude", user_location.getLatitude());
+            coordinates.put("longitude", user_location.getLongitude());
+        } else {
+            coordinates.put("latitude", 0);
+            coordinates.put("longitude", 0);
+        }
+        location.put("coordinates", coordinates);
+        location.put("city", city);
+        location.put("country", country);
+        return location;
     }
 
     public JSONObject buildPostJson(String user_id, String image_url, String car_type, String[] parking_type,
@@ -225,8 +235,7 @@ public class FireBaseHandler {
             json.put("total_likes", total_likes);
             json.put("reports", reports);
             json.put("epoch_time", System.currentTimeMillis() / 1000L);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
         }
         return json;
     }
@@ -324,12 +333,12 @@ public class FireBaseHandler {
                                     postJson.put("car_type", ((Map<?, ?>) entry.getValue()).get("car_type"));
                                     postJson.put("parking_type", ((Map<?, ?>) entry.getValue()).get("parking_type"));
                                     postJson.put("is_free", ((Map<?, ?>) entry.getValue()).get("is_free"));
-                                    
+
                                     Map<?, ?> locationMap = (Map<?, ?>) ((Map<?, ?>) entry.getValue()).get("location");
                                     assert locationMap != null;
                                     JSONObject locationJson = new JSONObject(locationMap);
                                     postJson.put("location", locationJson);
-                                    
+
                                     postJson.put("total_likes", ((Map<?, ?>) entry.getValue()).get("total_likes"));
                                     postJson.put("reports", ((Map<?, ?>) entry.getValue()).get("reports"));
                                     postJson.put("epoch_time", ((Map<?, ?>) entry.getValue()).get("epoch_time"));

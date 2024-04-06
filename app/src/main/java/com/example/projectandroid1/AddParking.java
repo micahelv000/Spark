@@ -27,7 +27,6 @@ public class AddParking extends AppCompatActivity {
     Uri selectedImage;
     SwitchCompat Switch1;
     RadioGroup radioGroup;
-
     Location selectedLocation;
 
     @Override
@@ -55,6 +54,9 @@ public class AddParking extends AppCompatActivity {
 
         Button submitButton = findViewById(R.id.b_Add_this);
         submitButton.setOnClickListener(this::onSubmitButtonClick);
+        
+        LocationHelper locationHelper = new LocationHelper(this);
+        locationHelper.setAddressToTextView(findViewById(R.id.addressEditText), locationHelper.getLocation());
     }
 
     public void onSubmitButtonClick(View view) {
@@ -107,6 +109,8 @@ public class AddParking extends AppCompatActivity {
                     selectedLocation = new Location("");
                     selectedLocation.setLatitude(latitude);
                     selectedLocation.setLongitude(longitude);
+                    LocationHelper locationHelper = new LocationHelper(AddParking.this);
+                    locationHelper.setAddressToTextView(findViewById(R.id.addressEditText), selectedLocation);
                 }
             }
         }

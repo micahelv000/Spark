@@ -4,21 +4,21 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-public class MyPagerAdapter extends FragmentPagerAdapter {
-    private static final int NUM_PAGES = 3; // Number of pages
-    private String userdata;
+public class MyPagerAdapter extends FragmentStateAdapter {
+    private static final int NUM_PAGES = 3;
+    private final String userdata;
 
-    public MyPagerAdapter(@NonNull FragmentManager fragmentManager ,String userDataString) {
-        super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-       userdata = userDataString;
+    public MyPagerAdapter(@NonNull FragmentActivity fragmentActivity, String userDataString) {
+        super(fragmentActivity);
+        userdata = userDataString;
     }
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
+    public Fragment createFragment(int position) {
         // Return the fragment for each position
         Bundle bundle = new Bundle();
         bundle.putString("userData", userdata);
@@ -37,15 +37,12 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
                 ProfileFragment profileFragment = new ProfileFragment();
                 profileFragment.setArguments(bundle);
                 return profileFragment;
-            default:
-                return null;
         }
+        return null;
     }
 
     @Override
-    public int getCount() {
+    public int getItemCount() {
         return NUM_PAGES;
     }
-
-
 }

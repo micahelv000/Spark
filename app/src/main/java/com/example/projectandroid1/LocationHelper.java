@@ -48,7 +48,6 @@ public class LocationHelper {
         try {
             return locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         } catch (SecurityException e) {
-            e.printStackTrace();
             return null;
         }
     }
@@ -75,6 +74,13 @@ public class LocationHelper {
         updateLocation(locationConsumer);
     }
 
+    public void setAddressToTextView(TextView textView, Location location) {
+        String address = getAddressFromLocation(location, context);
+        if (address != null) {
+            textView.setText(address);
+        }
+    }
+
     private void updateLocation(Consumer<Location> locationConsumer) {
         if (ContextCompat.checkSelfPermission(context,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -91,8 +97,7 @@ public class LocationHelper {
                 String country = addresses.get(0).getCountryName();
                 return new String[] { city, country };
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
         return null;
     }
@@ -108,8 +113,7 @@ public class LocationHelper {
                 location.setLongitude(firstAddressResult.getLongitude());
                 return location;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
         return null;
     }
@@ -121,8 +125,7 @@ public class LocationHelper {
             if (addresses != null && !addresses.isEmpty()) {
                 return addresses.get(0).getAddressLine(0);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
         return null;
     }
@@ -137,8 +140,7 @@ public class LocationHelper {
                 location.setLongitude(address.getLongitude());
                 return location;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
         return null;
     }

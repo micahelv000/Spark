@@ -54,8 +54,8 @@
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/header" />
 
-    <!-- ViewPager below the header -->
-    <androidx.viewpager.widget.ViewPager
+    <!-- ViewPager2 below the header -->
+    <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"

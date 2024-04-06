@@ -18,16 +18,16 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Objects;
 
 public class Register extends AppCompatActivity {
 
     private EditText editTextFullName, editTextPass, editTextInstagramHandle, editTextEmail, editTextCity, editTextCountry;
-    private DatabaseReference mDatabase;
     private ImageView ProfilePIC;
     private LocationHelper locationHelper;
     private Uri selectedImageUri;
@@ -44,7 +44,6 @@ public class Register extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextCity = findViewById(R.id.editTextCity);
         editTextCountry = findViewById(R.id.editTextCountry);
-        mDatabase = FirebaseDatabase.getInstance().getReference("users");
         ProfilePIC = findViewById(R.id.profileIMG);
 
         locationHelper = new LocationHelper(this);
@@ -67,7 +66,7 @@ public class Register extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == locationHelper.getRequestLocationPermissionCode()) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -194,14 +193,13 @@ public class Register extends AppCompatActivity {
                                             });
                                         } else {
                                             Toast.makeText(Register.this, "Image upload failed", Toast.LENGTH_LONG).show();
-                                            Exception e = task.getException();
                                         }
                                     });
                         } else {
                             Toast.makeText(Register.this, "Registration failed", Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        Toast.makeText(Register.this, "Registration failed: " + registerTask.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(Register.this, "Registration failed: " + Objects.requireNonNull(registerTask.getException()).getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }

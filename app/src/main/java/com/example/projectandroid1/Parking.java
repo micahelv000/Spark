@@ -23,8 +23,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class Parking extends AppCompatActivity implements OnMapReadyCallback {
 
     private ImageView Rep,empty,takeIt;
-    private double latitude = 37.7749; // Example latitude (San Francisco)
-    private double longitude = -122.4194; // Example longitude (San Francisco)
+    private final double latitude = 37.7749; // Example latitude (San Francisco)
+    private final double longitude = -122.4194; // Example longitude (San Francisco)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
