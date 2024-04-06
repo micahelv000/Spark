@@ -1,11 +1,14 @@
 package com.example.projectandroid1;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -25,22 +28,48 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class ParkingMapsFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private ArrayList<LatLng> locations;
+    private String[] addressArray;
+    private String[] epochsArray;
+    private String[] likesArray;
+    private String[] postPicturesArray;
+    private Location[] locationArray;
+    private String[] userIdArray;
+    private Post[] posts;
     private FusedLocationProviderClient fusedLocationClient;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
+        PostDataProcessor postDataProcessor = new PostDataProcessor();
+        postDataProcessor.populateArrays(() -> {
+            addressArray = postDataProcessor.getAddressArray();
+            epochsArray = postDataProcessor.getEpochsArray();
+            likesArray = postDataProcessor.getLikesArray();
+            postPicturesArray = postDataProcessor.getPostPicturesArray();
+            locationArray = postDataProcessor.getLocationArray();
+            userIdArray = postDataProcessor.getUserIdArray();
 
-        locations = new ArrayList<>(Arrays.asList(
-                new LatLng(37.7749, -122.4194), // Example location (San Francisco)
-                new LatLng(34.0522, -118.2437) // Example location (Los Angeles)
-        ));
+            // Access locationArray only after it's populated
+            locations = new ArrayList<>();
+            for (Location location : locationArray) {
+                if (location != null) {
+                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    locations.add(latLng);
+                }
+            }
+            posts = new Post[locations.size()]; // Initialize posts array here
+
+
+            initializeMap(); // Call initializeMap after locationArray is populated
+        });
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
         ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(
@@ -72,15 +101,32 @@ public class ParkingMapsFragment extends Fragment implements OnMapReadyCallback 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Enable the My Location layer
         enableMyLocation();
-
-        // Add markers for each place
-        for (LatLng location : locations) {
-            mMap.addMarker(new MarkerOptions().position(location).title("Location X"));
+        // Check if locations ArrayList is null or not
+        if (locations != null) {
+            for (int i = 0; i < locations.size(); i++) {
+                posts[i] = new Post(addressArray[i],epochsArray[i],likesArray[i],postPicturesArray[i],locationArray[i],userIdArray[i]);
+                LatLng location = locations.get(i);
+                mMap.addMarker(new MarkerOptions().position(location).title(String.valueOf(i)));
+            }
         }
+        mMap.setOnMarkerClickListener(marker -> {
+            try {
+                int markerIndex = Integer.parseInt(marker.getTitle());
+                Intent intent = new Intent(getActivity(), Parking.class);
+                intent.putExtra("Parking", posts[markerIndex].toString());
+                startActivity(intent);
+            } catch (NumberFormatException e) {
+                // Handle the case where title is not a valid integer
+                Toast.makeText(requireContext(), "Invalid marker title", Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        });
     }
+
+
+
+
 
     private void enableMyLocation() {
         if (ContextCompat.checkSelfPermission(requireContext(),

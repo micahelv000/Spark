@@ -207,7 +207,7 @@
         app:layout_constraintTop_toBottomOf="@+id/TextCity" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/Username"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_marginStart="92dp"
@@ -235,7 +235,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.378"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintStart_toEndOf="@+id/Username"
         app:layout_constraintTop_toBottomOf="@+id/button_Reg" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -89,6 +89,7 @@ public class AddParking extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Intent intent = new Intent(this, LayoutFragments.class);
+                        intent.putExtras(getIntent());
                         startActivity(intent);
                     } else {
                         Log.e("AddParking", "Failed to upload post", task.getException());

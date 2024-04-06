@@ -2,6 +2,7 @@ package com.example.projectandroid1;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
@@ -68,14 +76,42 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         final Post dataModel = dataSet.get(position);
         holder.Text_LocationName.setText(String.format("\uD83D\uDCCD %s", dataModel.getAddress()));
         holder.Text_TimeUploaded.setText(String.format("⏰ %s", dataModel.getEpoch()));
-        holder.Text_NumberOfLikes.setText(String.format("%s Likes", dataModel.getLikes()));
+        holder.Text_NumberOfLikes.setText(String.format("%s", dataModel.getLikes()));
         dataModel.setFullName(holder.TextUsernameUploaded);
-        Picasso.get().load(dataModel.getImage()).placeholder(R.drawable.progress_animation).into(holder.imageView);
+        if(dataModel.getImage()!=null) {
+            Picasso.get().load(dataModel.getImage()).error(R.drawable.default_profile).placeholder(R.drawable.progress_animation).into(holder.imageView);
+        }
         LocationHelper locationHelper = new LocationHelper(context);
         locationHelper.setDistanceToLocation(holder.TextDistanceFromUser, dataModel.getLocation());
         holder.ReportButton.setOnClickListener(v -> showConfirmationDialogReport(position, holder.ReportButton));
         holder.LikeButton.setOnClickListener(v -> B_Like(dataModel, holder));
-        holder.open.setOnClickListener(v -> B_OpenParking(position));
+        holder.open.setOnClickListener(v -> B_OpenParking(dataModel));
+
+        //algorithm for Probability
+        String dateString = dataModel.getEpoch();
+        DateFormat format = new SimpleDateFormat("MMM d, yyyy h:mm a", Locale.ENGLISH);
+        long epochMillis;
+        try {
+            Date date = format.parse(dateString);
+            epochMillis = date.getTime(); // Get the time in milliseconds since the epoch
+        } catch (ParseException e) {
+            // Handle parsing exception
+            e.printStackTrace();
+            return; // Exit method or handle appropriately
+        }
+        long currentTimeMillis = System.currentTimeMillis();
+        long differenceInMillis = currentTimeMillis - epochMillis;
+        long differenceInMinutes = differenceInMillis / (60 * 1000);
+
+        // Check if the difference is greater than 15 minutes
+        if (differenceInMinutes > 15) {
+            holder.Text_Probability.setText("Low Chance");
+            holder.Text_Probability.setTextColor(Color.parseColor("#f00505"));
+        } else {
+            holder.Text_Probability.setText("High Chance");
+            holder.Text_Probability.setTextColor(Color.parseColor("#05f028"));
+
+        }
         //holder.ReportButton.setOnClickListener(v -> removeAmount(dataModel));
     }
 
@@ -121,15 +157,15 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     }
 */
 
-    private void B_OpenParking(int position) {
+    private void B_OpenParking(Post dataModel) {
 
         Intent intent = new Intent(context, Parking.class);
         //crate a json for the parking
-        final Post dataModel = dataSet.get(position);
-        //JSONObject parkingJson =
-        //intent.putExtra("Parking", parkingJson.toString());
 
+        intent.putExtra("Parking", dataModel.toString());
+        //intent.putExtra("user", user.toString());
         context.startActivity(intent);
+
         //dataModel.setAmount(dataModel.getAmount() + 1);
         //mDatabase.child("users").child(this.userid).child("amounts").child(dataModel.getName()).setValue(dataModel.getAmount());
         //notifyDataSetChanged();

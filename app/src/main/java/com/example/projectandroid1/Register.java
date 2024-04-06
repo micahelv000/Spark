@@ -112,7 +112,8 @@ public class Register extends AppCompatActivity {
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
     private boolean isValidIG(String instagramHandle) {
-        return(instagramHandle.length() > 2);
+
+        return(instagramHandle.length() > 2 &&instagramHandle.charAt(0) != '@');
     }
     private boolean isValidCountry(String country) {
         return(country.length() > 2);

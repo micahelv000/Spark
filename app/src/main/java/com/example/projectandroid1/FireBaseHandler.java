@@ -55,6 +55,29 @@ public class FireBaseHandler {
                 });
     }
 
+    public static Task<String> getUserName(String user_id) {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        return mDatabase.child("users").child(user_id).child("instagram_handle").get()
+                .continueWithTask(task -> {
+                    if (task.isSuccessful()) {
+                        return Tasks.forResult(Objects.requireNonNull(task.getResult().getValue()).toString());
+                    } else {
+                        return Tasks.forResult(null);
+                    }
+                });
+    }
+    public static Task<String> getProfilePic(String user_id) {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        return mDatabase.child("users").child(user_id).child("profile_picture").get()
+                .continueWithTask(task -> {
+                    if (task.isSuccessful()) {
+                        return Tasks.forResult(Objects.requireNonNull(task.getResult().getValue()).toString());
+                    } else {
+                        return Tasks.forResult(null);
+                    }
+                });
+    }
+
     public static void logout() {
         FirebaseAuth.getInstance().signOut();
     }
@@ -146,6 +169,8 @@ public class FireBaseHandler {
                     }
                 });
     }
+
+
 
     public Task<FirebaseUser> registerUser(String email, String password) {
         return mAuth.createUserWithEmailAndPassword(email, password)

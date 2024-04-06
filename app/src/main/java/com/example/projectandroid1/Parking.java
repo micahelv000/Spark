@@ -1,5 +1,7 @@
 package com.example.projectandroid1;
 
+import static com.example.projectandroid1.Post.fromString;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -19,13 +22,17 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
 
 public class Parking extends AppCompatActivity implements OnMapReadyCallback {
 
-    private ImageView Rep,empty,takeIt;
-    private final double latitude = 37.7749; // Example latitude (San Francisco)
-    private final double longitude = -122.4194; // Example longitude (San Francisco)
-
+    private ImageView Rep,empty,takeIt,profileIMG,ParkingIMG;
+    private TextView Username ,info;
+    private double latitude; // Example latitude (San Francisco)
+    private double longitude ; // Example longitude (San Francisco)
+    private String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +42,49 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
         mMapView.onCreate(savedInstanceState);
         mMapView.getMapAsync(this);
         Rep = findViewById(R.id.B_Report);
-        empty =findViewById(R.id.B_Update);
+        empty = findViewById(R.id.B_Update);
         takeIt = findViewById(R.id.B_TakeTheParking);
+        Username = findViewById(R.id.Username);
+        profileIMG = findViewById(R.id.profileIMG);
+        ParkingIMG = findViewById(R.id.imageView3);
+        info = findViewById(R.id.textView2);
+
+        Intent intent = getIntent();
+        String ParkingInfoString = intent.getStringExtra("Parking");
+        assert ParkingInfoString != null;
+        Post ParkingInfo = fromString(ParkingInfoString);
+        String userid = ParkingInfo.getuserID();
+
+
+        FireBaseHandler.getUserName(userid).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Username.setText(String.format("@%s", task.getResult()));
+            }
+        });
+        FireBaseHandler.getProfilePic(userid).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                String img = task.getResult();
+
+                Picasso.get().load(img).error(R.drawable.default_profile).placeholder(R.drawable.progress_animation).into(profileIMG);
+
+            }
+        });
+
+        //parking img
+        if(ParkingInfo.getImage()!=null) {
+            Picasso.get().load(ParkingInfo.getImage()).error(R.drawable.default_profile).placeholder(R.drawable.progress_animation).into(ParkingIMG);
+        }
+        // Profile img
+
+        latitude = ParkingInfo.getLocation().getLatitude();
+        longitude = ParkingInfo.getLocation().getLongitude();
+
+
+        String Data = "\n The address is:\n"+ParkingInfo.getAddress()+"\nUploaded at:\n "+ParkingInfo.getEpoch()+"\nThe parking has:\n "+ParkingInfo.getLikes()+" Likes";
+
+        info.setText(Data);
+
+
 
     }
 

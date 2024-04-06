@@ -60,6 +60,7 @@ public class LayoutFragments extends AppCompatActivity {
 
         fabAddPark.setOnClickListener(v -> {
             Intent intent1 = new Intent(LayoutFragments.this, AddParking.class);
+            intent1.putExtras(getIntent());
             startActivity(intent1);
         });
 

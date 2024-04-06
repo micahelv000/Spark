@@ -106,4 +106,29 @@ public class PostDataProcessor {
             }
         });
     }
-}
+        public String[] getAddressArray() {
+            return addressArray;
+        }
+
+        public String[] getEpochsArray() {
+            return epochsArray;
+        }
+
+        public String[] getLikesArray() {
+            return likesArray;
+        }
+
+        public String[] getPostPicturesArray() {
+            return postPicturesArray;
+        }
+
+        public Location[] getLocationArray() {
+            return locationArray;
+        }
+
+        public String[] getUserIdArray() {
+            return userIdArray;
+        }
+    }
+
+

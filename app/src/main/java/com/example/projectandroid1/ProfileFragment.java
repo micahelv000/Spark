@@ -35,7 +35,7 @@ public class ProfileFragment extends Fragment {
     private ImageView BMenu;
     private TextView latestPostTextView;
     private Button BeditProfile;
-
+    String userDataString;
     @SuppressLint({ "WrongViewCast", "MissingInflatedId", "SetTextI18n", "ShowToast" })
     @Nullable
     @Override
@@ -54,7 +54,7 @@ public class ProfileFragment extends Fragment {
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            String userDataString = bundle.getString("userData");
+            userDataString = bundle.getString("userData");
             try {
                 JSONObject userData = new JSONObject(Objects.requireNonNull(userDataString));
                 fullNameTextView.setText(userData.getString("full_name"));
@@ -73,7 +73,7 @@ public class ProfileFragment extends Fragment {
                     textPosts.setText("0");
                 }
 
-                Picasso.get().load(userData.getString("profile_picture")).placeholder(R.drawable.progress_animation).into(profileImage);
+                Picasso.get().load(userData.getString("profile_picture")).placeholder(R.drawable.progress_animation).error(R.drawable.default_profile).into(profileImage);
 
             } catch (JSONException ignored) {
             }
@@ -99,6 +99,7 @@ public class ProfileFragment extends Fragment {
 
                 if (Objects.equals(title, "Edit Profile")) {
                     intent = new Intent(getActivity(), EditProfileActivity.class);
+                    intent.putExtra("user" , userDataString);
                     startActivity(intent);
                     return true;
                 } else if (Objects.equals(title, "Sign Out")) {
