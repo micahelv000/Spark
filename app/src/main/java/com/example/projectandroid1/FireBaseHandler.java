@@ -19,7 +19,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -91,9 +93,16 @@ public class FireBaseHandler {
                             Object result = task.getResult().getValue();
                             if (result instanceof Map<?, ?>) {
                                 Map<?, ?> resultMap = (Map<?, ?>) result;
+                                List<Task<JSONObject>> tasks = new ArrayList<>();
                                 for (Map.Entry<?, ?> entry : resultMap.entrySet()) {
-                                    posts.put(getPostData(entry.getKey().toString()).getResult());
+                                    tasks.add(getPostData(entry.getKey().toString()));
                                 }
+                                return Tasks.whenAllSuccess(tasks).continueWith(task1 -> {
+                                    for (Object object : task1.getResult()) {
+                                        posts.put(object);
+                                    }
+                                    return posts;
+                                });
                             }
                         }
                         return Tasks.forResult(posts);
