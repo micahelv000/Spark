@@ -104,7 +104,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.Text_LocationName.setText(dataModel.getAddress());
         holder.Text_TimeUploaded.setText("Uploaded at: "+ dataModel.getEpoch());
         holder.Text_NumberOfLikes.setText(dataModel.getLikes() +" Likes");
-        Picasso.get().load(dataModel.getImage()).into(holder.imageView);
+        Picasso.get().load(dataModel.getImage()).placeholder(R.drawable.progress_animation).into(holder.imageView);
 
         holder.ReportButton.setOnClickListener(v -> showConfirmationDialogReport(position, holder.ReportButton));
         holder.LikeButton.setOnClickListener(v -> B_Like(dataModel, holder));
