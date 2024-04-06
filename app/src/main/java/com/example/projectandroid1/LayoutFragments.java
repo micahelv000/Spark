@@ -9,15 +9,14 @@ import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayout.Tab;
-import com.google.android.material.tabs.TabLayoutMediator;
 
 public class LayoutFragments extends AppCompatActivity {
 
-    private ViewPager2 viewPager;
+    private ViewPager viewPager;
     private ImageView homeButton, mapButton, profileButton;
 
     @Override
@@ -50,28 +49,14 @@ public class LayoutFragments extends AppCompatActivity {
         ImageView fabAddPark = findViewById(R.id.fabAddPark);
 
         // Create and set up the ViewPager adapter
-        MyPagerAdapter adapter = new MyPagerAdapter(this, userDataString);
+        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager(), userDataString);
         viewPager.setAdapter(adapter);
 
         // Set initial page to home fragment
         viewPager.setCurrentItem(1);
 
         // Link the TabLayout with the ViewPager
-        new TabLayoutMediator(tabLayout, viewPager,
-                (tab, position) -> {
-                    switch (position) {
-                        case 0:
-                            tab.setText("Map");
-                            break;
-                        case 1:
-                            tab.setText("Home");
-                            break;
-                        case 2:
-                            tab.setText("Profile");
-                            break;
-                    }
-                }
-        ).attach();
+        tabLayout.setupWithViewPager(viewPager);
 
         fabAddPark.setOnClickListener(v -> {
             Intent intent1 = new Intent(LayoutFragments.this, AddParking.class);
