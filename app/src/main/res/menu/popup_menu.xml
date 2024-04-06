@@ -5,4 +5,7 @@
     <item
         android:id="@+id/B_signOut"
         android:title="Sign Out"/>
+    <item
+        android:id="@+id/B_Reset"
+        android:title="Email Password Reset"/>
 </menu>

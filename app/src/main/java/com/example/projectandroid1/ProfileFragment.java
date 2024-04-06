@@ -110,6 +110,9 @@ public class ProfileFragment extends Fragment {
                     startActivity(intent);
                     requireActivity().finish();
                     return true;
+                }else if (Objects.equals(title, "Email Password Reset")) {
+                    FireBaseHandler.sendPasswordResetEmail();
+                    return true;
                 }
                 return false;
             });

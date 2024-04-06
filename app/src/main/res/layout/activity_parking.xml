@@ -71,9 +71,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="2sp"
+                    android:layout_marginRight="4sp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="adress and more details \nMore Details\nMore Details\nMore Details\nMore Details\nMore Details\nMore Details" />
+                    android:text="adress and more details \nMore Details\nMore Details\nMore Details\nMore Details\nMore Details\nMore Details"
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp" />
 
 
             </LinearLayout>
@@ -95,28 +98,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_weight="1"
-                        android:contentDescription="Report button"
-                        android:onClick="B_Report"
-                        android:src="@drawable/ic_flag" />
+                        android:contentDescription="Like button"
+                        android:onClick="B_Like"
+                        android:src="@drawable/ic_like" />
 
-                    <ImageView
-                        android:id="@+id/B_Update"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:layout_weight="1"
-                        android:contentDescription="add more time to the parking button"
-                        android:onClick="B_Update"
-                        android:src="@drawable/ic_update" />
-
-
-                    <ImageView
-                        android:id="@+id/B_TakeTheParking"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:layout_weight="1"
-                        android:contentDescription="take the parking yourself"
-                        android:onClick="B_TakeParking"
-                        android:src="@drawable/ic_parked" />
 
                     <ImageView
                         android:id="@+id/B_Navi"
@@ -141,23 +126,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="Report the parking taken" />
-
-                    <TextView
-                        android:id="@+id/textView9"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Parking still empty" />
-
-                    <TextView
-                        android:id="@+id/textView10"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Take the parking" />
+                        android:text="Like The Parking" />
 
                     <TextView
                         android:id="@+id/textView11"

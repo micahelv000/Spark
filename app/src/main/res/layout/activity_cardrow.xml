@@ -125,7 +125,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="#4CAF50"
                     android:gravity="center"
-                    android:src="@drawable/buttonfav2" />
+                    android:src="@drawable/ic_like" />
 
                 <TextView
                     android:id="@+id/NumberOfLikes"
@@ -137,18 +137,6 @@
                     android:text="0"
                     android:textColor="#000000"
                     android:textSize="25sp" />
-
-                <ImageView
-                    android:id="@+id/button_Report"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="0dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="#F44336"
-                    android:bufferType="normal"
-                    android:gravity="center"
-                    android:src="@drawable/ic_flag" />
 
             </LinearLayout>
 

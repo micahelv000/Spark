@@ -56,7 +56,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             imageView = itemView.findViewById(R.id.imageView);
             Text_NumberOfLikes = itemView.findViewById(R.id.NumberOfLikes);
             LikeButton = itemView.findViewById(R.id.button_Like);
-            ReportButton = itemView.findViewById(R.id.button_Report);
             open = itemView.findViewById(R.id.open);
 
         }
@@ -81,7 +80,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         }
         LocationHelper locationHelper = new LocationHelper(context);
         locationHelper.setDistanceToLocation(holder.TextDistanceFromUser, dataModel.getLocation());
-        holder.ReportButton.setOnClickListener(v -> showConfirmationDialogReport(position, holder.ReportButton));
         holder.LikeButton.setOnClickListener(v -> B_Like(dataModel, holder));
         holder.open.setOnClickListener(v -> B_OpenParking(dataModel));
 

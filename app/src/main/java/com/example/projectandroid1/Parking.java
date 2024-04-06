@@ -31,6 +31,7 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
     private double latitude; // Example latitude (San Francisco)
     private double longitude ; // Example longitude (San Francisco)
     private String username;
+    private Post ParkingInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +41,6 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
         mMapView.onCreate(savedInstanceState);
         mMapView.getMapAsync(this);
         Rep = findViewById(R.id.B_Report);
-        empty = findViewById(R.id.B_Update);
-        takeIt = findViewById(R.id.B_TakeTheParking);
         Username = findViewById(R.id.Username);
         profileIMG = findViewById(R.id.profileIMG);
         ParkingIMG = findViewById(R.id.imageView3);
@@ -50,7 +49,7 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
         Intent intent = getIntent();
         String ParkingInfoString = intent.getStringExtra("Parking");
         assert ParkingInfoString != null;
-        Post ParkingInfo = fromString(ParkingInfoString);
+        ParkingInfo = fromString(ParkingInfoString);
         String userid = ParkingInfo.getuserID();
 
 
@@ -78,7 +77,9 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
         longitude = ParkingInfo.getLocation().getLongitude();
 
 
-        String Data = "\n The address is:\n"+ParkingInfo.getAddress()+"\nUploaded at:\n "+ParkingInfo.getEpoch()+"\nThe parking has:\n "+ParkingInfo.getTotalLikes()+" Likes";
+        String Data = "\uD83D\uDCCD " +ParkingInfo.getAddress()+
+                "\n\n⏰ "+ParkingInfo.getEpoch()+
+                "\n\n♥ "+ParkingInfo.getTotalLikes()+" Likes";
 
         info.setText(Data);
 
@@ -99,19 +100,35 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
     }
 
 
-    public void B_Report(View view){
+    public void B_Like(View view){
         Animation rotate = AnimationUtils.loadAnimation(Rep.getContext(), R.anim.hearbeat_anim);
         Rep.startAnimation(rotate);
-        AlertDialog.Builder builder = new AlertDialog.Builder(Rep.getContext());
-        builder.setTitle("Confirmation");
-        builder.setMessage("Are you sure you want to Report that the parking is taken?");
-        builder.setPositiveButton("Yes", (dialog, which) -> {
-            //update status
 
-        });
-        builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
-        builder.show();
-    }
+        String post_id = ParkingInfo.getPostID();
+        if(ParkingInfo.getLikeStatus()){
+            FireBaseHandler fireBaseHandler = new FireBaseHandler();
+            fireBaseHandler.unlikePost(post_id);
+            ParkingInfo.setTotalLikes(String.valueOf(Integer.parseInt(ParkingInfo.getTotalLikes())-1));
+            ParkingInfo.setLikeStatus(false);
+        }else{
+            FireBaseHandler fireBaseHandler = new FireBaseHandler();
+            fireBaseHandler.likePost(post_id);
+            ParkingInfo.setTotalLikes(String.valueOf(Integer.parseInt(ParkingInfo.getTotalLikes())+1));
+            ParkingInfo.setLikeStatus(true);
+        }
+
+        String Data = "\uD83D\uDCCD " +ParkingInfo.getAddress()+
+                "\n\n⏰ "+ParkingInfo.getEpoch()+
+                "\n\n♥ "+ParkingInfo.getTotalLikes()+" Likes";
+
+        info.setText(Data);
+
+
+        //dataModel.setAmount(dataModel.getAmount() + 1);
+        //mDatabase.child("users").child(this.userid).child("amounts").child(dataModel.getName()).setValue(dataModel.getAmount());
+        //notifyDataSetChanged();
+
+      }
     public void B_Update(View view){
         Animation rotate = AnimationUtils.loadAnimation(empty.getContext(), R.anim.hearbeat_anim);
         takeIt.startAnimation(rotate);

@@ -55,6 +55,12 @@ public class FireBaseHandler {
                 });
     }
 
+    public static Task<Void> sendPasswordResetEmail() {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = getCurrentUser();
+        return auth.sendPasswordResetEmail(Objects.requireNonNull(currentUser.getEmail()));
+    }
+
     public static Task<String> getUserName(String user_id) {
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         return mDatabase.child("users").child(user_id).child("instagram_handle").get()
