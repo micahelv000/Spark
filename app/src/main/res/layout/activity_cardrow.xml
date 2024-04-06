@@ -49,7 +49,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="10px"
-                        android:text="Distance"
+                        android:text="Calculating.."
                         android:textColor="#000000"
                         android:textSize="20sp" />
 
@@ -59,7 +59,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:padding="10px"
-                        android:text="Username"
+                        android:text="Loading..."
                         android:textColor="#000000"
                         android:textSize="20sp" />
 

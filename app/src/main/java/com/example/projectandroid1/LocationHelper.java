@@ -10,6 +10,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -55,7 +56,7 @@ public class LocationHelper {
 
 
     public void LocationUpdater(EditText editTextCity, EditText editTextCountry) {
-        final Consumer<Location> locationConsumer = location -> {
+        Consumer<Location> locationConsumer = location -> {
             String[] cityCountry = getCityCountryFromLocation(location);
             if (cityCountry != null) {
                 editTextCity.setText(cityCountry[0]);
@@ -63,6 +64,20 @@ public class LocationHelper {
             }
         };
 
+        updateLocation(locationConsumer);
+    }
+
+    public void setDistanceToLocation(TextView textView, Location targetLocation) {
+        Consumer<Location> locationConsumer = location -> {
+            float distanceInMeters = location.distanceTo(targetLocation);
+            float distanceInKilometers = distanceInMeters / 1000;
+            textView.setText(String.format(Locale.getDefault(), "\uD83D\uDCCF %.2f km", distanceInKilometers));
+        };
+
+        updateLocation(locationConsumer);
+    }
+
+    private void updateLocation(Consumer<Location> locationConsumer) {
         if (ContextCompat.checkSelfPermission(context,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             locationManager.getCurrentLocation(LocationManager.GPS_PROVIDER, null, 

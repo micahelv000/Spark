@@ -41,6 +41,18 @@ public class FireBaseHandler {
         return mAuth.getCurrentUser();
     }
 
+    public static Task<String> getFullName(String user_id) {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        return mDatabase.child("users").child(user_id).child("full_name").get()
+                .continueWithTask(task -> {
+                    if (task.isSuccessful()) {
+                        return Tasks.forResult(Objects.requireNonNull(task.getResult().getValue()).toString());
+                    } else {
+                        return Tasks.forResult(null);
+                    }
+                });
+    }
+
     public void logout() {
         mAuth.signOut();
     }

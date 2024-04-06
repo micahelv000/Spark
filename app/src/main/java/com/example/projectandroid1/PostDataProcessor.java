@@ -1,5 +1,7 @@
 package com.example.projectandroid1;
 
+import android.location.Location;
+
 import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONArray;
@@ -12,8 +14,9 @@ public class PostDataProcessor {
     String[] addressArray;
     String[] epochsArray;
     String[] likesArray;
-
     String[] postPicturesArray;
+    Location[] locationArray;
+    String[] userIdArray;
 
     public interface OnArraysPopulatedListener {
         void onArraysPopulated();
@@ -24,13 +27,32 @@ public class PostDataProcessor {
         epochsArray = new String[posts.length()];
         likesArray = new String[posts.length()];
         postPicturesArray = new String[posts.length()];
+        locationArray = new Location[posts.length()];
+        userIdArray = new String[posts.length()];
 
         for (int i = 0; i < posts.length(); i++) {
             try {
                 JSONObject post = posts.getJSONObject(i);
+
+                if (post.has("user_id")) {
+                    userIdArray[i] = post.getString("user_id");
+                } else {
+                    userIdArray[i] = null;
+                }
+
                 if (post.has("location")) {
                     JSONObject location = post.getJSONObject("location");
                     addressArray[i] = location.has("address") ? location.getString("address") : null;
+                    if (location.has("coordinates")) {
+                        JSONObject coordinates = location.getJSONObject("coordinates");
+                        double latitude = coordinates.has("latitude") ? coordinates.getDouble("latitude") : 0;
+                        double longitude = coordinates.has("longitude") ? coordinates.getDouble("longitude") : 0;
+                        locationArray[i] = new Location("");
+                        locationArray[i].setLatitude(latitude);
+                        locationArray[i].setLongitude(longitude);
+                    } else {
+                        locationArray[i] = null;
+                    }
                 } else {
                     addressArray[i] = null;
                 }

@@ -101,11 +101,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull CustomAdapter.MyViewHolder holder, int position) {
         final Post dataModel = dataSet.get(position);
-        holder.Text_LocationName.setText(dataModel.getAddress());
-        holder.Text_TimeUploaded.setText("Uploaded at: "+ dataModel.getEpoch());
+        holder.Text_LocationName.setText("\uD83D\uDCCD " + dataModel.getAddress());
+        holder.Text_TimeUploaded.setText("⏰ " + dataModel.getEpoch());
         holder.Text_NumberOfLikes.setText(dataModel.getLikes() +" Likes");
+        dataModel.setFullName(holder.TextUsernameUploded);
         Picasso.get().load(dataModel.getImage()).placeholder(R.drawable.progress_animation).into(holder.imageView);
-
+        LocationHelper locationHelper = new LocationHelper(context);
+        locationHelper.setDistanceToLocation(holder.TextDistanceFromUser, dataModel.getLocation());
         holder.ReportButton.setOnClickListener(v -> showConfirmationDialogReport(position, holder.ReportButton));
         holder.LikeButton.setOnClickListener(v -> B_Like(dataModel, holder));
         holder.open.setOnClickListener(v -> B_OpenParking(position));
