@@ -61,6 +61,18 @@ public class FireBaseHandler {
         return auth.sendPasswordResetEmail(Objects.requireNonNull(currentUser.getEmail()));
     }
 
+    public Task<Void> updateUserData(String full_name, String bio, String instagram_handle, Location user_location, String city, String country) {
+        Map<String, Object> userUpdates = new HashMap<>();
+        userUpdates.put("full_name", full_name);
+        userUpdates.put("bio", bio);
+        userUpdates.put("instagram_handle", instagram_handle);
+        userUpdates.put("user_location", user_location);
+        userUpdates.put("city", city);
+        userUpdates.put("country", country);
+
+        return mDatabase.child("users").child(getCurrentUser().getUid()).updateChildren(userUpdates);
+    }
+
     public static Task<String> getUserName(String user_id) {
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         return mDatabase.child("users").child(user_id).child("instagram_handle").get()

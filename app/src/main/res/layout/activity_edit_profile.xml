@@ -63,7 +63,9 @@
         android:textColorHint="#A7A7A7"
         app:boxStrokeColor="#EAEAEE"
         app:errorTextAppearance="@style/ErrorTextAppearance"
-
+        app:layout_constraintTop_toBottomOf="@id/TextFullName"
+        android:layout_marginTop="15sp
+"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="285dp">
@@ -91,7 +93,9 @@
         app:errorTextAppearance="@style/ErrorTextAppearance"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="441dp">
+        tools:layout_editor_absoluteY="441dp"
+        android:layout_marginTop="15sp"
+        app:layout_constraintTop_toBottomOf="@id/TextInstagramHandle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextCountry"
@@ -137,7 +141,7 @@
         android:id="@+id/button_Reg"
         android:layout_width="271dp"
         android:layout_height="55dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="25dp"
         android:onClick="B_Register"
         android:text="UPDATE PROFILE"
         android:textAlignment="center"

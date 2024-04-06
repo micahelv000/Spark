@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -46,11 +47,14 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
         ParkingIMG = findViewById(R.id.imageView3);
         info = findViewById(R.id.textView2);
 
+
+
         Intent intent = getIntent();
         String ParkingInfoString = intent.getStringExtra("Parking");
         assert ParkingInfoString != null;
         ParkingInfo = fromString(ParkingInfoString);
         String userid = ParkingInfo.getuserID();
+
 
 
         FireBaseHandler.getUserName(userid).addOnCompleteListener(task -> {
@@ -62,10 +66,18 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
             if (task.isSuccessful()) {
                 String img = task.getResult();
 
-                Picasso.get().load(img).error(R.drawable.default_profile).placeholder(R.drawable.progress_animation).into(profileIMG);
-
+                if(ParkingInfo.getImage().isEmpty()) {
+                    Picasso.get().load(img).error(R.drawable.default_profile).placeholder(R.drawable.progress_animation).into(profileIMG);
+                }
             }
         });
+
+        if(ParkingInfo.getLikeStatus()){
+            Rep.setColorFilter(Color.RED);
+        }else{
+
+            Rep.setColorFilter(Color.BLACK);
+        }
 
         //parking img
         if(ParkingInfo.getImage()!=null) {
@@ -106,11 +118,13 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
 
         String post_id = ParkingInfo.getPostID();
         if(ParkingInfo.getLikeStatus()){
+            Rep.setColorFilter(Color.BLACK);
             FireBaseHandler fireBaseHandler = new FireBaseHandler();
             fireBaseHandler.unlikePost(post_id);
             ParkingInfo.setTotalLikes(String.valueOf(Integer.parseInt(ParkingInfo.getTotalLikes())-1));
             ParkingInfo.setLikeStatus(false);
         }else{
+            Rep.setColorFilter(Color.RED);
             FireBaseHandler fireBaseHandler = new FireBaseHandler();
             fireBaseHandler.likePost(post_id);
             ParkingInfo.setTotalLikes(String.valueOf(Integer.parseInt(ParkingInfo.getTotalLikes())+1));

@@ -37,7 +37,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public View LikeButton;
+        private ImageView LikeButton;
         TextView Text_LocationName;
         TextView Text_TimeUploaded;
         TextView Text_NumberOfLikes,TextDistanceFromUser, TextUsernameUploaded,Text_Probability;
@@ -98,7 +98,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         long currentTimeMillis = System.currentTimeMillis();
         long differenceInMillis = currentTimeMillis - epochMillis;
         long differenceInMinutes = differenceInMillis / (60 * 1000);
-
+        if(dataModel.getLikeStatus()){
+            holder.LikeButton.setColorFilter(Color.RED);}
+        else{
+            holder.LikeButton.setColorFilter(Color.BLACK);
+        }
         // Check if the difference is greater than 15 minutes
         if (differenceInMinutes > 15) {
             holder.Text_Probability.setText("Low Chance");
@@ -125,13 +129,16 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     private void B_Like(Post dataModel, MyViewHolder holder) {
         Animation rotate = AnimationUtils.loadAnimation(context, R.anim.hearbeat_anim);
         holder.LikeButton.startAnimation(rotate);
+
         String post_id = dataModel.getPostID();
         if(dataModel.getLikeStatus()){
+            holder.LikeButton.setColorFilter(Color.BLACK);
             FireBaseHandler fireBaseHandler = new FireBaseHandler();
             fireBaseHandler.unlikePost(post_id);
             dataModel.setTotalLikes(String.valueOf(Integer.parseInt(dataModel.getTotalLikes())-1));
             dataModel.setLikeStatus(false);
         }else{
+            holder.LikeButton.setColorFilter(Color.RED);
             FireBaseHandler fireBaseHandler = new FireBaseHandler();
             fireBaseHandler.likePost(post_id);
             dataModel.setTotalLikes(String.valueOf(Integer.parseInt(dataModel.getTotalLikes())+1));

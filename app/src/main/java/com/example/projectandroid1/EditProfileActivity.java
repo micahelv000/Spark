@@ -35,19 +35,18 @@ public class EditProfileActivity extends AppCompatActivity {
     private LocationHelper locationHelper;
     private Uri selectedImageUri;
     private Location user_location;
+    Intent intent;
     boolean flag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         editTextFullName = findViewById(R.id.editTextFullName);
-        editTextPass = findViewById(R.id.editTextPassword);
         editTextInstagramHandle = findViewById(R.id.editTextInstagramHandle);
-        editTextEmail = findViewById(R.id.editTextEmail);
         editTextCity = findViewById(R.id.editTextCity);
         editTextCountry = findViewById(R.id.editTextCountry);
         ProfilePIC = findViewById(R.id.profileIMG);
-        Intent intent = getIntent();
+        intent = getIntent();
         String userDataString = intent.getStringExtra("user");
         JSONObject userData;
         try {
@@ -60,8 +59,9 @@ public class EditProfileActivity extends AppCompatActivity {
             JSONObject location = userData.getJSONObject("location");
             editTextCity.setText(location.getString("city"));
             editTextCountry.setText(location.getString("country"));
-            Picasso.get().load(userData.getString("profile_picture")).placeholder(R.drawable.progress_animation).error(R.drawable.default_profile).into(ProfilePIC);
-
+            if(userData.has("profile_picture") && !userData.getString("profile_picture").isEmpty()) {
+                Picasso.get().load(userData.getString("profile_picture")).placeholder(R.drawable.progress_animation).error(R.drawable.default_profile).into(ProfilePIC);
+            }
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -142,9 +142,7 @@ public class EditProfileActivity extends AppCompatActivity {
     }
     public void B_Register(View view) {
         final String full_name = editTextFullName.getText().toString();
-        final String password = editTextPass.getText().toString();
         final String instagram_handle = editTextInstagramHandle.getText().toString();
-        final String email = editTextEmail.getText().toString();
         final String city = editTextCity.getText().toString();
         final String country = editTextCountry.getText().toString();
 
@@ -154,16 +152,6 @@ public class EditProfileActivity extends AppCompatActivity {
         // Validate inputs
         if (!isValidUsername(full_name)) {
             editTextFullName.setError("Invalid Full name");
-            flag = true;
-        }
-
-        if (!isValidPassword(password)) {
-            editTextPass.setError("Password must be between 6 and 14 characters long");
-            flag = true;
-        }
-
-        if (!isValidEmail(email)) {
-            editTextEmail.setError("Invalid email format");
             flag = true;
         }
 
@@ -186,45 +174,13 @@ public class EditProfileActivity extends AppCompatActivity {
             return;
         }
 
-        // Location handling...
-        if (user_location == null) {
-            user_location = locationHelper.getLocationFromCityCountry(city, country);
-        }
-
         FireBaseHandler fb = new FireBaseHandler();
 
         Uri selectedImageUri = this.selectedImageUri;
-/*
-        fb.registerAndSaveUser(email, password, full_name, instagram_handle, user_location, city, country)
-                .addOnCompleteListener(registerTask -> {
-                    if (registerTask.isSuccessful()) {
-                        FirebaseUser user = registerTask.getResult();
-                        if (user != null) {
-                            fb.updateUserImage(selectedImageUri, user)
-                                    .addOnCompleteListener(task -> {
-                                        if (task.isSuccessful()) {
-                                            Toast.makeText(EditProfileActivity.this, "Registration successful", Toast.LENGTH_LONG).show();
-
-                                            Intent intent = new Intent(EditProfileActivity.this, com.example.projectandroid1.ProfileFragment.class);
-                                            fb.getUserData(user).addOnCompleteListener(userDataTask -> {
-                                                if (userDataTask.isSuccessful()) {
-                                                    intent.putExtra("user", userDataTask.getResult().toString());
-                                                    startActivity(intent);
-                                                }
-                                            });
-                                        } else {
-                                            Toast.makeText(EditProfileActivity.this, "Image upload failed", Toast.LENGTH_LONG).show();
-                                        }
-                                    });
-                        } else {
-                            Toast.makeText(EditProfileActivity.this, "Registration failed", Toast.LENGTH_LONG).show();
-                        }
-                    } else {
-                        Toast.makeText(EditProfileActivity.this, "Registration failed: " + Objects.requireNonNull(registerTask.getException()).getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
-
-                */
+        fb.updateUserData(full_name,"",instagram_handle,user_location,city,country);
+        Intent intent1 = new Intent(this, LayoutFragments.class);
+        intent1.putExtras(intent);
+        startActivity(intent1);
     }
 
 

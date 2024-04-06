@@ -72,9 +72,9 @@ public class ProfileFragment extends Fragment {
                 } else {
                     textPosts.setText("0");
                 }
-
-                Picasso.get().load(userData.getString("profile_picture")).placeholder(R.drawable.progress_animation).error(R.drawable.default_profile).into(profileImage);
-
+                if(userData.has("profile_picture") && !userData.getString("profile_picture").isEmpty()) {
+                    Picasso.get().load(userData.getString("profile_picture")).placeholder(R.drawable.progress_animation).error(R.drawable.default_profile).into(profileImage);
+                }
             } catch (JSONException ignored) {
             }
         } else {
@@ -111,6 +111,7 @@ public class ProfileFragment extends Fragment {
                     requireActivity().finish();
                     return true;
                 }else if (Objects.equals(title, "Email Password Reset")) {
+                    Toast.makeText(getActivity(), "You've received a link in your mailbox", Toast.LENGTH_SHORT).show();
                     FireBaseHandler.sendPasswordResetEmail();
                     return true;
                 }
