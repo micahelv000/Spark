@@ -2,7 +2,6 @@ package com.example.projectandroid1;
 
 import android.annotation.SuppressLint;
 import android.location.Location;
-import android.net.Uri;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,17 +9,17 @@ import androidx.annotation.NonNull;
 public class Post {
     private final String address;
     private final String epoch;
-    private String likes;
+    private String totalLikes;
     private final String image;
     private final String userID;
     private final String postID;
     private final Location location;
     private boolean likeStatus = false;
 
-    public Post(String address, String epoch, String likes, String image, Location location, String userID, String postID, boolean likeStatus){
+    public Post(String address, String epoch, String totalLikes, String image, Location location, String userID, String postID, boolean likeStatus){
         this.address = address;
         this.epoch = epoch;
-        this.likes = likes;
+        this.totalLikes = totalLikes;
         this.image = image;
         this.location = location;
         this.userID = userID;
@@ -33,7 +32,7 @@ public class Post {
     @Override
     public String toString() {
         return String.format("%s|%s|%s|%s|%s|%s|%s|%.6f|%.6f",
-                address, epoch, likes, image, userID,postID,likeStatus,location.getLatitude(),location.getLongitude());
+                address, epoch, totalLikes, image, userID,postID,likeStatus,location.getLatitude(),location.getLongitude());
     }
 
     // fromString method to parse a string and create a Post object
@@ -68,8 +67,8 @@ public class Post {
         return epoch;
     }
 
-    public String getLikes() {
-        return likes;
+    public String getTotalLikes() {
+        return totalLikes;
     }
 
     public String getImage() {
@@ -103,7 +102,7 @@ public class Post {
         this.likeStatus = status;
     }
 
-    public void setLikes(String s) {
-        this.likes = s;
+    public void setTotalLikes(String s) {
+        this.totalLikes = s;
     }
 }

@@ -42,7 +42,8 @@ public class PostDataProcessor {
             try {
                 JSONObject post = posts.getJSONObject(i);
 
-                postIdsArray[i] = post.getString("post_id") != null ? post.getString("post_id") : null;
+                post.getString("post_id");
+                postIdsArray[i] = post.getString("post_id");
                 if (post.has("user_id")) {
                     userIdArray[i] = post.getString("user_id");
                 } else {

@@ -24,8 +24,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONObject;
-
 public class Parking extends AppCompatActivity implements OnMapReadyCallback {
 
     private ImageView Rep,empty,takeIt,profileIMG,ParkingIMG;
@@ -80,7 +78,7 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
         longitude = ParkingInfo.getLocation().getLongitude();
 
 
-        String Data = "\n The address is:\n"+ParkingInfo.getAddress()+"\nUploaded at:\n "+ParkingInfo.getEpoch()+"\nThe parking has:\n "+ParkingInfo.getLikes()+" Likes";
+        String Data = "\n The address is:\n"+ParkingInfo.getAddress()+"\nUploaded at:\n "+ParkingInfo.getEpoch()+"\nThe parking has:\n "+ParkingInfo.getTotalLikes()+" Likes";
 
         info.setText(Data);
 

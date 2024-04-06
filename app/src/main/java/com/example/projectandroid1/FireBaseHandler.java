@@ -42,7 +42,7 @@ public class FireBaseHandler {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         return mAuth.getCurrentUser();
     }
-
+    
     public static Task<String> getFullName(String user_id) {
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         return mDatabase.child("users").child(user_id).child("full_name").get()
@@ -78,90 +78,77 @@ public class FireBaseHandler {
                 });
     }
 
-    public Task<Void> likePost(String post_id) {
+    public void likePost(String post_id) {
+        handlePost(post_id, true);
+    }
+
+    public void unlikePost(String post_id) {
+        handlePost(post_id, false);
+    }
+
+    private void handlePost(String post_id, boolean isLike) {
         FirebaseUser user = getCurrentUser();
         if (user == null) {
-            return Tasks.forResult(null);
+            Tasks.forResult(null);
+            return;
         }
         String uid = user.getUid();
         mDatabase.child("users").child(uid).child("likes").child(post_id).get()
                 .continueWithTask(task -> {
                     if (task.isSuccessful()) {
-                        if (task.getResult().getValue() == null) {
-                            mDatabase.child("users").child(uid).child("likes").child(post_id).setValue(true);
-                            mDatabase.child("posts").child(post_id).child("total_likes").get()
-                                    .continueWithTask(task1 -> {
-                                        if (task1.isSuccessful()) {
-                                            int total_likes = Integer.parseInt(Objects.requireNonNull(task1.getResult().getValue()).toString());
-                                            mDatabase.child("posts").child(post_id).child("total_likes").setValue(total_likes + 1);
-                                            mDatabase.child("posts").child(post_id).child("likes").child(uid).setValue(true);
-                                            mDatabase.child("posts").child(post_id).child("user_id").get()
-                                                    .continueWithTask(task2 -> {
-                                                        if (task2.isSuccessful()) {
-                                                            String user_id = Objects.requireNonNull(task2.getResult().getValue()).toString();
-                                                            mDatabase.child("users").child(user_id).child("total_likes").get()
-                                                                    .continueWithTask(task3 -> {
-                                                                        if (task3.isSuccessful()) {
-                                                                            int user_total_likes = Integer.parseInt(Objects.requireNonNull(task3.getResult().getValue()).toString());
-                                                                            mDatabase.child("users").child(user_id).child("total_likes").setValue(user_total_likes + 1);
-                                                                        }
-                                                                        return Tasks.forResult(null);
-                                                                    });
-                                                        }
-                                                        return Tasks.forResult(null);
-                                                    });
-                                        }
-                                        return Tasks.forResult(null);
-                                    });
+                        if ((isLike && task.getResult().getValue() == null) || (!isLike && task.getResult().getValue() != null)) {
+                            handleUserLike(uid, post_id, isLike);
+                            handlePostLike(uid, post_id, isLike);
                         }
                     }
                     return Tasks.forResult(null);
                 });
-        return Tasks.forResult(null);
+        Tasks.forResult(null);
     }
 
-    public Task<Void> unlikePost(String post_id) {
-        FirebaseUser user = getCurrentUser();
-        if (user == null) {
-            return Tasks.forResult(null);
+    private void handleUserLike(String uid, String post_id, boolean isLike) {
+        if (isLike) {
+            mDatabase.child("users").child(uid).child("likes").child(post_id).setValue(true);
+        } else {
+            mDatabase.child("users").child(uid).child("likes").child(post_id).removeValue();
         }
-        String uid = user.getUid();
-        mDatabase.child("users").child(uid).child("likes").child(post_id).get()
-                .continueWithTask(task -> {
-                    if (task.isSuccessful()) {
-                        if (task.getResult().getValue() != null) {
-                            mDatabase.child("users").child(uid).child("likes").child(post_id).removeValue();
-                            mDatabase.child("posts").child(post_id).child("total_likes").get()
-                                    .continueWithTask(task1 -> {
-                                        if (task1.isSuccessful()) {
-                                            int total_likes = Integer.parseInt(Objects.requireNonNull(task1.getResult().getValue()).toString());
-                                            mDatabase.child("posts").child(post_id).child("total_likes").setValue(total_likes - 1);
-                                            mDatabase.child("posts").child(post_id).child("likes").child(uid).removeValue();
-                                            mDatabase.child("posts").child(post_id).child("user_id").get()
-                                                    .continueWithTask(task2 -> {
-                                                        if (task2.isSuccessful()) {
-                                                            String user_id = Objects.requireNonNull(task2.getResult().getValue()).toString();
-                                                            mDatabase.child("users").child(user_id).child("total_likes").get()
-                                                                    .continueWithTask(task3 -> {
-                                                                        if (task3.isSuccessful()) {
-                                                                            int user_total_likes = Integer.parseInt(Objects.requireNonNull(task3.getResult().getValue()).toString());
-                                                                            mDatabase.child("users").child(user_id).child("total_likes").setValue(user_total_likes - 1);
-                                                                        }
-                                                                        return Tasks.forResult(null);
-                                                                    });
-                                                        }
-                                                        return Tasks.forResult(null);
-                                                    });
-                                        }
-                                        return Tasks.forResult(null);
-                                    });
+    }
+
+    private void handlePostLike(String uid, String post_id, boolean isLike) {
+        mDatabase.child("posts").child(post_id).child("total_likes").get()
+                .continueWithTask(task1 -> {
+                    if (task1.isSuccessful()) {
+                        int total_likes = Integer.parseInt(Objects.requireNonNull(task1.getResult().getValue()).toString());
+                        mDatabase.child("posts").child(post_id).child("total_likes").setValue(isLike ? total_likes + 1 : total_likes - 1);
+                        if (isLike) {
+                            mDatabase.child("posts").child(post_id).child("likes").child(uid).setValue(true);
+                        } else {
+                            mDatabase.child("posts").child(post_id).child("likes").child(uid).removeValue();
                         }
+                        handleUserTotalLikes(uid, post_id, isLike);
                     }
                     return Tasks.forResult(null);
                 });
-        return Tasks.forResult(null);
     }
 
+    private void handleUserTotalLikes(String uid, String post_id, boolean isLike) {
+        mDatabase.child("posts").child(post_id).child("user_id").get()
+                .continueWithTask(task2 -> {
+                    if (task2.isSuccessful()) {
+                        String user_id = Objects.requireNonNull(task2.getResult().getValue()).toString();
+                        mDatabase.child("users").child(user_id).child("total_likes").get()
+                                .continueWithTask(task3 -> {
+                                    if (task3.isSuccessful()) {
+                                        int user_total_likes = Integer.parseInt(Objects.requireNonNull(task3.getResult().getValue()).toString());
+                                        mDatabase.child("users").child(user_id).child("total_likes").setValue(isLike ? user_total_likes + 1 : user_total_likes - 1);
+                                    }
+                                    return Tasks.forResult(null);
+                                });
+                    }
+                    return Tasks.forResult(null);
+                });
+    }
+    
     public static void logout() {
         FirebaseAuth.getInstance().signOut();
     }

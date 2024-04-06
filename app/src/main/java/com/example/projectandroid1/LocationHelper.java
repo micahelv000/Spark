@@ -66,14 +66,18 @@ public class LocationHelper {
 
     public void setDistanceToLocation(TextView textView, Location targetLocation) {
         Consumer<Location> locationConsumer = location -> {
-            float distanceInMeters = location.distanceTo(targetLocation);
-            float distanceInKilometers = distanceInMeters / 1000;
-            textView.setText(String.format(Locale.getDefault(), "\uD83D\uDCCF %.2f km", distanceInKilometers));
+            if (location != null) {
+                float distanceInMeters = location.distanceTo(targetLocation);
+                float distanceInKilometers = distanceInMeters / 1000;
+                textView.setText(String.format(Locale.getDefault(), "\uD83D\uDCCF %.2f km", distanceInKilometers));
+            } else {
+                textView.setText("Unable to get current location");
+            }
         };
 
         updateLocation(locationConsumer);
     }
-
+    
     public void setAddressToTextView(TextView textView, Location location) {
         String address = getAddressFromLocation(location, context);
         if (address != null) {

@@ -18,8 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONObject;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -76,7 +74,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         final Post dataModel = dataSet.get(position);
         holder.Text_LocationName.setText(String.format("\uD83D\uDCCD %s", dataModel.getAddress()));
         holder.Text_TimeUploaded.setText(String.format("⏰ %s", dataModel.getEpoch()));
-        holder.Text_NumberOfLikes.setText(String.format("%s", dataModel.getLikes()));
+        holder.Text_NumberOfLikes.setText(String.format("%s", dataModel.getTotalLikes()));
         dataModel.setFullName(holder.TextUsernameUploaded);
         if(dataModel.getImage()!=null) {
             Picasso.get().load(dataModel.getImage()).error(R.drawable.default_profile).placeholder(R.drawable.progress_animation).into(holder.imageView);
@@ -133,12 +131,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         if(dataModel.getLikeStatus()){
             FireBaseHandler fireBaseHandler = new FireBaseHandler();
             fireBaseHandler.unlikePost(post_id);
-            dataModel.setLikes(String.valueOf(Integer.parseInt(dataModel.getLikes())-1));
+            dataModel.setTotalLikes(String.valueOf(Integer.parseInt(dataModel.getTotalLikes())-1));
             dataModel.setLikeStatus(false);
         }else{
             FireBaseHandler fireBaseHandler = new FireBaseHandler();
             fireBaseHandler.likePost(post_id);
-            dataModel.setLikes(String.valueOf(Integer.parseInt(dataModel.getLikes())+1));
+            dataModel.setTotalLikes(String.valueOf(Integer.parseInt(dataModel.getTotalLikes())+1));
             dataModel.setLikeStatus(true);
         }
 
