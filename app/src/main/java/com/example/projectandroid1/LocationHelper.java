@@ -8,7 +8,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Build;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -32,13 +31,13 @@ public class LocationHelper {
         this.context = context;
     }
 
-    public boolean hasLocationPermission() {
+    public boolean isLocationPermissionMissing() {
         return ContextCompat.checkSelfPermission(context,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED;
     }
 
     public void checkLocationPermission() {
-        if (!hasLocationPermission()) {
+        if (isLocationPermissionMissing()) {
             ActivityCompat.requestPermissions((Activity) context,
                     new String[] { Manifest.permission.ACCESS_FINE_LOCATION },
                     REQUEST_LOCATION_PERMISSION);
@@ -53,7 +52,6 @@ public class LocationHelper {
             return null;
         }
     }
-
 
     public void LocationUpdater(EditText editTextCity, EditText editTextCountry) {
         Consumer<Location> locationConsumer = location -> {
@@ -79,9 +77,9 @@ public class LocationHelper {
 
     private void updateLocation(Consumer<Location> locationConsumer) {
         if (ContextCompat.checkSelfPermission(context,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            locationManager.getCurrentLocation(LocationManager.GPS_PROVIDER, null, 
-                context.getMainExecutor(), locationConsumer);
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager.getCurrentLocation(LocationManager.GPS_PROVIDER, null,
+                    context.getMainExecutor(), locationConsumer);
         }
     }
 
@@ -104,10 +102,10 @@ public class LocationHelper {
         try {
             List<Address> addresses = geocoder.getFromLocationName(address, 1);
             if (addresses != null && !addresses.isEmpty()) {
-                Address addr = addresses.get(0);
+                Address firstAddressResult = addresses.get(0);
                 Location location = new Location(LocationManager.GPS_PROVIDER);
-                location.setLatitude(addr.getLatitude());
-                location.setLongitude(addr.getLongitude());
+                location.setLatitude(firstAddressResult.getLatitude());
+                location.setLongitude(firstAddressResult.getLongitude());
                 return location;
             }
         } catch (IOException e) {

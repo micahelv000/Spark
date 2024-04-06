@@ -53,8 +53,8 @@ public class FireBaseHandler {
                 });
     }
 
-    public void logout() {
-        mAuth.signOut();
+    public static void logout() {
+        FirebaseAuth.getInstance().signOut();
     }
 
     public void SaveUserJsonData(FirebaseUser user, JSONObject json) {

@@ -48,7 +48,7 @@ public class Register extends AppCompatActivity {
         ProfilePIC = findViewById(R.id.profileIMG);
 
         locationHelper = new LocationHelper(this);
-        if (!locationHelper.hasLocationPermission()) {
+        if (locationHelper.isLocationPermissionMissing()) {
             locationHelper.checkLocationPermission();
         } else {
             locationHelper.LocationUpdater(editTextCity, editTextCountry);

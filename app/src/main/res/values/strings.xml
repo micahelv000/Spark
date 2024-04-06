@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">Spark</string>
     <string name="todo">TODO</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="retry">RETRY</string>
     <string name="logo">Logo</string>
     <string name="no_internet_connection">No Internet Connection</string>
+    <string name="paid_parking">\uD83D\uDE22 Paid parking</string>
+    <string name="free_parking">\uD83E\uDD73 Free parking</string>
 </resources>

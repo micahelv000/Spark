@@ -86,12 +86,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Bfilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Openfilter(v);
-            }
-        });
+        Bfilter.setOnClickListener(this::Openfilter);
     }
     public void Openfilter(View view) {
         Dialog_filter dialog = new Dialog_filter();

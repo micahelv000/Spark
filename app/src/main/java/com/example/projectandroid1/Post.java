@@ -47,7 +47,7 @@ public class Post {
     public void setFullName(TextView textView){
         FireBaseHandler.getFullName(userID).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                textView.setText("\uD83D\uDC64 " + task.getResult());
+                textView.setText(String.format("\uD83D\uDC64 %s", task.getResult()));
             }
         });
     }

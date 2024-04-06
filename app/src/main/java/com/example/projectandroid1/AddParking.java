@@ -1,17 +1,7 @@
 package com.example.projectandroid1;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,22 +9,24 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Switch;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 public class AddParking extends AppCompatActivity {
     ImageView Parking_photo;
     Uri selectedImage;
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
-    Switch Switch1;
+    SwitchCompat Switch1;
     RadioGroup radioGroup;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int REQUEST_SELECT_IMAGE = 2;
-    static final int MAP_POPUP_REQUEST_CODE = 101;
 
     Location selectedLocation;
 
@@ -46,25 +38,18 @@ public class AddParking extends AppCompatActivity {
         Parking_photo = findViewById(R.id.imageView3);
         Switch1 = findViewById(R.id.FreeParkingSwitch);
         radioGroup = findViewById(R.id.radio_group);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // Uncheck all other radio buttons when one is checked
-                for (int i = 0; i < group.getChildCount(); i++) {
-                    RadioButton radioButton = (RadioButton) group.getChildAt(i);
-                    radioButton.setChecked(radioButton.getId() == checkedId);
-                }
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            // Uncheck all other radio buttons when one is checked
+            for (int i = 0; i < group.getChildCount(); i++) {
+                RadioButton radioButton = (RadioButton) group.getChildAt(i);
+                radioButton.setChecked(radioButton.getId() == checkedId);
             }
         });
-        Switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Switch1.setText("Paid parking \uD83D\uDE22");
-                } else {
-                    Switch1.setText("Free parking \uD83E\uDD73");
-                }
+        Switch1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                Switch1.setText(getResources().getString(R.string.paid_parking));
+            } else {
+                Switch1.setText(getResources().getString(R.string.free_parking));
             }
         });
 

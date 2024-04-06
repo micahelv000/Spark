@@ -22,12 +22,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ProfileFragment extends Fragment {
 
@@ -37,9 +39,8 @@ public class ProfileFragment extends Fragment {
     private LinearLayoutManager layoutManager;
     private ImageView profileImage, BMenu;
     private TextView fullNameTextView, likesTextView, latestPostTextView, textZone, TextPosts, TextIG;
-    private Button BeditProfile, BLogOut;
+    private Button BeditProfile;
     private JSONObject userData, location;
-    private JSONArray postsArray;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,11 +75,7 @@ public class ProfileFragment extends Fragment {
         if (bundle != null) {
             String userDataString = bundle.getString("userData");
             try {
-                userData = new JSONObject(userDataString); // {"instagram_handle":"asdca","full_name":"askk","bio":"","location":"{country=Israel,
-                                                           // cordinates={latitude=32.015833,
-                                                           // longitude=34.787383999999996},
-                                                           // city=Holon}","profile_picture":"https:\/\/firebasestorage.googleapis.com\/v0\/b\/projectandroid1-3dfb0.appspot.com\/o\/images%2Fl47J2K5mNPcO0zJnE03l4pfKz4i1%2F2117381231?alt=media&token=8b788b4d-6031-4518-8079-5f9f6d7dfe63","total_likes":0,"posts":"{-NudWJf8Al75ERzggDEk=true}"}
-                // Update UI with user data
+                userData = new JSONObject(Objects.requireNonNull(userDataString));
                 fullNameTextView.setText(userData.getString("full_name"));
                 TextIG.setText("@" + userData.getString("instagram_handle"));
 
@@ -88,13 +85,14 @@ public class ProfileFragment extends Fragment {
                 location = userData.getJSONObject("location");
                 textZone.setText(location.getString("country") + ", " + location.getString("city"));
 
-                postsArray = userData.getJSONArray("posts");
-                int totalPosts = postsArray.length();
-                TextPosts.setText(String.valueOf(totalPosts));
+                if (userData.has("posts")) {
+                    int totalPosts = userData.getJSONObject("posts").length();
+                    TextPosts.setText(String.valueOf(totalPosts));
+                } else {
+                    TextPosts.setText("0");
+                }
 
-                // Uri uri = Uri.parse(userData.getString("profile_picture"));
-                // profileImage.setImageURI(uri);
-                Toast.makeText(getActivity(), "all good", Toast.LENGTH_SHORT).show();
+                Picasso.get().load(userData.getString("profile_picture")).placeholder(R.drawable.progress_animation).into(profileImage);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -109,44 +107,34 @@ public class ProfileFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        BMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Creating a PopupMenu instance
-                PopupMenu popupMenu = new PopupMenu(getContext(), BMenu);
+        BMenu.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(getContext(), BMenu);
+            popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
 
-                // Inflating the menu layout
-                popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(item -> {
+                Intent intent;
+                // Handle menu item clicks
 
-                // Adding click listener for menu items
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        Intent intent;
-                        // Handle menu item clicks
+                CharSequence title = item.getTitle();
 
-                        CharSequence title = item.getTitle();
+                if (Objects.equals(title, "Edit Profile")) {
+                    intent = new Intent(getActivity(), EditProfileActivity.class);
+                    startActivity(intent);
+                    return true;
+                } else if (Objects.equals(title, "Sign Out")) {
+                    FireBaseHandler.logout();
+                    // Redirect to login screen
+                    intent = new Intent(getActivity(), Login.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    requireActivity().finish();
+                    return true;
+                }
+                return false;
+            });
 
-                        if (title.equals("Edit Profile")) {// EditProfile
-                            intent = new Intent(getActivity(), EditProfileActivity.class);
-                            startActivity(intent);
-                            return true;
-                        } else if (title.equals("Sign Out")) {// sign out
-                            FirebaseAuth.getInstance().signOut();
-                            // Redirect to login screen
-                            intent = new Intent(getActivity(), Login.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            getActivity().finish();
-                            return true;
-                        }
-                        return false;
-                    }
-                });
-
-                // Showing the PopupMenu
-                popupMenu.show();
-            }
+            // Showing the PopupMenu
+            popupMenu.show();
         });
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -160,8 +148,7 @@ public class ProfileFragment extends Fragment {
                         data.likesArray[i],
                         data.postPicturesArray[i],
                         data.locationArray[i],
-                        data.userIdArray[i]
-                        ));
+                        data.userIdArray[i]));
             }
 
             adapter = new CustomAdapter(dataSet, getActivity());

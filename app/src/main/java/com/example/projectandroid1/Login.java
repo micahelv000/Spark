@@ -65,7 +65,6 @@ public class Login extends AppCompatActivity {
             flag = false;
         }
         if(!flag){
-            flag = false;
             return;
         }
 

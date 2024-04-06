@@ -1,15 +1,11 @@
 package com.example.projectandroid1;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-
-import com.google.android.gms.maps.MapFragment;
 
 public class MyPagerAdapter extends FragmentPagerAdapter {
     private static final int NUM_PAGES = 3; // Number of pages

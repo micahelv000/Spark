@@ -22,8 +22,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class Parking extends AppCompatActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
-    private MapView mMapView;
     private ImageView Rep,empty,takeIt;
     private double latitude = 37.7749; // Example latitude (San Francisco)
     private double longitude = -122.4194; // Example longitude (San Francisco)
@@ -33,7 +31,7 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parking);
 
-        mMapView = findViewById(R.id.mapView);
+        MapView mMapView = findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
         mMapView.getMapAsync(this);
         Rep = findViewById(R.id.B_Report);
@@ -44,15 +42,14 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-        mMap = googleMap;
 
         // Add a marker at the specified location and move the camera
         LatLng location = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(location).title("Your Parking Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15)); // Zoom level: 1-20 (higher is closer)
+        googleMap.addMarker(new MarkerOptions().position(location).title("Your Parking Location"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15)); // Zoom level: 1-20 (higher is closer)
 
         // Disable all gestures
-        mMap.getUiSettings().setAllGesturesEnabled(false);
+        googleMap.getUiSettings().setAllGesturesEnabled(false);
     }
 
 
