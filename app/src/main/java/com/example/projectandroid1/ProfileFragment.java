@@ -2,7 +2,6 @@ package com.example.projectandroid1;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -32,7 +31,7 @@ import java.util.ArrayList;
 
 public class ProfileFragment extends Fragment {
 
-    private ArrayList<Item> dataSet;
+    private ArrayList<Post> dataSet;
     private RecyclerView recyclerView;
     private CustomAdapter adapter;
     private LinearLayoutManager layoutManager;
@@ -152,14 +151,14 @@ public class ProfileFragment extends Fragment {
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        myData data = new myData();
+        PostDataProcessor data = new PostDataProcessor();
         data.populateUserArrays(FireBaseHandler.getCurrentUser(), () -> {
             for (int i = 0; i < data.addressArray.length; i++) {
-                dataSet.add(new Item(
+                dataSet.add(new Post(
                         data.addressArray[i],
                         data.epochsArray[i],
                         data.likesArray[i],
-                        data.drawableArray[i]));
+                        data.postPicturesArray[i]));
             }
 
             adapter = new CustomAdapter(dataSet, getActivity());

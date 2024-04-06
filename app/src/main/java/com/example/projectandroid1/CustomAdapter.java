@@ -16,18 +16,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.json.JSONObject;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
-    private final ArrayList<com.example.projectandroid1.Item> dataSet;
+    private final ArrayList<Post> dataSet;
     private final Context context;
 //   private final DatabaseReference mDatabase;
 //   private final String userid;
 
-    public CustomAdapter(ArrayList<com.example.projectandroid1.Item> dataSet, Context context) {
+    public CustomAdapter(ArrayList<Post> dataSet, Context context) {
         this.dataSet = dataSet;
         this.context = context;
 /*      this.mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -43,7 +43,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                     int itemAmount = childSnapshot.getValue(Integer.class);
 
                     // Find the item in the dataSet with the same name
-                    for (com.example.projectandroid1.Item item : dataSet) {
+                    for (com.example.projectandroid1.Post item : dataSet) {
                         if (item.getName().equals(itemName)) {
                             // Update the amount of the item
                             item.setAmount(itemAmount);
@@ -100,11 +100,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CustomAdapter.MyViewHolder holder, int position) {
-        final Item dataModel = dataSet.get(position);
-        holder.Text_LocationName.setText(dataModel.getName());
+        final Post dataModel = dataSet.get(position);
+        holder.Text_LocationName.setText(dataModel.getAddress());
         holder.Text_TimeUploaded.setText("Uploaded at: "+ dataModel.getEpoch());
         holder.Text_NumberOfLikes.setText(dataModel.getLikes() +" Likes");
-        holder.imageView.setImageResource(dataModel.getImage());
+        Picasso.get().load(dataModel.getImage()).into(holder.imageView);
 
         holder.ReportButton.setOnClickListener(v -> showConfirmationDialogReport(position, holder.ReportButton));
         holder.LikeButton.setOnClickListener(v -> B_Like(dataModel, holder));
@@ -126,7 +126,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         builder.show();
     }
 
-    private void B_Like(Item dataModel, MyViewHolder holder) {
+    private void B_Like(Post dataModel, MyViewHolder holder) {
         Animation rotate = AnimationUtils.loadAnimation(context, R.anim.hearbeat_anim);
         holder.LikeButton.startAnimation(rotate);
 
@@ -142,7 +142,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     }
 
 /*
-    private void removeAmount(com.example.projectandroid1.Item dataModel) {
+    private void removeAmount(com.example.projectandroid1.Post dataModel) {
         if (dataModel.getAmount() > 0) {
             dataModel.setAmount(dataModel.getAmount() - 1);
             mDatabase.child("users").child(this.userid).child("amounts").child(dataModel.getName()).setValue(dataModel.getAmount());
@@ -150,7 +150,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         }
     }
 
-    private void addAmount(com.example.projectandroid1.Item dataModel) {
+    private void addAmount(com.example.projectandroid1.Post dataModel) {
         dataModel.setAmount(dataModel.getAmount() + 1);
         mDatabase.child("users").child(this.userid).child("amounts").child(dataModel.getName()).setValue(dataModel.getAmount());
         notifyDataSetChanged();
@@ -161,7 +161,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
         Intent intent = new Intent(context, Parking.class);
         //crate a json for the parking
-        final Item dataModel = dataSet.get(position);
+        final Post dataModel = dataSet.get(position);
         //JSONObject parkingJson =
         //intent.putExtra("Parking", parkingJson.toString());
 

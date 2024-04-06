@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,8 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
-    private ArrayList<Item> dataSet;
-    private ArrayList<Item> filteredDataSet;
+    private ArrayList<Post> dataSet;
+    private ArrayList<Post> filteredDataSet;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private CustomAdapter adapter;
@@ -64,14 +63,14 @@ public class HomeFragment extends Fragment {
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        myData data = new myData();
+        PostDataProcessor data = new PostDataProcessor();
         data.populateArrays(() -> {
             for (int i = 0; i < data.addressArray.length; i++) {
-                dataSet.add(new Item(
+                dataSet.add(new Post(
                         data.addressArray[i],
                         data.epochsArray[i],
                         data.likesArray[i],
-                        data.drawableArray[i]
+                        data.postPicturesArray[i]
                 ));
             }
             filteredDataSet.addAll(dataSet);
@@ -99,8 +98,8 @@ public class HomeFragment extends Fragment {
     private void filterDataSet(String query) {
         filteredDataSet.clear();
 
-        for (Item dataModel : dataSet) {
-            if (dataModel.getName().toLowerCase().contains(query.toLowerCase())) {
+        for (Post dataModel : dataSet) {
+            if (dataModel.getAddress().toLowerCase().contains(query.toLowerCase())) {
                 filteredDataSet.add(dataModel);
             }
         }
