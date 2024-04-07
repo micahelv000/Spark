@@ -75,7 +75,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.Text_NumberOfLikes.setText(String.format("%s", dataModel.getTotalLikes()));
         dataModel.setFullName(holder.TextUsernameUploaded);
         if(dataModel.getImage()!=null) {
-            Picasso.get().load(dataModel.getImage()).error(R.drawable.default_profile).placeholder(R.drawable.progress_animation).into(holder.imageView);
+            Picasso.get().load(dataModel.getImage()).error(R.drawable.defualt_parking).placeholder(R.drawable.progress_animation).into(holder.imageView);
         }
         LocationHelper locationHelper = new LocationHelper(context);
         locationHelper.setDistanceToLocation(holder.TextDistanceFromUser, dataModel.getLocation());

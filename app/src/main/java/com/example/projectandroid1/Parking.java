@@ -81,17 +81,26 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
 
         //parking img
         if(ParkingInfo.getImage()!=null) {
-            Picasso.get().load(ParkingInfo.getImage()).error(R.drawable.default_profile).placeholder(R.drawable.progress_animation).into(ParkingIMG);
+            Picasso.get().load(ParkingInfo.getImage()).error(R.drawable.defualt_parking).placeholder(R.drawable.progress_animation).into(ParkingIMG);
         }
         // Profile img
 
         latitude = ParkingInfo.getLocation().getLatitude();
         longitude = ParkingInfo.getLocation().getLongitude();
 
+        String price_text;
+        if(ParkingInfo.getIsFree()){
+            price_text = "The parking is Free\uD83D\uDE80\n";
+        }else{
+            price_text = "The parking is Paid\uD83D\uDE2D\n";
+        }
 
         String Data = "\uD83D\uDCCD " +ParkingInfo.getAddress()+
                 "\n⏰ "+ParkingInfo.getEpoch()+
-                "\n♥ "+ParkingInfo.getTotalLikes()+" Likes";
+                "\n♥ "+ParkingInfo.getTotalLikes()+" Likes"+
+                "\n\uD83D\uDD11 "+ParkingInfo.getParkingTypeToString()+
+                "\n\uD83D\uDE98 Fit For: "+ParkingInfo.getCarType()+
+                "\n\uD83D\uDCB0 "+price_text;
 
         info.setText(Data);
 

@@ -26,6 +26,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text=".@profile"
+            android:textColor="#000000"
             android:textSize="30sp" />
 
         <Space
@@ -80,6 +81,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Country, City"
+        android:textColor="#000000"
         android:textSize="20sp" />
 
     <LinearLayout
@@ -126,6 +128,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="Total Likes"
+                    android:textColor="#000000"
                     android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
@@ -156,6 +159,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="20"
+                    android:textColor="#000000"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -164,6 +168,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="Total posts"
+                    android:textColor="#000000"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -193,6 +198,7 @@
                 android:layout_margin="5dp"
                 android:text="The latest parking you posted"
                 android:textAlignment="center"
+                android:textColor="#000000"
                 android:textSize="20sp" />
 
 

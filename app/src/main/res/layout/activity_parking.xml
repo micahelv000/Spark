@@ -77,7 +77,7 @@
                     android:lineSpacingExtra="6sp"
                     android:text="adress and more details \nMore Details\nMore Details\nMore Details\nMore Details\nMore Details\nMore Details"
                     android:textAlignment="viewStart"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     tools:ignore="RtlCompat" />
 
 

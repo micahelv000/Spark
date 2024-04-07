@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -29,6 +30,7 @@ public class AddParking extends AppCompatActivity {
     SwitchCompat Switch1;
     RadioGroup radioGroup;
     Location selectedLocation;
+    EditText EditTaddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,48 +57,88 @@ public class AddParking extends AppCompatActivity {
 
         Button submitButton = findViewById(R.id.b_Add_this);
         submitButton.setOnClickListener(this::onSubmitButtonClick);
-        
+        EditTaddress = findViewById(R.id.addressEditText);
         LocationHelper locationHelper = new LocationHelper(this);
-        locationHelper.setAddressToTextView(findViewById(R.id.addressEditText), locationHelper.getLocation());
+        locationHelper.setAddressToTextView(EditTaddress, locationHelper.getLocation());
     }
 
     public void onSubmitButtonClick(View view) {
-        String[] parkingType = new String[2];
-        if (((CheckBox) findViewById(R.id.ParallelParkingCheckBox)).isChecked()) {
-            parkingType[0] = "Parallel";
-        }
-        if (((CheckBox) findViewById(R.id.PerpendicularParkingCheckBox)).isChecked()) {
-            parkingType[1] = "Perpendicular";
-        }
+        if(Validation(view)) {
+            String[] parkingType = new String[2];
+            if (((CheckBox) findViewById(R.id.ParallelParkingCheckBox)).isChecked()) {
+                parkingType[0] = "Parallel";
+            }
+            if (((CheckBox) findViewById(R.id.PerpendicularParkingCheckBox)).isChecked()) {
+                parkingType[1] = "Perpendicular";
+            }
 
-        String carType = "";
-        for (int i = 0; i < radioGroup.getChildCount(); i++) {
+            String carType = "";
+            for (int i = 0; i < radioGroup.getChildCount(); i++) {
+                RadioButton radioButton = (RadioButton) radioGroup.getChildAt(i);
+                if (radioButton.isChecked()) {
+                    carType = radioButton.getText().toString();
+                    break;
+                }
+            }
+
+            boolean isFree = !Switch1.isChecked();
+
+            if (selectedLocation == null) {
+                String address = ((EditText) findViewById(R.id.addressEditText)).getText().toString();
+                selectedLocation = LocationHelper.getLocationFromAddress(address, this);
+            }
+
+            FireBaseHandler fireBaseHandler = new FireBaseHandler();
+            fireBaseHandler.uploadPost(selectedImage, carType, parkingType, isFree, selectedLocation, FireBaseHandler.getCurrentUser(), this)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Intent intent = new Intent(this, LayoutFragments.class);
+                            intent.putExtras(getIntent());
+                            startActivity(intent);
+                        } else {
+                            Log.e("AddParking", "Failed to upload post", task.getException());
+                        }
+                    });
+        }
+    }
+
+    private boolean Validation(View view) {
+        //check that photo had been uploaded
+        if(selectedImage == null){
+            Toast.makeText(AddParking.this, "You must upload a photo", Toast.LENGTH_SHORT).show();
+
+            return false;
+        }
+        //check address is not empty
+        if(EditTaddress.getText().toString().isEmpty()){
+            Toast.makeText(AddParking.this, "You must add an address", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        //check picked line 1
+        boolean flag = false;
+        for (int i = 0; i < radioGroup.getChildCount() && (!flag); i++) {
             RadioButton radioButton = (RadioButton) radioGroup.getChildAt(i);
             if (radioButton.isChecked()) {
-                carType = radioButton.getText().toString();
-                break;
+                flag = true;
             }
         }
-
-        boolean isFree = !Switch1.isChecked();
-
-        if (selectedLocation == null) {
-            String address = ((EditText) findViewById(R.id.addressEditText)).getText().toString();
-            selectedLocation = LocationHelper.getLocationFromAddress(address, this);
+        if(!flag){
+            Toast.makeText(AddParking.this, "Choose Parking size", Toast.LENGTH_SHORT).show();
+            return false;
         }
 
-        FireBaseHandler fireBaseHandler = new FireBaseHandler();
-        fireBaseHandler.uploadPost(selectedImage, carType, parkingType, isFree, selectedLocation, FireBaseHandler.getCurrentUser(), this)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Intent intent = new Intent(this, LayoutFragments.class);
-                        intent.putExtras(getIntent());
-                        startActivity(intent);
-                    } else {
-                        Log.e("AddParking", "Failed to upload post", task.getException());
-                    }
-                });
-    } 
+        //check picked line 2
+        boolean op1 =(((CheckBox) findViewById(R.id.ParallelParkingCheckBox)).isChecked());
+        boolean op2 =(((CheckBox) findViewById(R.id.PerpendicularParkingCheckBox)).isChecked());
+
+        if ((!op1) && (!op2))
+        {
+            Toast.makeText(AddParking.this, "You must choose the type of the parking", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
 
     ActivityResultLauncher<Intent> mGetContent2 = registerForActivityResult(
     new ActivityResultContracts.StartActivityForResult(),

@@ -84,7 +84,9 @@
                     android:outlineProvider="bounds"
                     android:padding="5dp"
                     android:scaleType="centerCrop"
-                    tools:srcCompat="@tools:sample/avatars" />
+                    tools:srcCompat="@drawable/defualt_parking">
+                </ImageView>
+
 
             </LinearLayout>
 

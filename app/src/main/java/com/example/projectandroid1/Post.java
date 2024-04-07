@@ -124,6 +124,9 @@ public class Post {
     public String[] getParkingType() {
         return parkingType;
     }
+    public String getParkingTypeToString() {
+        return Arrays.toString(parkingType);
+    }
 
     public boolean getIsFree() {
         return isFree;

@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="300sp"
             android:layout_weight="0.4"
-            android:src="@drawable/ic_launcher_foreground" />
+            android:src="@drawable/uplode" />
 
         <TextView
             android:id="@+id/textView6"
