@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,7 +19,7 @@ public class Dialog_filter extends DialogFragment {
     {
         void onFilterApplied(boolean isBigCar, boolean isRegularCar, boolean isSmallCar,
                              boolean isParallelP, boolean isPerpendicularP, boolean isFreeP,
-                             boolean isPaidP);
+                             boolean isPaidP,int typedistance);
     }
     private FilterListener filterListener;
 
@@ -38,6 +39,9 @@ public class Dialog_filter extends DialogFragment {
         CheckBox checkbox11 = dialogView.findViewById(R.id.PerpendicularParkingCheckBox);
         CheckBox checkbox20 = dialogView.findViewById(R.id.checkBox20);
         CheckBox checkbox21 = dialogView.findViewById(R.id.checkBox21);
+        RadioButton radioButton30 = dialogView.findViewById(R.id.checkBox30);
+        RadioButton radioButton31 = dialogView.findViewById(R.id.checkBox31);
+        RadioButton radioButton32 =  dialogView.findViewById(R.id.checkBox32);
         // Enable all checkboxes by default
         checkbox00.setChecked(true);
         checkbox01.setChecked(true);
@@ -46,6 +50,7 @@ public class Dialog_filter extends DialogFragment {
         checkbox11.setChecked(true);
         checkbox20.setChecked(true);
         checkbox21.setChecked(true);
+        radioButton32.setChecked(true);
 
 
 // need also to save the state of them when pressing again the button.
@@ -61,10 +66,21 @@ public class Dialog_filter extends DialogFragment {
             boolean isFreeP = checkbox20.isChecked();
             boolean isPaidP = checkbox21.isChecked();
 
+            boolean isFive = radioButton30.isChecked();
+            boolean isTen = radioButton31.isChecked();
+            boolean isAll = radioButton32.isChecked();
+            int typeDistance;
+            if(isFive){
+                typeDistance =0;
+            }else if(isTen){
+                typeDistance =1;
+            }else{
+                typeDistance =2;
+            }
             // filter or pass to the parent java class and then filter the properties
             if (filterListener != null) {
                 filterListener.onFilterApplied(isBigCar, isRegularCar, isSmallCar,
-                        isParllerP, isPerpendicularP, isFreeP, isPaidP);
+                        isParllerP, isPerpendicularP, isFreeP, isPaidP,typeDistance);
             }
         })
         .setNegativeButton("Cancel", null); // Cancel button, no action

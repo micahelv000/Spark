@@ -90,9 +90,9 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
 
         String price_text;
         if(ParkingInfo.getIsFree()){
-            price_text = "The parking is Free\uD83D\uDE80\n";
+            price_text = "The parking is Free";
         }else{
-            price_text = "The parking is Paid\uD83D\uDE2D\n";
+            price_text = "The parking is Paid";
         }
 
         String Data = "\uD83D\uDCCD " +ParkingInfo.getAddress()+

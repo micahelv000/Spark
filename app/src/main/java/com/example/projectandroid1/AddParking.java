@@ -106,7 +106,6 @@ public class AddParking extends AppCompatActivity {
         //check that photo had been uploaded
         if(selectedImage == null){
             Toast.makeText(AddParking.this, "You must upload a photo", Toast.LENGTH_SHORT).show();
-
             return false;
         }
         //check address is not empty

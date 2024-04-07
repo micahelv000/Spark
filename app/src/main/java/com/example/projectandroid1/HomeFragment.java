@@ -117,9 +117,11 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
     }
 
     @Override
-    public void onFilterApplied(boolean isBigCar, boolean isRegularCar, boolean isSmallCar, boolean isParallelP, boolean isPerpendicularP, boolean isFreeP, boolean isPaidP) {
+    public void onFilterApplied(boolean isBigCar, boolean isRegularCar, boolean isSmallCar, boolean isParallelP, boolean isPerpendicularP, boolean isFreeP, boolean isPaidP,int typedistance) {
         filteredDataSet.clear();
         for (Post dataModel : dataSet) {
+            //typedistance if 0 so under 5KM if 1 so under 10 if 2 all distances
+
             if ((dataModel.getCarType().equals("BigCar") && isBigCar) ||
                     (dataModel.getCarType().equals("RegularCar") && isRegularCar) ||
                     (dataModel.getCarType().equals("SmallCar") && isSmallCar)) {

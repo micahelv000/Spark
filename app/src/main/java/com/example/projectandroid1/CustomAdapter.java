@@ -77,6 +77,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         if(dataModel.getImage()!=null) {
             Picasso.get().load(dataModel.getImage()).error(R.drawable.defualt_parking).placeholder(R.drawable.progress_animation).into(holder.imageView);
         }
+
         LocationHelper locationHelper = new LocationHelper(context);
         locationHelper.setDistanceToLocation(holder.TextDistanceFromUser, dataModel.getLocation());
         holder.LikeButton.setOnClickListener(v -> B_Like(dataModel, holder));
