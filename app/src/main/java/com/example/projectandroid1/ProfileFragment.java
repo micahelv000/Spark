@@ -135,7 +135,10 @@ public class ProfileFragment extends Fragment {
                         data.locationArray[i],
                         data.userIdArray[i],
                         data.postIdsArray[i],
-                        data.likeStatusArray[i]
+                        data.likeStatusArray[i],
+                        data.carTypeArray[i],
+                        data.isFreeArray[i],
+                        data.parkingTypeArray[i]
                         ));
             }
 

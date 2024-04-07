@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 //public class HomeFragment extends Fragment implements Dialog_filter.FilterListener {
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements Dialog_filter.FilterListener{
     private ArrayList<Post> dataSet;
     private ArrayList<Post> filteredDataSet;
     private RecyclerView recyclerView;
@@ -72,7 +72,10 @@ public class HomeFragment extends Fragment {
                         data.locationArray[i],
                         data.userIdArray[i],
                         data.postIdsArray[i],
-                        data.likeStatusArray[i]
+                        data.likeStatusArray[i],
+                        data.carTypeArray[i],
+                        data.isFreeArray[i],
+                        data.parkingTypeArray[i]
                 ));
             }
             filteredDataSet.addAll(dataSet);
@@ -90,7 +93,7 @@ public class HomeFragment extends Fragment {
     }
     public void Openfilter(View view) {
         Dialog_filter dialog = new Dialog_filter();
-        //dialog.setFilterListener(this); // Set the listener
+        dialog.setFilterListener(this); // Set the listener
         dialog.show(getChildFragmentManager(), "Dialog_filter");
 
     }
@@ -113,47 +116,27 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    /*
     @Override
-    public void onFilterApplied(boolean isBigCar, boolean isRegularCar, boolean isSmallCar,
-                                boolean isParallelP, boolean isPerpendicularP, boolean isFreeP,
-                                boolean isPaidP) {
-
+    public void onFilterApplied(boolean isBigCar, boolean isRegularCar, boolean isSmallCar, boolean isParallelP, boolean isPerpendicularP, boolean isFreeP, boolean isPaidP) {
+        filteredDataSet.clear();
         for (Post dataModel : dataSet) {
-            if (dataModel.getTypeCar().equalsto("BigCar") && isBigCar ) {
+            if ((dataModel.getCarType().equals("BigCar") && isBigCar) ||
+                    (dataModel.getCarType().equals("RegularCar") && isRegularCar) ||
+                    (dataModel.getCarType().equals("SmallCar") && isSmallCar)) {
                 filteredDataSet.add(dataModel);
-                return;
             }
-            if (dataModel.getTypeCar().equalsto("RegularCar") && isRegularCar ) {
+            String[] parkingType = dataModel.getParkingType();
+            if (parkingType != null) {
+                if ((parkingType.length > 0 && parkingType[0].equals("Parallel") && isParallelP) ||
+                        (parkingType.length > 1 && parkingType[1].equals("Perpendicular") && isPerpendicularP)) {
+                    filteredDataSet.add(dataModel);
+                }
+            }
+            if ((dataModel.getIsFree() && isFreeP) ||
+                    (!dataModel.getIsFree() && isPaidP)) {
                 filteredDataSet.add(dataModel);
-                return;
             }
-            if (dataModel.getTypeCar().equalsto("SmallCar") && isSmallCar ) {
-                filteredDataSet.add(dataModel);
-                return;
-            }
-            if (dataModel.getParking().equalsto("X") && isParallelP ) {
-                filteredDataSet.add(dataModel);
-                return;
-            }
-            if (dataModel.getParking().equalsto("Y") && isPerpendicularP ) {
-                filteredDataSet.add(dataModel);
-                return;
-            }
-            if (dataModel.getPrice().equalsto("Free") && isFreeP ) {
-                filteredDataSet.add(dataModel);
-                return;
-            }
-            if (dataModel.getPrice().equalsto("Free") && isPaidP ) {
-                filteredDataSet.add(dataModel);
-                return;
-            }
-
-
         }
         adapter.notifyDataSetChanged();
-
     }
-
-     */
 }

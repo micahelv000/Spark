@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -61,10 +62,10 @@ public class AddParking extends AppCompatActivity {
 
     public void onSubmitButtonClick(View view) {
         String[] parkingType = new String[2];
-        if (findViewById(R.id.ParallelParkingCheckBox).isSelected()) {
+        if (((CheckBox) findViewById(R.id.ParallelParkingCheckBox)).isChecked()) {
             parkingType[0] = "Parallel";
         }
-        if (findViewById(R.id.PerpendicularParkingCheckBox).isSelected()) {
+        if (((CheckBox) findViewById(R.id.PerpendicularParkingCheckBox)).isChecked()) {
             parkingType[1] = "Perpendicular";
         }
 
@@ -77,7 +78,7 @@ public class AddParking extends AppCompatActivity {
             }
         }
 
-        boolean isFree = Switch1.isChecked();
+        boolean isFree = !Switch1.isChecked();
 
         if (selectedLocation == null) {
             String address = ((EditText) findViewById(R.id.addressEditText)).getText().toString();

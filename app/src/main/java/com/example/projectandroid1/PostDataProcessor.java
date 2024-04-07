@@ -19,6 +19,9 @@ public class PostDataProcessor {
     String[] userIdArray;
     String[] postIdsArray;
     boolean[] likeStatusArray;
+    String[] carTypeArray;
+    String[][] parkingTypeArray;
+    boolean[] isFreeArray;
 
     public boolean[] getLikeStatusArray() {
         return this.likeStatusArray;
@@ -37,6 +40,9 @@ public class PostDataProcessor {
         userIdArray = new String[posts.length()];
         postIdsArray = new String[posts.length()];
         likeStatusArray = new boolean[posts.length()];
+        carTypeArray = new String[posts.length()];
+        isFreeArray = new boolean[posts.length()];
+        parkingTypeArray = new String[posts.length()][];
 
         for (int i = 0; i < posts.length(); i++) {
             try {
@@ -98,6 +104,20 @@ public class PostDataProcessor {
                 } else {
                     likeStatusArray[i] = false;
                 }
+
+                carTypeArray[i] = post.has("car_type") ? post.getString("car_type") : null;
+                isFreeArray[i] = post.has("is_free") && post.getBoolean("is_free");
+
+                if (post.has("parking_type")) {
+                    JSONArray parkingTypes = post.getJSONArray("parking_type");
+                    parkingTypeArray[i] = new String[parkingTypes.length()];
+                    for (int j = 0; j < parkingTypes.length(); j++) {
+                        parkingTypeArray[i][j] = parkingTypes.getString(j);
+                    }
+                } else {
+                    parkingTypeArray[i] = null;
+                }
+
             } catch (JSONException ignored) {
             }
         }
@@ -130,30 +150,44 @@ public class PostDataProcessor {
             }
         });
     }
-        public String[] getAddressArray() {
-            return addressArray;
-        }
 
-        public String[] getEpochsArray() {
-            return epochsArray;
-        }
-
-        public String[] getLikesArray() {
-            return likesArray;
-        }
-
-        public String[] getPostPicturesArray() {
-            return postPicturesArray;
-        }
-
-        public Location[] getLocationArray() {
-            return locationArray;
-        }
-
-        public String[] getUserIdArray() {
-            return userIdArray;
-        }
-        public String[] getPostIdsArray() {return postIdsArray; }
+    public String[] getAddressArray() {
+        return addressArray;
     }
 
+    public String[] getEpochsArray() {
+        return epochsArray;
+    }
 
+    public String[] getLikesArray() {
+        return likesArray;
+    }
+
+    public String[] getPostPicturesArray() {
+        return postPicturesArray;
+    }
+
+    public Location[] getLocationArray() {
+        return locationArray;
+    }
+
+    public String[] getUserIdArray() {
+        return userIdArray;
+    }
+
+    public String[] getPostIdsArray() {
+        return postIdsArray;
+    }
+
+    public String[] getCarTypeArray() {
+        return carTypeArray;
+    }
+
+    public boolean[] getIsFreeArray() {
+        return isFreeArray;
+    }
+
+    public String[][] getParkingTypeArray() {
+        return parkingTypeArray;
+    }
+}

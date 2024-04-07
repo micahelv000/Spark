@@ -43,7 +43,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         TextView Text_NumberOfLikes,TextDistanceFromUser, TextUsernameUploaded,Text_Probability;
         ImageView imageView;
         LinearLayout open;
-        ImageView ReportButton;
         boolean LikeStatus;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -112,7 +111,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             holder.Text_Probability.setTextColor(Color.parseColor("#05f028"));
 
         }
-        //holder.ReportButton.setOnClickListener(v -> removeAmount(dataModel));
     }
 
 

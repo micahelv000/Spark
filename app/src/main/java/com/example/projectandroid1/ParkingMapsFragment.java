@@ -27,8 +27,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
 
 public class ParkingMapsFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
@@ -41,6 +39,9 @@ public class ParkingMapsFragment extends Fragment implements OnMapReadyCallback 
     private String[] userIdArray;
     private String[] postIDArray;
     private boolean[] likeStatusArray;
+    private boolean[] isFreeArray;
+    private String[] carTypeArray;
+    private String[][] parkingTypeArray;
     private Post[] posts;
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -59,6 +60,9 @@ public class ParkingMapsFragment extends Fragment implements OnMapReadyCallback 
             userIdArray = postDataProcessor.getUserIdArray();
             postIDArray = postDataProcessor.getPostIdsArray();
             likeStatusArray = postDataProcessor.getLikeStatusArray();
+            carTypeArray = postDataProcessor.getCarTypeArray();
+            isFreeArray = postDataProcessor.getIsFreeArray();
+            parkingTypeArray = postDataProcessor.getParkingTypeArray();
 
             // Access locationArray only after it's populated
             locations = new ArrayList<>();
@@ -109,7 +113,7 @@ public class ParkingMapsFragment extends Fragment implements OnMapReadyCallback 
         // Check if locations ArrayList is null or not
         if (locations != null) {
             for (int i = 0; i < locations.size(); i++) {
-                posts[i] = new Post(addressArray[i],epochsArray[i],likesArray[i],postPicturesArray[i],locationArray[i],userIdArray[i], postIDArray[i], likeStatusArray[i]);
+                posts[i] = new Post(addressArray[i],epochsArray[i],likesArray[i],postPicturesArray[i],locationArray[i],userIdArray[i], postIDArray[i], likeStatusArray[i], carTypeArray[i], isFreeArray[i], parkingTypeArray[i]);
                 LatLng location = locations.get(i);
                 mMap.addMarker(new MarkerOptions().position(location).title(String.valueOf(i)));
             }

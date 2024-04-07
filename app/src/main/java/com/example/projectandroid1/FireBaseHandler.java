@@ -332,7 +332,7 @@ public class FireBaseHandler {
     }
 
     public JSONObject buildPostJson(String user_id, String image_url, String car_type, String[] parking_type,
-            boolean is_free, Location location, String address, int total_likes, int reports) {
+            boolean is_free, Location location, String address, int total_likes) {
         JSONObject json = new JSONObject();
         try {
             json.put("user_id", user_id);
@@ -348,7 +348,6 @@ public class FireBaseHandler {
             locationJson.put("address", address);
             json.put("location", locationJson);
             json.put("total_likes", total_likes);
-            json.put("reports", reports);
             json.put("epoch_time", System.currentTimeMillis() / 1000L);
         } catch (Exception ignored) {
         }
@@ -423,7 +422,7 @@ public class FireBaseHandler {
                     if (task.isSuccessful()) {
                         String imageUrl = task.getResult();
                         JSONObject postJson = buildPostJson(user.getUid(), imageUrl, car_type, parking_type, is_free,
-                                post_location, address, 0, 0);
+                                post_location, address, 0);
                         SavePostJsonData(user, postJson);
                     }
                     return Tasks.forResult(null);
@@ -446,7 +445,14 @@ public class FireBaseHandler {
                                     postJson.put("user_id", ((Map<?, ?>) entry.getValue()).get("user_id"));
                                     postJson.put("image_url", ((Map<?, ?>) entry.getValue()).get("image_url"));
                                     postJson.put("car_type", ((Map<?, ?>) entry.getValue()).get("car_type"));
-                                    postJson.put("parking_type", ((Map<?, ?>) entry.getValue()).get("parking_type"));
+                                    if (((Map<?, ?>) entry.getValue()).get("parking_type") instanceof List<?>) {
+                                        List<?> parkingTypeList = (List<?>) ((Map<?, ?>) entry.getValue()).get("parking_type");
+                                        JSONArray parkingTypeArray = new JSONArray();
+                                        for (Object parkingType : parkingTypeList) {
+                                            parkingTypeArray.put(parkingType);
+                                        }
+                                        postJson.put("parking_type", parkingTypeArray);
+                                    }
                                     postJson.put("is_free", ((Map<?, ?>) entry.getValue()).get("is_free"));
 
                                     Map<?, ?> locationMap = (Map<?, ?>) ((Map<?, ?>) entry.getValue()).get("location");
@@ -455,7 +461,6 @@ public class FireBaseHandler {
                                     postJson.put("location", locationJson);
 
                                     postJson.put("total_likes", ((Map<?, ?>) entry.getValue()).get("total_likes"));
-                                    postJson.put("reports", ((Map<?, ?>) entry.getValue()).get("reports"));
                                     postJson.put("epoch_time", ((Map<?, ?>) entry.getValue()).get("epoch_time"));
                                     Map<?, ?> likesMap = (Map<?, ?>) ((Map<?, ?>) entry.getValue()).get("likes");
                                     if (likesMap != null) {
