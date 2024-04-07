@@ -90,8 +90,8 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
 
 
         String Data = "\uD83D\uDCCD " +ParkingInfo.getAddress()+
-                "\n\n⏰ "+ParkingInfo.getEpoch()+
-                "\n\n♥ "+ParkingInfo.getTotalLikes()+" Likes";
+                "\n⏰ "+ParkingInfo.getEpoch()+
+                "\n♥ "+ParkingInfo.getTotalLikes()+" Likes";
 
         info.setText(Data);
 
@@ -132,8 +132,8 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
         }
 
         String Data = "\uD83D\uDCCD " +ParkingInfo.getAddress()+
-                "\n\n⏰ "+ParkingInfo.getEpoch()+
-                "\n\n♥ "+ParkingInfo.getTotalLikes()+" Likes";
+                "\n⏰ "+ParkingInfo.getEpoch()+
+                "\n♥ "+ParkingInfo.getTotalLikes()+" Likes";
 
         info.setText(Data);
 
