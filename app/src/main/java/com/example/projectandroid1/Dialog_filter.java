@@ -13,6 +13,15 @@ import androidx.fragment.app.DialogFragment;
 
 public class Dialog_filter extends DialogFragment {
 
+    // Define an interface
+    public interface FilterListener
+    {
+        void onFilterApplied(boolean isBigCar, boolean isRegularCar, boolean isSmallCar,
+                             boolean isParallelP, boolean isPerpendicularP, boolean isFreeP,
+                             boolean isPaidP);
+    }
+    private FilterListener filterListener;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -29,26 +38,40 @@ public class Dialog_filter extends DialogFragment {
         CheckBox checkbox11 = dialogView.findViewById(R.id.PerpendicularParkingCheckBox);
         CheckBox checkbox20 = dialogView.findViewById(R.id.checkBox20);
         CheckBox checkbox21 = dialogView.findViewById(R.id.checkBox21);
+        // Enable all checkboxes by default
+        checkbox00.setChecked(true);
+        checkbox01.setChecked(true);
+        checkbox02.setChecked(true);
+        checkbox10.setChecked(true);
+        checkbox11.setChecked(true);
+        checkbox20.setChecked(true);
+        checkbox21.setChecked(true);
 
 
 // need also to save the state of them when pressing again the button.
-                builder.setView(dialogView)
-                .setTitle("Filter Properties")
-                .setPositiveButton("Save", (dialog, which) -> {
+        builder.setView(dialogView)
+        .setTitle("Filter Properties")
+        .setPositiveButton("Save", (dialog, which) -> {
 
-                    boolean isChecked00 = checkbox00.isChecked();
-                    boolean isChecked01 = checkbox01.isChecked();
-                    boolean isChecked02 = checkbox02.isChecked();
-                    boolean isChecked10 = checkbox10.isChecked();
-                    boolean isChecked11 = checkbox11.isChecked();
-                    boolean isChecked20 = checkbox20.isChecked();
-                    boolean isChecked21 = checkbox21.isChecked();
+            boolean isBigCar = checkbox00.isChecked();
+            boolean isRegularCar = checkbox01.isChecked();
+            boolean isSmallCar = checkbox02.isChecked();
+            boolean isParllerP = checkbox10.isChecked();
+            boolean isPerpendicularP = checkbox11.isChecked();
+            boolean isFreeP = checkbox20.isChecked();
+            boolean isPaidP = checkbox21.isChecked();
 
-                    // filter or pass to the parent java class and then filter the properties
-
-                })
-                .setNegativeButton("Cancel", null); // Cancel button, no action
+            // filter or pass to the parent java class and then filter the properties
+            if (filterListener != null) {
+                filterListener.onFilterApplied(isBigCar, isRegularCar, isSmallCar,
+                        isParllerP, isPerpendicularP, isFreeP, isPaidP);
+            }
+        })
+        .setNegativeButton("Cancel", null); // Cancel button, no action
 
         return builder.create();
+    }
+    public void setFilterListener(FilterListener listener) {
+        this.filterListener = listener;
     }
 }

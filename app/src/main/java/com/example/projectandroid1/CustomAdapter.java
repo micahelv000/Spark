@@ -115,16 +115,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         //holder.ReportButton.setOnClickListener(v -> removeAmount(dataModel));
     }
 
-    private void showConfirmationDialogReport(int position, View ReportButton) {
-        Animation rotate = AnimationUtils.loadAnimation(context, R.anim.hearbeat_anim);
-        ReportButton.startAnimation(rotate);
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Confirmation");
-        builder.setMessage("Are you sure you want to Report that the parking is taken?");
-        builder.setPositiveButton("Yes", (dialog, which) -> notifyItemChanged(position));
-        builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
-        builder.show();
-    }
+
 
     private void B_Like(Post dataModel, MyViewHolder holder) {
         Animation rotate = AnimationUtils.loadAnimation(context, R.anim.hearbeat_anim);
@@ -151,21 +142,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         //notifyDataSetChanged();
     }
 
-/*
-    private void removeAmount(com.example.projectandroid1.Post dataModel) {
-        if (dataModel.getAmount() > 0) {
-            dataModel.setAmount(dataModel.getAmount() - 1);
-            mDatabase.child("users").child(this.userid).child("amounts").child(dataModel.getName()).setValue(dataModel.getAmount());
-            notifyDataSetChanged();
-        }
-    }
 
-    private void addAmount(com.example.projectandroid1.Post dataModel) {
-        dataModel.setAmount(dataModel.getAmount() + 1);
-        mDatabase.child("users").child(this.userid).child("amounts").child(dataModel.getName()).setValue(dataModel.getAmount());
-        notifyDataSetChanged();
-    }
-*/
 
     private void B_OpenParking(Post dataModel) {
 

@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import java.util.ArrayList;
-
+//public class HomeFragment extends Fragment implements Dialog_filter.FilterListener {
 public class HomeFragment extends Fragment {
     private ArrayList<Post> dataSet;
     private ArrayList<Post> filteredDataSet;
@@ -90,7 +90,9 @@ public class HomeFragment extends Fragment {
     }
     public void Openfilter(View view) {
         Dialog_filter dialog = new Dialog_filter();
+        //dialog.setFilterListener(this); // Set the listener
         dialog.show(getChildFragmentManager(), "Dialog_filter");
+
     }
     private void filterDataSet(String query) {
         filteredDataSet.clear();
@@ -111,6 +113,47 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    /*
+    @Override
+    public void onFilterApplied(boolean isBigCar, boolean isRegularCar, boolean isSmallCar,
+                                boolean isParallelP, boolean isPerpendicularP, boolean isFreeP,
+                                boolean isPaidP) {
+
+        for (Post dataModel : dataSet) {
+            if (dataModel.getTypeCar().equalsto("BigCar") && isBigCar ) {
+                filteredDataSet.add(dataModel);
+                return;
+            }
+            if (dataModel.getTypeCar().equalsto("RegularCar") && isRegularCar ) {
+                filteredDataSet.add(dataModel);
+                return;
+            }
+            if (dataModel.getTypeCar().equalsto("SmallCar") && isSmallCar ) {
+                filteredDataSet.add(dataModel);
+                return;
+            }
+            if (dataModel.getParking().equalsto("X") && isParallelP ) {
+                filteredDataSet.add(dataModel);
+                return;
+            }
+            if (dataModel.getParking().equalsto("Y") && isPerpendicularP ) {
+                filteredDataSet.add(dataModel);
+                return;
+            }
+            if (dataModel.getPrice().equalsto("Free") && isFreeP ) {
+                filteredDataSet.add(dataModel);
+                return;
+            }
+            if (dataModel.getPrice().equalsto("Free") && isPaidP ) {
+                filteredDataSet.add(dataModel);
+                return;
+            }
 
 
+        }
+        adapter.notifyDataSetChanged();
+
+    }
+
+     */
 }
