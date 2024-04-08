@@ -24,16 +24,16 @@ import java.util.Locale;
 import java.util.Objects;
 
 //public class HomeFragment extends Fragment implements Dialog_filter.FilterListener {
-public class HomeFragment extends Fragment implements Dialog_filter.FilterListener{
+public class HomeFragment extends Fragment implements Dialog_filter.FilterListener,DialogSortBy.SortByListener {
     private ArrayList<Post> dataSet;
     private ArrayList<Post> filteredDataSet;
     private RecyclerView recyclerView;
     private CustomAdapter adapter;
-    ImageView Bfilter,Bhome;
+    ImageView Bfilter,Bhome,Bsort;
 
     //for filter
     boolean GisBigCar, GisRegularCar,  GisSmallCar,  GisParallelP,  GisPerpendicularP,  GisFreeP,  GisPaidP;
-    int Gtypedistance;
+    int Gtypedistance,Gsort;
 
     @SuppressLint("MissingInflatedId")
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
         GisFreeP=true;
         GisPaidP=true;
         Gtypedistance =2;
-
+        Gsort = 2;
         dataSet = new ArrayList<>();
         filteredDataSet = new ArrayList<>();
         recyclerView = rootView.findViewById(R.id.resView);
@@ -55,6 +55,7 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         Bfilter = rootView.findViewById(R.id.B_filter);
+        Bsort = rootView.findViewById(R.id.B_SortBy);
 
         editTextSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -93,17 +94,23 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
                 ));
             }
             filteredDataSet.addAll(dataSet);
-
             adapter = new CustomAdapter(filteredDataSet, getActivity());
             recyclerView.setAdapter(adapter);
         });
-    
+
         return rootView;
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bfilter.setOnClickListener(this::Openfilter);
+        Bsort.setOnClickListener(this::OpenSort);
+
+    }
+    public void OpenSort(View view) {
+        DialogSortBy dialog = DialogSortBy.newInstance(Gsort);
+        dialog.setFilterListener(this);
+        dialog.show(getParentFragmentManager(), "Dialog_sort");
     }
     public void Openfilter(View view) {
         Dialog_filter dialog = Dialog_filter.newInstance(GisBigCar, GisRegularCar, GisSmallCar,
@@ -189,6 +196,27 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
                 filteredDataSet.add(dataModel);
             }
         }
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onFilterApplied(int sort) {
+        Gsort = sort;
+        if(sort ==0){
+            // Sort alphabetically (ABC)
+            filteredDataSet.sort((post1, post2) -> post1.getAddress().compareToIgnoreCase(post2.getAddress()));
+        }else if(sort ==1){
+            //filteredDataSet.sort(Distance);
+            filteredDataSet.sort((post1, post2) -> {
+                LocationHelper locationHelper = new LocationHelper(requireContext());
+                float distance1 = locationHelper.getDistanceToLocation(post1.getLocation());
+                float distance2 = locationHelper.getDistanceToLocation(post2.getLocation());
+                return Float.compare(distance1, distance2);
+            });
+        }else{
+            filteredDataSet.sort((post1, post2) -> post1.getEpoch().compareToIgnoreCase(post2.getEpoch()));
+        }
+
         adapter.notifyDataSetChanged();
     }
 }
