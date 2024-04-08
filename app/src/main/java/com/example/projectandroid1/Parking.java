@@ -2,10 +2,6 @@ package com.example.projectandroid1;
 
 import static com.example.projectandroid1.Post.fromString;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -16,6 +12,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -31,12 +30,13 @@ import java.util.stream.Collectors;
 
 public class Parking extends AppCompatActivity implements OnMapReadyCallback {
 
-    private ImageView Rep,empty,takeIt,profileIMG,ParkingIMG;
-    private TextView Username ,info;
+    private ImageView Rep;
+    private ImageView profileIMG;
+    private TextView Username, info;
     private double latitude; // Example latitude (San Francisco)
-    private double longitude ; // Example longitude (San Francisco)
-    private String username;
+    private double longitude; // Example longitude (San Francisco)
     private Post ParkingInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,18 +48,14 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
         Rep = findViewById(R.id.B_Report);
         Username = findViewById(R.id.Username);
         profileIMG = findViewById(R.id.profileIMG);
-        ParkingIMG = findViewById(R.id.imageView3);
+        ImageView parkingIMG = findViewById(R.id.imageView3);
         info = findViewById(R.id.textView2);
-
-
 
         Intent intent = getIntent();
         String ParkingInfoString = intent.getStringExtra("Parking");
         assert ParkingInfoString != null;
         ParkingInfo = fromString(ParkingInfoString);
         String userid = ParkingInfo.getuserID();
-
-
 
         FireBaseHandler.getUserName(userid).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -69,54 +65,31 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
         FireBaseHandler.getProfilePic(userid).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 String img = task.getResult();
-
-                if(ParkingInfo.getImage().isEmpty()) {
-                    Picasso.get().load(img).error(R.drawable.default_profile).placeholder(R.drawable.progress_animation).into(profileIMG);
+                if (!Objects.equals(img, "")) {
+                    Picasso.get().load(img).error(R.drawable.default_profile).placeholder(R.drawable.progress_animation)
+                            .into(profileIMG);
                 }
             }
         });
 
-        if(ParkingInfo.getLikeStatus()){
+        if (ParkingInfo.getLikeStatus()) {
             Rep.setColorFilter(Color.RED);
-        }else{
+        } else {
 
             Rep.setColorFilter(Color.BLACK);
         }
 
-        //parking img
-        if(ParkingInfo.getImage()!=null) {
-            Picasso.get().load(ParkingInfo.getImage()).error(R.drawable.default_parking).placeholder(R.drawable.progress_animation).into(ParkingIMG);
+        // parking img
+        if (ParkingInfo.getImage() != null) {
+            Picasso.get().load(ParkingInfo.getImage()).error(R.drawable.default_parking)
+                    .placeholder(R.drawable.progress_animation).into(parkingIMG);
         }
         // Profile img
 
         latitude = ParkingInfo.getLocation().getLatitude();
         longitude = ParkingInfo.getLocation().getLongitude();
 
-        String price_text;
-        if(ParkingInfo.getIsFree()){
-            price_text = "The parking is Free";
-        }else{
-            price_text = "The parking is Paid";
-        }
-
-        String[] parkingTypeArray = ParkingInfo.getParkingType();
-        String parkingTypes = "";
-
-        if (parkingTypeArray != null) {
-            parkingTypes = Arrays.stream(parkingTypeArray)
-                                 .filter(Objects::nonNull)
-                                 .collect(Collectors.joining(", "));
-        }
-
-        String Data = "\uD83D\uDCCD " + ParkingInfo.getAddress() +
-            "\n⏰ " + ParkingInfo.getEpoch() +
-            "\n♥ " + ParkingInfo.getTotalLikes() + " Likes" +
-            "\n\uD83D\uDD11 " + parkingTypes +
-            "\n\uD83D\uDE98 Fit For: " + ParkingInfo.getCarType() +
-            "\n\uD83D\uDCB0 " + price_text;
-
-        info.setText(Data);
-
+        updateInfo();
 
     }
 
@@ -132,66 +105,57 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
         googleMap.getUiSettings().setAllGesturesEnabled(false);
     }
 
-
-    public void B_Like(View view){
+    public void B_Like(View view) {
         Animation rotate = AnimationUtils.loadAnimation(Rep.getContext(), R.anim.hearbeat_anim);
         Rep.startAnimation(rotate);
 
         String post_id = ParkingInfo.getPostID();
-        if(ParkingInfo.getLikeStatus()){
+        if (ParkingInfo.getLikeStatus()) {
             Rep.setColorFilter(Color.BLACK);
             FireBaseHandler fireBaseHandler = new FireBaseHandler();
             fireBaseHandler.unlikePost(post_id);
-            ParkingInfo.setTotalLikes(String.valueOf(Integer.parseInt(ParkingInfo.getTotalLikes())-1));
+            ParkingInfo.setTotalLikes(String.valueOf(Integer.parseInt(ParkingInfo.getTotalLikes()) - 1));
             ParkingInfo.setLikeStatus(false);
-        }else{
+        } else {
             Rep.setColorFilter(Color.RED);
             FireBaseHandler fireBaseHandler = new FireBaseHandler();
             fireBaseHandler.likePost(post_id);
-            ParkingInfo.setTotalLikes(String.valueOf(Integer.parseInt(ParkingInfo.getTotalLikes())+1));
+            ParkingInfo.setTotalLikes(String.valueOf(Integer.parseInt(ParkingInfo.getTotalLikes()) + 1));
             ParkingInfo.setLikeStatus(true);
         }
 
-        String Data = "\uD83D\uDCCD " +ParkingInfo.getAddress()+
-                "\n⏰ "+ParkingInfo.getEpoch()+
-                "\n♥ "+ParkingInfo.getTotalLikes()+" Likes";
-
-        info.setText(Data);
-
-
-        //dataModel.setAmount(dataModel.getAmount() + 1);
-        //mDatabase.child("users").child(this.userid).child("amounts").child(dataModel.getName()).setValue(dataModel.getAmount());
-        //notifyDataSetChanged();
-
-      }
-    public void B_Update(View view){
-        Animation rotate = AnimationUtils.loadAnimation(empty.getContext(), R.anim.hearbeat_anim);
-        takeIt.startAnimation(rotate);
-        AlertDialog.Builder builder = new AlertDialog.Builder(empty.getContext());
-        builder.setTitle("Confirmation");
-        builder.setMessage("Are you sure the parking is still available?");
-        builder.setPositiveButton("Yes", (dialog, which) -> {
-            //update status
-
-        });
-        builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
-        builder.show();
-    }
-    public void B_TakeParking(View view){
-        Animation rotate = AnimationUtils.loadAnimation(takeIt.getContext(), R.anim.hearbeat_anim);
-        takeIt.startAnimation(rotate);
-        AlertDialog.Builder builder = new AlertDialog.Builder(takeIt.getContext());
-        builder.setTitle("Confirmation");
-        builder.setMessage("Are you sure you took the parking?");
-        builder.setPositiveButton("Yes", (dialog, which) -> {
-            //update status
-
-        });
-        builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
-        builder.show();
+        updateInfo();
 
     }
-    public void B_OpenNavi(View view){
+
+    private void updateInfo() {
+        String price_text;
+        if (ParkingInfo.getIsFree()) {
+            price_text = "The parking is Free";
+        } else {
+            price_text = "The parking is Paid";
+        }
+
+        String[] parkingTypeArray = ParkingInfo.getParkingType();
+        String parkingTypes = "";
+
+        if (parkingTypeArray != null) {
+            parkingTypes = Arrays.stream(parkingTypeArray)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.joining(", "));
+        }
+
+        String data = "\uD83D\uDCCD " + ParkingInfo.getAddress() +
+                "\n⏰ " + ParkingInfo.getEpoch() +
+                "\n♥ " + ParkingInfo.getTotalLikes() + " Likes" +
+                "\n\uD83D\uDD11 " + parkingTypes +
+                "\n\uD83D\uDE98 Fit For: " + ParkingInfo.getCarType() +
+                "\n\uD83D\uDCB0 " + price_text;
+
+        info.setText(data);
+    }
+
+    public void B_OpenNavi(View view) {
         Uri gmmIntentUri = Uri.parse("google.navigation:q=" + latitude + "," + longitude);
         // Create an Intent with the action VIEW and the Uri as data
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
@@ -204,10 +168,6 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
             Toast.makeText(this, "No navigation app available", Toast.LENGTH_SHORT).show();
         }
 
-
     }
-
-
-
 
 }
