@@ -1,6 +1,7 @@
 package com.example.projectandroid1;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +15,31 @@ import androidx.fragment.app.DialogFragment;
 
 public class Dialog_filter extends DialogFragment {
 
-    // Define an interface
-    public interface FilterListener
-    {
+    public interface FilterListener {
         void onFilterApplied(boolean isBigCar, boolean isRegularCar, boolean isSmallCar,
                              boolean isParallelP, boolean isPerpendicularP, boolean isFreeP,
-                             boolean isPaidP,int typedistance);
+                             boolean isPaidP, int typeDistance);
     }
+
     private FilterListener filterListener;
+
+    // Factory method to create Dialog_filter instance with arguments
+    public static Dialog_filter newInstance(boolean isBigCar, boolean isRegularCar, boolean isSmallCar,
+                                            boolean isParallelP, boolean isPerpendicularP, boolean isFreeP,
+                                            boolean isPaidP, int typeDistance) {
+        Dialog_filter fragment = new Dialog_filter();
+        Bundle args = new Bundle();
+        args.putBoolean("isBigCar", isBigCar);
+        args.putBoolean("isRegularCar", isRegularCar);
+        args.putBoolean("isSmallCar", isSmallCar);
+        args.putBoolean("isParallelP", isParallelP);
+        args.putBoolean("isPerpendicularP", isPerpendicularP);
+        args.putBoolean("isFreeP", isFreeP);
+        args.putBoolean("isPaidP", isPaidP);
+        args.putInt("typeDistance", typeDistance);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @NonNull
     @Override
@@ -30,8 +48,7 @@ public class Dialog_filter extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.activity_dialog_filter, null);
 
-        // Find checkboxes
-
+        // Find checkboxes and radio buttons
         CheckBox checkbox00 = dialogView.findViewById(R.id.checkBox00);
         CheckBox checkbox01 = dialogView.findViewById(R.id.checkBox01);
         CheckBox checkbox02 = dialogView.findViewById(R.id.checkBox02);
@@ -42,51 +59,55 @@ public class Dialog_filter extends DialogFragment {
         RadioButton radioButton30 = dialogView.findViewById(R.id.checkBox30);
         RadioButton radioButton31 = dialogView.findViewById(R.id.checkBox31);
         RadioButton radioButton32 =  dialogView.findViewById(R.id.checkBox32);
-        // Enable all checkboxes by default
-        checkbox00.setChecked(true);
-        checkbox01.setChecked(true);
-        checkbox02.setChecked(true);
-        checkbox10.setChecked(true);
-        checkbox11.setChecked(true);
-        checkbox20.setChecked(true);
-        checkbox21.setChecked(true);
-        radioButton32.setChecked(true);
+
+        Bundle args = getArguments();
+        if (args != null) {
+            checkbox00.setChecked(args.getBoolean("isBigCar"));
+            checkbox01.setChecked(args.getBoolean("isRegularCar"));
+            checkbox02.setChecked(args.getBoolean("isSmallCar"));
+            checkbox10.setChecked(args.getBoolean("isParallelP"));
+            checkbox11.setChecked(args.getBoolean("isPerpendicularP"));
+            checkbox20.setChecked(args.getBoolean("isFreeP"));
+            checkbox21.setChecked(args.getBoolean("isPaidP"));
+            radioButton30.setChecked(args.getInt("typeDistance") == 0);
+            radioButton31.setChecked(args.getInt("typeDistance") == 1);
+            radioButton32.setChecked(args.getInt("typeDistance") == 2);
+        }
 
 
-// need also to save the state of them when pressing again the button.
         builder.setView(dialogView)
-        .setTitle("Filter Properties")
-        .setPositiveButton("Save", (dialog, which) -> {
+                .setTitle("Filter Properties")
+                .setPositiveButton("Save", (dialog, which) -> {
+                    boolean isBigCar = checkbox00.isChecked();
+                    boolean isRegularCar = checkbox01.isChecked();
+                    boolean isSmallCar = checkbox02.isChecked();
+                    boolean isParllerP = checkbox10.isChecked();
+                    boolean isPerpendicularP = checkbox11.isChecked();
+                    boolean isFreeP = checkbox20.isChecked();
+                    boolean isPaidP = checkbox21.isChecked();
 
-            boolean isBigCar = checkbox00.isChecked();
-            boolean isRegularCar = checkbox01.isChecked();
-            boolean isSmallCar = checkbox02.isChecked();
-            boolean isParllerP = checkbox10.isChecked();
-            boolean isPerpendicularP = checkbox11.isChecked();
-            boolean isFreeP = checkbox20.isChecked();
-            boolean isPaidP = checkbox21.isChecked();
+                    boolean isFive = radioButton30.isChecked();
+                    boolean isTen = radioButton31.isChecked();
+                    boolean isAll = radioButton32.isChecked();
+                    int typeDistance;
+                    if(isFive){
+                        typeDistance =0;
+                    }else if(isTen){
+                        typeDistance =1;
+                    }else{
+                        typeDistance =2;
+                    }
 
-            boolean isFive = radioButton30.isChecked();
-            boolean isTen = radioButton31.isChecked();
-            boolean isAll = radioButton32.isChecked();
-            int typeDistance;
-            if(isFive){
-                typeDistance =0;
-            }else if(isTen){
-                typeDistance =1;
-            }else{
-                typeDistance =2;
-            }
-            // filter or pass to the parent java class and then filter the properties
-            if (filterListener != null) {
-                filterListener.onFilterApplied(isBigCar, isRegularCar, isSmallCar,
-                        isParllerP, isPerpendicularP, isFreeP, isPaidP,typeDistance);
-            }
-        })
-        .setNegativeButton("Cancel", null); // Cancel button, no action
+                    if (filterListener != null) {
+                        filterListener.onFilterApplied(isBigCar, isRegularCar, isSmallCar,
+                                isParllerP, isPerpendicularP, isFreeP, isPaidP, typeDistance);
+                    }
+                })
+                .setNegativeButton("Cancel", null);
 
         return builder.create();
     }
+
     public void setFilterListener(FilterListener listener) {
         this.filterListener = listener;
     }
