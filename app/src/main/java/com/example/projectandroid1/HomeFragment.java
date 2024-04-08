@@ -94,6 +94,7 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
                 ));
             }
             filteredDataSet.addAll(dataSet);
+            filteredDataSet.sort((post1, post2) -> post1.getEpoch().compareToIgnoreCase(post2.getEpoch()));
             adapter = new CustomAdapter(filteredDataSet, getActivity());
             recyclerView.setAdapter(adapter);
         });
