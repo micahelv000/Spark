@@ -177,10 +177,13 @@ public class EditProfileActivity extends AppCompatActivity {
         FireBaseHandler fb = new FireBaseHandler();
 
         Uri selectedImageUri = this.selectedImageUri;
-        fb.updateUserData(full_name,"",instagram_handle,user_location,city,country);
-        Intent intent1 = new Intent(this, LayoutFragments.class);
-        intent1.putExtras(intent);
-        startActivity(intent1);
+        fb.updateUserData(full_name,"",instagram_handle,user_location,city,country, selectedImageUri)
+            .addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Intent intent1 = new Intent(this, MainActivity.class);
+                    startActivity(intent1);
+                }
+            });
     }
 
 

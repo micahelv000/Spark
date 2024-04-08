@@ -84,7 +84,7 @@
                     android:outlineProvider="bounds"
                     android:padding="5dp"
                     android:scaleType="centerCrop"
-                    tools:srcCompat="@drawable/defualt_parking">
+                    app:srcCompat="@drawable/defualt_parking">
                 </ImageView>
 
 
