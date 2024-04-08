@@ -112,7 +112,11 @@ public class PostDataProcessor {
                     JSONArray parkingTypes = post.getJSONArray("parking_type");
                     parkingTypeArray[i] = new String[parkingTypes.length()];
                     for (int j = 0; j < parkingTypes.length(); j++) {
-                        parkingTypeArray[i][j] = parkingTypes.getString(j);
+                        if (parkingTypes.isNull(j)) {
+                            parkingTypeArray[i][j] = null;
+                        } else {
+                            parkingTypeArray[i][j] = parkingTypes.getString(j);
+                        }
                     }
                 } else {
                     parkingTypeArray[i] = null;

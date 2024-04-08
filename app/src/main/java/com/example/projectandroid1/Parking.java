@@ -25,6 +25,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 public class Parking extends AppCompatActivity implements OnMapReadyCallback {
 
     private ImageView Rep,empty,takeIt,profileIMG,ParkingIMG;
@@ -95,15 +99,23 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
             price_text = "The parking is Paid";
         }
 
-        String Data = "\uD83D\uDCCD " +ParkingInfo.getAddress()+
-                "\n⏰ "+ParkingInfo.getEpoch()+
-                "\n♥ "+ParkingInfo.getTotalLikes()+" Likes"+
-                "\n\uD83D\uDD11 "+ParkingInfo.getParkingTypeToString()+
-                "\n\uD83D\uDE98 Fit For: "+ParkingInfo.getCarType()+
-                "\n\uD83D\uDCB0 "+price_text;
+        String[] parkingTypeArray = ParkingInfo.getParkingType();
+        String parkingTypes = "";
+
+        if (parkingTypeArray != null) {
+            parkingTypes = Arrays.stream(parkingTypeArray)
+                                 .filter(Objects::nonNull)
+                                 .collect(Collectors.joining(", "));
+        }
+
+        String Data = "\uD83D\uDCCD " + ParkingInfo.getAddress() +
+            "\n⏰ " + ParkingInfo.getEpoch() +
+            "\n♥ " + ParkingInfo.getTotalLikes() + " Likes" +
+            "\n\uD83D\uDD11 " + parkingTypes +
+            "\n\uD83D\uDE98 Fit For: " + ParkingInfo.getCarType() +
+            "\n\uD83D\uDCB0 " + price_text;
 
         info.setText(Data);
-
 
 
     }

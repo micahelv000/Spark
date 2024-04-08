@@ -7,6 +7,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Post {
     private final String address;
@@ -17,11 +18,12 @@ public class Post {
     private final String postID;
     private final Location location;
     private boolean likeStatus;
-    private boolean isFree;
+    private final boolean isFree;
     private final String carType;
     private final String[] parkingType;
 
-    public Post(String address, String epoch, String totalLikes, String image, Location location, String userID, String postID, boolean likeStatus, String carType, boolean isFree, String[] parkingType) {
+    public Post(String address, String epoch, String totalLikes, String image, Location location, String userID,
+            String postID, boolean likeStatus, String carType, boolean isFree, String[] parkingType) {
         this.address = address;
         this.epoch = epoch;
         this.totalLikes = totalLikes;
@@ -40,7 +42,8 @@ public class Post {
     @Override
     public String toString() {
         return String.format("%s|%s|%s|%s|%s|%s|%s|%s|%s|%s|%.6f|%.6f",
-                address, epoch, totalLikes, image, userID,postID,likeStatus, carType,isFree, Arrays.toString(parkingType),location.getLatitude(),location.getLongitude());
+                address, epoch, totalLikes, image, userID, postID, likeStatus, carType, isFree,
+                Arrays.toString(parkingType), location.getLatitude(), location.getLongitude());
     }
 
     // fromString method to parse a string and create a Post object
@@ -55,20 +58,25 @@ public class Post {
         boolean likeStatus = Boolean.parseBoolean(parts[6]);
         String carType = parts[7];
         boolean isFree = Boolean.parseBoolean(parts[8]);
-        String[] parkingType = parts[9].substring(1, parts[9].length() - 1).split(", ");
+        String[] parkingType;
+        if (!Objects.equals(parts[9], "null")) {
+            parkingType = Arrays.stream(parts[9].substring(1, parts[9].length() - 1).split(", "))
+                    .map(s -> "null".equals(s) ? null : s)
+                    .toArray(String[]::new);
+        } else {
+            parkingType = null;
+        }
         double Lat = Double.parseDouble(parts[10]);
         double Long = Double.parseDouble(parts[11]);
 
         // Assuming the location string is in the format "latitude,longitude"
-        //String location = parts[5];
+        // String location = parts[5];
         Location location = new Location("");
         location.setLatitude(Lat);
         location.setLongitude(Long);
-        return new Post(address, epoch, likes, image, location, userID, postID,likeStatus, carType, isFree, parkingType);
+        return new Post(address, epoch, likes, image, location, userID, postID, likeStatus, carType, isFree,
+                parkingType);
     }
-
-
-
 
     public String getAddress() {
         return address;
@@ -89,11 +97,12 @@ public class Post {
     public Location getLocation() {
         return location;
     }
+
     public String getuserID() {
         return userID;
     }
 
-    public void setFullName(TextView textView){
+    public void setFullName(TextView textView) {
         FireBaseHandler.getFullName(userID).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 textView.setText(String.format("\uD83D\uDC64 %s", task.getResult()));
@@ -109,7 +118,7 @@ public class Post {
         return likeStatus;
     }
 
-    public void setLikeStatus(boolean status){
+    public void setLikeStatus(boolean status) {
         this.likeStatus = status;
     }
 
@@ -123,9 +132,6 @@ public class Post {
 
     public String[] getParkingType() {
         return parkingType;
-    }
-    public String getParkingTypeToString() {
-        return Arrays.toString(parkingType);
     }
 
     public boolean getIsFree() {
