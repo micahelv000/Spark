@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import java.util.ArrayList;
+import java.util.Locale;
+
 //public class HomeFragment extends Fragment implements Dialog_filter.FilterListener {
 public class HomeFragment extends Fragment implements Dialog_filter.FilterListener{
     private ArrayList<Post> dataSet;
@@ -101,11 +103,11 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
         filteredDataSet.clear();
 
         for (Post dataModel : dataSet) {
-            if (dataModel.getAddress().toLowerCase().contains(query.toLowerCase())) {
+            if (dataModel.getAddress().toLowerCase(Locale.ROOT).contains(query.toLowerCase(Locale.ROOT))) {
                 filteredDataSet.add(dataModel);
             }
         }
-
+        
         adapter.notifyDataSetChanged();
     }
 
@@ -120,22 +122,28 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
     public void onFilterApplied(boolean isBigCar, boolean isRegularCar, boolean isSmallCar, boolean isParallelP, boolean isPerpendicularP, boolean isFreeP, boolean isPaidP,int typedistance) {
         filteredDataSet.clear();
         for (Post dataModel : dataSet) {
-            //typedistance if 0 so under 5KM if 1 so under 10 if 2 all distances
-
-            if ((dataModel.getCarType().equals("BigCar") && isBigCar) ||
-                    (dataModel.getCarType().equals("RegularCar") && isRegularCar) ||
-                    (dataModel.getCarType().equals("SmallCar") && isSmallCar)) {
-                filteredDataSet.add(dataModel);
+            boolean shouldAdd = false;
+    
+            if ((dataModel.getCarType().equals("Big Car") && isBigCar) ||
+                    (dataModel.getCarType().equals("Regular Car") && isRegularCar) ||
+                    (dataModel.getCarType().equals("Small Car") && isSmallCar)) {
+                shouldAdd = true;
             }
+    
             String[] parkingType = dataModel.getParkingType();
             if (parkingType != null) {
-                if ((parkingType.length > 0 && parkingType[0].equals("Parallel") && isParallelP) ||
-                        (parkingType.length > 1 && parkingType[1].equals("Perpendicular") && isPerpendicularP)) {
-                    filteredDataSet.add(dataModel);
+                if ((parkingType.length > 0 && parkingType[0] != null && parkingType[0].equals("Parallel") && isParallelP) ||
+                        (parkingType.length > 1 && parkingType[1] != null && parkingType[1].equals("Perpendicular") && isPerpendicularP)) {
+                    shouldAdd = true;
                 }
             }
+    
             if ((dataModel.getIsFree() && isFreeP) ||
                     (!dataModel.getIsFree() && isPaidP)) {
+                shouldAdd = true;
+            }
+    
+            if (shouldAdd) {
                 filteredDataSet.add(dataModel);
             }
         }

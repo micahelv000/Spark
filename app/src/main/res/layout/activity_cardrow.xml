@@ -38,8 +38,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:padding="10px"
-                        android:text="Location"
+                        android:padding="6dp"
+                        android:text="@string/location"
                         android:textColor="#000000"
                         android:textSize="24sp" />
 
@@ -48,28 +48,28 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:padding="10px"
-                        android:text="Calculating.."
+                        android:padding="6dp"
+                        android:text="@string/calculating"
                         android:textColor="#000000"
                         android:textSize="20sp" />
 
                     <TextView
-                        android:id="@+id/TextUsernameUploded"
+                        android:id="@+id/TextPostFullName"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:padding="10px"
-                        android:text="Loading..."
+                        android:padding="6dp"
+                        android:text="@string/loading"
                         android:textColor="#000000"
                         android:textSize="20sp" />
 
                     <TextView
-                        android:id="@+id/textTimeUplode"
+                        android:id="@+id/TextTimeUploaded"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:padding="10px"
-                        android:text="Time of Update"
+                        android:padding="6dp"
+                        android:text="@string/time_of_update"
                         android:textColor="#000000"
                         android:textSize="16sp" />
 
@@ -84,7 +84,8 @@
                     android:outlineProvider="bounds"
                     android:padding="5dp"
                     android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/defualt_parking">
+                    app:srcCompat="@drawable/default_parking"
+                    android:importantForAccessibility="no">
                 </ImageView>
 
 
@@ -116,7 +117,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.8"
                     android:gravity="center"
-                    android:text="High Chance"
+                    android:text="@string/high_chance"
                     android:textAlignment="center"
                     android:textSize="20sp" />
 
@@ -127,7 +128,8 @@
                     android:layout_weight="1"
                     android:backgroundTint="#4CAF50"
                     android:gravity="center"
-                    android:src="@drawable/ic_like" />
+                    android:src="@drawable/ic_like"
+                    android:importantForAccessibility="no" />
 
                 <TextView
                     android:id="@+id/NumberOfLikes"
@@ -135,8 +137,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.05"
                     android:gravity="center"
-                    android:padding="10px"
-                    android:text="0"
+                    android:padding="6dp"
+                    android:text="@string/_0"
                     android:textColor="#000000"
                     android:textSize="25sp" />
 

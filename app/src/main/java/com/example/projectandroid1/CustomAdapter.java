@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -48,9 +47,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             Text_LocationName = itemView.findViewById(R.id.TextLocation);
-            Text_TimeUploaded = itemView.findViewById(R.id.textTimeUplode);
+            Text_TimeUploaded = itemView.findViewById(R.id.TextTimeUploaded);
             TextDistanceFromUser = itemView.findViewById(R.id.TextDistanceFromUser);
-            TextUsernameUploaded = itemView.findViewById(R.id.TextUsernameUploded);
+            TextUsernameUploaded = itemView.findViewById(R.id.TextPostFullName);
             Text_Probability = itemView.findViewById(R.id.Text_Probability);
             imageView = itemView.findViewById(R.id.imageView);
             Text_NumberOfLikes = itemView.findViewById(R.id.NumberOfLikes);
@@ -75,7 +74,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.Text_NumberOfLikes.setText(String.format("%s", dataModel.getTotalLikes()));
         dataModel.setFullName(holder.TextUsernameUploaded);
         if(dataModel.getImage()!=null) {
-            Picasso.get().load(dataModel.getImage()).error(R.drawable.defualt_parking).placeholder(R.drawable.progress_animation).into(holder.imageView);
+            Picasso.get().load(dataModel.getImage()).error(R.drawable.default_parking).placeholder(R.drawable.progress_animation).into(holder.imageView);
         }
 
         LocationHelper locationHelper = new LocationHelper(context);

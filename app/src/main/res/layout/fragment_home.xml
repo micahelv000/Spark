@@ -30,9 +30,8 @@
                 android:id="@+id/B_filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_filter"
-                android:onClick="Openfilter"
-                android:contentDescription="Open filter button" />
+                android:contentDescription="Open filter button"
+                android:src="@drawable/ic_filter" />
 
         </LinearLayout>
 

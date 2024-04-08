@@ -85,7 +85,7 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
 
         //parking img
         if(ParkingInfo.getImage()!=null) {
-            Picasso.get().load(ParkingInfo.getImage()).error(R.drawable.defualt_parking).placeholder(R.drawable.progress_animation).into(ParkingIMG);
+            Picasso.get().load(ParkingInfo.getImage()).error(R.drawable.default_parking).placeholder(R.drawable.progress_animation).into(ParkingIMG);
         }
         // Profile img
 
