@@ -71,14 +71,11 @@ public class LocationHelper {
                 float distanceInKilometers = distanceInMeters / 1000;
                 textView.setText(String.format(Locale.getDefault(), "\uD83D\uDCCF %.2f km", distanceInKilometers));
             } else {
-                textView.setText("Unable to get current location");
+                textView.setText(R.string.unable_to_get_location);
             }
         };
 
         updateLocation(locationConsumer);
-    }
-    public interface DistanceResultCallback {
-        void onDistanceCalculated(float distanceInKilometers);
     }
 
     public float getDistanceToLocation(Location targetLocation) {
@@ -109,6 +106,9 @@ public class LocationHelper {
     }
 
     public String[] getCityCountryFromLocation(Location location) {
+        if (location == null) {
+            return null;
+        }
         try {
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
             if (addresses != null && !addresses.isEmpty()) {

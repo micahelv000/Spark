@@ -3,54 +3,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:ignore="MissingConstraints">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/editText"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:ems="10"
+            android:hint="Search by Address"
+            android:inputType="text|textNoSuggestions" />
+
+        <ImageView
+            android:id="@+id/B_SortBy"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:contentDescription="Open filter button"
+            android:src="@drawable/ic_filter" />
 
-            <EditText
-                android:id="@+id/editText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.2"
-                android:ems="10"
-                android:hint="Search by Address"
-                android:inputType="text|textNoSuggestions" />
+        <ImageView
+            android:id="@+id/B_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Open Sort button"
+            android:src="@drawable/ic_sort" />
 
-            <ImageView
-                android:id="@+id/B_filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="Open filter button"
-                android:src="@drawable/ic_filter" />
+    </LinearLayout>
 
-            <ImageView
-                android:id="@+id/B_SortBy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="Open Sort button"
-                android:src="@drawable/ic_sort" />
-
-        </LinearLayout>
-
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/resView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
-
-
-    </LinearLayout>
-
-
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>
