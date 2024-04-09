@@ -73,6 +73,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Full name"
+        android:textColor="#000000"
         android:textSize="20sp" />
 
     <TextView
@@ -120,6 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="123"
+                    android:textColor="#000000"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
