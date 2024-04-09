@@ -22,16 +22,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
+public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder>{
     private final ArrayList<Post> dataSet;
     private final Context context;
+    public static List<CustomAdapter> adapters = new ArrayList<>();
 
     public CustomAdapter(ArrayList<Post> dataSet, Context context) {
         this.dataSet = dataSet;
         this.context = context;
+        adapters.add(this);
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -68,7 +71,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull CustomAdapter.MyViewHolder holder, int position) {
-        final Post dataModel = dataSet.get(position);
+        Post dataModel = dataSet.get(position);
         holder.Text_LocationName.setText(String.format("\uD83D\uDCCD %s", dataModel.getAddress()));
         holder.Text_TimeUploaded.setText(String.format("⏰ %s", dataModel.getEpoch()));
         holder.Text_NumberOfLikes.setText(String.format("%s", dataModel.getTotalLikes()));
@@ -134,10 +137,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             dataModel.setLikeStatus(true);
         }
 
-        notifyDataSetChanged();
-        //dataModel.setAmount(dataModel.getAmount() + 1);
-        //mDatabase.child("users").child(this.userid).child("amounts").child(dataModel.getName()).setValue(dataModel.getAmount());
-        //notifyDataSetChanged();
+        for (CustomAdapter adapter : adapters) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
 
@@ -150,10 +152,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         intent.putExtra("Parking", dataModel.toString());
         //intent.putExtra("user", user.toString());
         context.startActivity(intent);
-
-        //dataModel.setAmount(dataModel.getAmount() + 1);
-        //mDatabase.child("users").child(this.userid).child("amounts").child(dataModel.getName()).setValue(dataModel.getAmount());
-        //notifyDataSetChanged();
     }
     @Override
     public int getItemCount() {

@@ -6,7 +6,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class Post {
@@ -21,6 +23,7 @@ public class Post {
     private final boolean isFree;
     private final String carType;
     private final String[] parkingType;
+    private static List<Post> allPosts = new ArrayList<>();
 
     public Post(String address, String epoch, String totalLikes, String image, Location location, String userID,
             String postID, boolean likeStatus, String carType, boolean isFree, String[] parkingType) {
@@ -35,6 +38,7 @@ public class Post {
         this.isFree = isFree;
         this.carType = carType;
         this.parkingType = parkingType;
+        allPosts.add(this);
     }
 
     @SuppressLint("DefaultLocale")
@@ -119,11 +123,20 @@ public class Post {
     }
 
     public void setLikeStatus(boolean status) {
-        this.likeStatus = status;
+
+        for (Post post : allPosts) {
+            if (this.postID.equals(post.getPostID())) {
+                post.likeStatus = status;
+            }
+        }
     }
 
     public void setTotalLikes(String s) {
-        this.totalLikes = s;
+        for (Post post : allPosts) {
+            if (this.postID.equals(post.getPostID())) {
+                post.totalLikes = s;
+            }
+        }
     }
 
     public String getCarType() {

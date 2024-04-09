@@ -224,32 +224,36 @@ public class FireBaseHandler {
                 });
     }
 
-    public Task<JSONArray> getUserPosts(FirebaseUser user) {
+    public Task<List<String>> getUserPostKeys(FirebaseUser user) {
         return mDatabase.child("users").child(user.getUid()).child("posts").get()
                 .continueWithTask(task -> {
                     if (task.isSuccessful()) {
-                        JSONArray posts = new JSONArray();
+                        List<String> postKeys = new ArrayList<>();
                         if (task.getResult().getValue() != null) {
                             Object result = task.getResult().getValue();
                             if (result instanceof Map<?, ?>) {
                                 Map<?, ?> resultMap = (Map<?, ?>) result;
-                                List<Task<JSONObject>> tasks = new ArrayList<>();
                                 for (Map.Entry<?, ?> entry : resultMap.entrySet()) {
-                                    tasks.add(getPostData(entry.getKey().toString()));
+                                    postKeys.add(entry.getKey().toString());
                                 }
-                                return Tasks.whenAllSuccess(tasks).continueWith(task1 -> {
-                                    for (Object object : task1.getResult()) {
-                                        posts.put(object);
-                                    }
-                                    return posts;
-                                });
                             }
                         }
-                        return Tasks.forResult(posts);
+                        return Tasks.forResult(postKeys);
                     } else {
                         return Tasks.forResult(null);
                     }
                 });
+    }
+
+    public static JSONArray filterPostsByKeys(JSONArray allPosts, List<String> postKeys) throws JSONException {
+        JSONArray filteredPosts = new JSONArray();
+        for (int i = 0; i < allPosts.length(); i++) {
+            JSONObject post = allPosts.getJSONObject(i);
+            if (postKeys.contains(post.getString("post_id"))) {
+                filteredPosts.put(post);
+            }
+        }
+        return filteredPosts;
     }
 
     public Task<JSONObject> getUserData(FirebaseUser user) {

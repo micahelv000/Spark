@@ -36,6 +36,7 @@ public class ProfileFragment extends Fragment {
     private TextView latestPostTextView;
     private Button BeditProfile;
     String userDataString;
+
     @SuppressLint({ "WrongViewCast", "MissingInflatedId", "SetTextI18n", "ShowToast" })
     @Nullable
     @Override
@@ -72,8 +73,9 @@ public class ProfileFragment extends Fragment {
                 } else {
                     textPosts.setText("0");
                 }
-                if(userData.has("profile_picture") && !userData.getString("profile_picture").isEmpty()) {
-                    Picasso.get().load(userData.getString("profile_picture")).placeholder(R.drawable.progress_animation).error(R.drawable.default_profile).into(profileImage);
+                if (userData.has("profile_picture") && !userData.getString("profile_picture").isEmpty()) {
+                    Picasso.get().load(userData.getString("profile_picture")).placeholder(R.drawable.progress_animation)
+                            .error(R.drawable.default_profile).into(profileImage);
                 }
             } catch (JSONException ignored) {
             }
@@ -99,7 +101,7 @@ public class ProfileFragment extends Fragment {
 
                 if (Objects.equals(title, "Edit Profile")) {
                     intent = new Intent(getActivity(), EditProfileActivity.class);
-                    intent.putExtra("user" , userDataString);
+                    intent.putExtra("user", userDataString);
                     startActivity(intent);
                     return true;
                 } else if (Objects.equals(title, "Sign Out")) {
@@ -110,7 +112,7 @@ public class ProfileFragment extends Fragment {
                     startActivity(intent);
                     requireActivity().finish();
                     return true;
-                }else if (Objects.equals(title, "Email Password Reset")) {
+                } else if (Objects.equals(title, "Email Password Reset")) {
                     Toast.makeText(getActivity(), "You've received a link in your mailbox", Toast.LENGTH_SHORT).show();
                     FireBaseHandler.sendPasswordResetEmail();
                     return true;
@@ -138,8 +140,7 @@ public class ProfileFragment extends Fragment {
                         data.likeStatusArray[i],
                         data.carTypeArray[i],
                         data.isFreeArray[i],
-                        data.parkingTypeArray[i]
-                        ));
+                        data.parkingTypeArray[i]));
             }
 
             adapter = new CustomAdapter(dataSet, getActivity());
@@ -147,5 +148,13 @@ public class ProfileFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        for (CustomAdapter adapter : CustomAdapter.adapters) {
+            adapter.notifyDataSetChanged();
+        }
     }
 }

@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.Locale;
 
 public class PostDataProcessor {
@@ -145,12 +146,20 @@ public class PostDataProcessor {
 
     public void populateUserArrays(FirebaseUser user, OnArraysPopulatedListener listener) {
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
-        fireBaseHandler.getUserPosts(user).addOnCompleteListener(task -> {
+        fireBaseHandler.getUserPostKeys(user).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                JSONArray posts = task.getResult();
-                if (posts != null) {
-                    populateArraysFromPosts(posts, listener);
-                }
+                List<String> postKeys = task.getResult();
+                fireBaseHandler.getAllPosts().addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        JSONArray allPosts = task1.getResult();
+                        try {
+                            JSONArray userPosts = FireBaseHandler.filterPostsByKeys(allPosts, postKeys);
+                            populateArraysFromPosts(userPosts, listener);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
         });
     }

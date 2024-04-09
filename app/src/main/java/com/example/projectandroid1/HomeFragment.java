@@ -17,36 +17,35 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Objects;
 
 //public class HomeFragment extends Fragment implements Dialog_filter.FilterListener {
-public class HomeFragment extends Fragment implements Dialog_filter.FilterListener,DialogSortBy.SortByListener {
+public class HomeFragment extends Fragment implements Dialog_filter.FilterListener, DialogSortBy.SortByListener {
     private ArrayList<Post> dataSet;
     private ArrayList<Post> filteredDataSet;
     private RecyclerView recyclerView;
     private CustomAdapter adapter;
-    ImageView Bfilter,Bhome,Bsort;
+    ImageView Bfilter, Bhome, Bsort;
 
-    //for filter
-    boolean GisBigCar, GisRegularCar,  GisSmallCar,  GisParallelP,  GisPerpendicularP,  GisFreeP,  GisPaidP;
-    int Gtypedistance,Gsort;
+    // for filter
+    boolean GisBigCar, GisRegularCar, GisSmallCar, GisParallelP, GisPerpendicularP, GisFreeP, GisPaidP;
+    int Gtypedistance, Gsort;
 
     @SuppressLint("MissingInflatedId")
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        GisBigCar =true;
-        GisRegularCar=true;
-        GisSmallCar=true;
-        GisParallelP=true;
-        GisPerpendicularP=true;
-        GisFreeP=true;
-        GisPaidP=true;
-        Gtypedistance =2;
+        GisBigCar = true;
+        GisRegularCar = true;
+        GisSmallCar = true;
+        GisParallelP = true;
+        GisPerpendicularP = true;
+        GisFreeP = true;
+        GisPaidP = true;
+        Gtypedistance = 2;
         Gsort = 2;
         dataSet = new ArrayList<>();
         filteredDataSet = new ArrayList<>();
@@ -64,7 +63,8 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (adapter == null) return;
+                if (adapter == null)
+                    return;
                 filterDataSet(s.toString().trim()); // Trim the query
             }
 
@@ -90,8 +90,7 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
                         data.likeStatusArray[i],
                         data.carTypeArray[i],
                         data.isFreeArray[i],
-                        data.parkingTypeArray[i]
-                ));
+                        data.parkingTypeArray[i]));
             }
             filteredDataSet.addAll(dataSet);
             filteredDataSet.sort((post1, post2) -> post1.getEpoch().compareToIgnoreCase(post2.getEpoch()));
@@ -101,6 +100,7 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
 
         return rootView;
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -108,11 +108,13 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
         Bsort.setOnClickListener(this::OpenSort);
 
     }
+
     public void OpenSort(View view) {
         DialogSortBy dialog = DialogSortBy.newInstance(Gsort);
         dialog.setFilterListener(this);
         dialog.show(getParentFragmentManager(), "Dialog_sort");
     }
+
     public void Openfilter(View view) {
         Dialog_filter dialog = Dialog_filter.newInstance(GisBigCar, GisRegularCar, GisSmallCar,
                 GisParallelP, GisPerpendicularP, GisFreeP,
@@ -129,10 +131,9 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
                 filteredDataSet.add(dataModel);
             }
         }
-        
+
         adapter.notifyDataSetChanged();
     }
-
 
     public void scrollToTop() {
         if (recyclerView != null && adapter != null) {
@@ -141,13 +142,14 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
     }
 
     @Override
-    public void onFilterApplied(boolean isBigCar, boolean isRegularCar, boolean isSmallCar, boolean isParallelP, boolean isPerpendicularP, boolean isFreeP, boolean isPaidP,int typedistance) {
+    public void onFilterApplied(boolean isBigCar, boolean isRegularCar, boolean isSmallCar, boolean isParallelP,
+            boolean isPerpendicularP, boolean isFreeP, boolean isPaidP, int typedistance) {
         GisBigCar = isBigCar;
-        GisRegularCar =isRegularCar;
-        GisSmallCar= isSmallCar;
-        GisParallelP= isParallelP;
+        GisRegularCar = isRegularCar;
+        GisSmallCar = isSmallCar;
+        GisParallelP = isParallelP;
         GisPerpendicularP = isPerpendicularP;
-        GisFreeP =isFreeP;
+        GisFreeP = isFreeP;
         GisPaidP = isPaidP;
         Gtypedistance = typedistance;
 
@@ -165,21 +167,22 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
                 shouldAdd1 = true;
             }
 
-            //horizontal or vertical
+            // horizontal or vertical
 
             String[] parkingType = dataModel.getParkingType();
             if (parkingType != null) {
-                if ((parkingType.length > 0 && parkingType[0] != null && parkingType[0].equals("Parallel") && isParallelP) ||
-                        (parkingType.length > 1 && parkingType[1] != null && parkingType[1].equals("Perpendicular") && isPerpendicularP)) {
+                if ((parkingType.length > 0 && parkingType[0] != null && parkingType[0].equals("Parallel")
+                        && isParallelP) ||
+                        (parkingType.length > 1 && parkingType[1] != null && parkingType[1].equals("Perpendicular")
+                                && isPerpendicularP)) {
                     shouldAdd2 = true;
                 }
             }
-            //free or paid
+            // free or paid
             if ((dataModel.getIsFree() && isFreeP) ||
                     (!dataModel.getIsFree() && isPaidP)) {
                 shouldAdd3 = true;
             }
-
 
             LocationHelper locationHelper = new LocationHelper(requireContext());
             float distance = locationHelper.getDistanceToLocation(dataModel.getLocation());
@@ -192,8 +195,8 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
                     shouldAdd4 = true;
                 }
             }
-    
-            if (shouldAdd1&&shouldAdd2&&shouldAdd3&&shouldAdd4) {
+
+            if (shouldAdd1 && shouldAdd2 && shouldAdd3 && shouldAdd4) {
                 filteredDataSet.add(dataModel);
             }
         }
@@ -203,21 +206,29 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
     @Override
     public void onFilterApplied(int sort) {
         Gsort = sort;
-        if(sort ==0){
+        if (sort == 0) {
             // Sort alphabetically (ABC)
             filteredDataSet.sort((post1, post2) -> post1.getAddress().compareToIgnoreCase(post2.getAddress()));
-        }else if(sort ==1){
-            //filteredDataSet.sort(Distance);
+        } else if (sort == 1) {
+            // filteredDataSet.sort(Distance);
             filteredDataSet.sort((post1, post2) -> {
                 LocationHelper locationHelper = new LocationHelper(requireContext());
                 float distance1 = locationHelper.getDistanceToLocation(post1.getLocation());
                 float distance2 = locationHelper.getDistanceToLocation(post2.getLocation());
                 return Float.compare(distance1, distance2);
             });
-        }else{
+        } else {
             filteredDataSet.sort((post1, post2) -> post1.getEpoch().compareToIgnoreCase(post2.getEpoch()));
         }
 
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        for (CustomAdapter adapter : CustomAdapter.adapters) {
+            adapter.notifyDataSetChanged();
+        }
     }
 }
