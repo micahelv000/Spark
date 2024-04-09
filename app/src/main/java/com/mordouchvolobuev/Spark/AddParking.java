@@ -1,7 +1,8 @@
-package com.example.projectandroid1;
+package com.mordouchvolobuev.Spark;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -173,8 +174,15 @@ public class AddParking extends AppCompatActivity {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
                         if (data != null) {
-                            selectedImage = data.getData();
-                            parkingPhotoImageView.setImageURI(selectedImage);
+                            if (data.getData() != null) {
+                                selectedImage = data.getData();
+                                parkingPhotoImageView.setImageURI(selectedImage);
+                            } else {
+                                Bundle extras = data.getExtras();
+                                assert extras != null;
+                                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                                parkingPhotoImageView.setImageBitmap(imageBitmap);
+                            }
                         }
                     }
                 }

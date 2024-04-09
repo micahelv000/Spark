@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.projectandroid1"
+    namespace = "com.mordouchvolobuev.Spark"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.projectandroid1"
+        applicationId = "com.mordouchvolobuev.Spark"
         minSdk = 30
         targetSdk = 34
         versionCode = 1

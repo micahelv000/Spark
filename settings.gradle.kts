@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ProjectAndroid1"
+rootProject.name = "Spark"
 include(":app")

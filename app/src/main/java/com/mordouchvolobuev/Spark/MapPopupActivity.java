@@ -1,4 +1,4 @@
-package com.example.projectandroid1;
+package com.mordouchvolobuev.Spark;
 
 import android.Manifest;
 import android.content.Context;

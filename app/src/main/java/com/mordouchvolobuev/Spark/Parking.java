@@ -1,6 +1,6 @@
-package com.example.projectandroid1;
+package com.mordouchvolobuev.Spark;
 
-import static com.example.projectandroid1.Post.fromString;
+import static com.mordouchvolobuev.Spark.Post.fromString;
 
 import android.content.Intent;
 import android.graphics.Color;

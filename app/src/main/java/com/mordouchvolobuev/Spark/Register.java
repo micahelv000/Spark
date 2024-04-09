@@ -1,4 +1,4 @@
-package com.example.projectandroid1;
+package com.mordouchvolobuev.Spark;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -99,7 +99,7 @@ public class Register extends AppCompatActivity {
     }
 
     public void Login(View view) {
-        Intent intent = new Intent(this, com.example.projectandroid1.Login.class);
+        Intent intent = new Intent(this, com.mordouchvolobuev.Spark.Login.class);
         startActivity(intent);
     }
 
@@ -193,7 +193,7 @@ public class Register extends AppCompatActivity {
                                             Toast.makeText(Register.this, "Registration successful", Toast.LENGTH_LONG)
                                                     .show();
                                             Intent intent = new Intent(Register.this,
-                                                    com.example.projectandroid1.LayoutFragments.class);
+                                                    com.mordouchvolobuev.Spark.LayoutFragments.class);
                                             fb.getUserData(user).addOnCompleteListener(userDataTask -> {
                                                 if (userDataTask.isSuccessful()) {
                                                     intent.putExtra("user", userDataTask.getResult().toString());
