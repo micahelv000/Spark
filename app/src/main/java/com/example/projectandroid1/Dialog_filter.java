@@ -1,7 +1,6 @@
 package com.example.projectandroid1;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,7 +80,7 @@ public class Dialog_filter extends DialogFragment {
                     boolean isBigCar = checkbox00.isChecked();
                     boolean isRegularCar = checkbox01.isChecked();
                     boolean isSmallCar = checkbox02.isChecked();
-                    boolean isParllerP = checkbox10.isChecked();
+                    boolean isParallelP = checkbox10.isChecked();
                     boolean isPerpendicularP = checkbox11.isChecked();
                     boolean isFreeP = checkbox20.isChecked();
                     boolean isPaidP = checkbox21.isChecked();
@@ -100,7 +99,7 @@ public class Dialog_filter extends DialogFragment {
 
                     if (filterListener != null) {
                         filterListener.onFilterApplied(isBigCar, isRegularCar, isSmallCar,
-                                isParllerP, isPerpendicularP, isFreeP, isPaidP, typeDistance);
+                                isParallelP, isPerpendicularP, isFreeP, isPaidP, typeDistance);
                     }
                 })
                 .setNegativeButton("Cancel", null);

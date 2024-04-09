@@ -23,7 +23,7 @@ public class Post {
     private final boolean isFree;
     private final String carType;
     private final String[] parkingType;
-    private static List<Post> allPosts = new ArrayList<>();
+    private static final List<Post> allPosts = new ArrayList<>();
 
     public Post(String address, String epoch, String totalLikes, String image, Location location, String userID,
             String postID, boolean likeStatus, String carType, boolean isFree, String[] parkingType) {
@@ -73,8 +73,6 @@ public class Post {
         double Lat = Double.parseDouble(parts[10]);
         double Long = Double.parseDouble(parts[11]);
 
-        // Assuming the location string is in the format "latitude,longitude"
-        // String location = parts[5];
         Location location = new Location("");
         location.setLatitude(Lat);
         location.setLongitude(Long);
@@ -102,7 +100,7 @@ public class Post {
         return location;
     }
 
-    public String getuserID() {
+    public String getUserID() {
         return userID;
     }
 

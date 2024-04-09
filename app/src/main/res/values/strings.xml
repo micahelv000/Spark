@@ -10,8 +10,9 @@
     <string name="_0">0</string>
     <string name="high_chance">High Chance</string>
     <string name="time_of_update">Time of Update</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
     <string name="calculating">Calculating..</string>
     <string name="location">Location</string>
     <string name="unable_to_get_location">Unable to get current location</string>
+    <string name="low_chance">Low Chance</string>
 </resources>

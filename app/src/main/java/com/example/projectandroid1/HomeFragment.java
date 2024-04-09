@@ -29,7 +29,8 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
     SwipeRefreshLayout swipeRefreshLayout;
     ImageView filterButton;
     ImageView sortButton;
-    boolean GisBigCar, GisRegularCar, GisSmallCar, GisParallelP, GisPerpendicularP, GisFreeP, GisPaidP;
+    boolean isBigCarSelected, isRegularCarSelected, isSmallCarSelected, isParallelParkingSelected,
+            isPerpendicularParkingSelected, isFreeParkingSelected, isPaidParkingSelected;
     int selectedDistanceType, selectedSortType;
 
     @SuppressLint("MissingInflatedId")
@@ -37,13 +38,13 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
             @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        GisBigCar = true;
-        GisRegularCar = true;
-        GisSmallCar = true;
-        GisParallelP = true;
-        GisPerpendicularP = true;
-        GisFreeP = true;
-        GisPaidP = true;
+        isBigCarSelected = true;
+        isRegularCarSelected = true;
+        isSmallCarSelected = true;
+        isParallelParkingSelected = true;
+        isPerpendicularParkingSelected = true;
+        isFreeParkingSelected = true;
+        isPaidParkingSelected = true;
         selectedDistanceType = 2;
         selectedSortType = 2;
         dataSet = new ArrayList<>();
@@ -143,9 +144,9 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
     }
 
     public void openFilter(View view) {
-        Dialog_filter dialog = Dialog_filter.newInstance(GisBigCar, GisRegularCar, GisSmallCar,
-                GisParallelP, GisPerpendicularP, GisFreeP,
-                GisPaidP, selectedDistanceType);
+        Dialog_filter dialog = Dialog_filter.newInstance(isBigCarSelected, isRegularCarSelected, isSmallCarSelected,
+                isParallelParkingSelected, isPerpendicularParkingSelected, isFreeParkingSelected,
+                isPaidParkingSelected, selectedDistanceType);
         dialog.setFilterListener(this);
         dialog.show(getParentFragmentManager(), "Dialog_filter");
     }
@@ -165,13 +166,13 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
     @Override
     public void onFilterApplied(boolean isBigCar, boolean isRegularCar, boolean isSmallCar, boolean isParallelP,
             boolean isPerpendicularP, boolean isFreeP, boolean isPaidP, int typeDistance) {
-        GisBigCar = isBigCar;
-        GisRegularCar = isRegularCar;
-        GisSmallCar = isSmallCar;
-        GisParallelP = isParallelP;
-        GisPerpendicularP = isPerpendicularP;
-        GisFreeP = isFreeP;
-        GisPaidP = isPaidP;
+        isBigCarSelected = isBigCar;
+        isRegularCarSelected = isRegularCar;
+        isSmallCarSelected = isSmallCar;
+        isParallelParkingSelected = isParallelP;
+        isPerpendicularParkingSelected = isPerpendicularP;
+        isFreeParkingSelected = isFreeP;
+        isPaidParkingSelected = isPaidP;
         selectedDistanceType = typeDistance;
 
         filteredDataSet.clear();

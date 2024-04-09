@@ -79,7 +79,8 @@ public class LocationHelper {
     }
 
     public float getDistanceToLocation(Location targetLocation) {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(context,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             Location currentLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if (currentLocation != null) {
                 return currentLocation.distanceTo(targetLocation) / 1000; // Return distance in kilometers
@@ -87,8 +88,6 @@ public class LocationHelper {
         }
         return -1; // Return -1 if location or permission is unavailable
     }
-
-
 
     public void setAddressToTextView(TextView textView, Location location) {
         String address = getAddressFromLocation(location, context);

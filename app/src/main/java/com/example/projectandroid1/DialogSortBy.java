@@ -60,10 +60,7 @@ public class DialogSortBy extends DialogFragment {
         return builder.create();
     }
 
-    public void setSortByListener(SortByListener listener) {
-        this.sortByListener = listener;
-    }
-    public void setFilterListener(SortByListener listener) { // Change setSortByListener to setFilterListener
+    public void setFilterListener(SortByListener listener) {
         this.sortByListener = listener;
     }
 }

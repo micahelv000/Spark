@@ -27,8 +27,9 @@ import java.util.Objects;
 
 public class Register extends AppCompatActivity {
 
-    private EditText editTextFullName, editTextPass, editTextInstagramHandle, editTextEmail, editTextCity, editTextCountry;
-    private ImageView ProfilePIC;
+    private EditText editTextFullName, editTextPass, editTextInstagramHandle, editTextEmail, editTextCity,
+            editTextCountry;
+    private ImageView profilePicture;
     private LocationHelper locationHelper;
     private Uri selectedImageUri;
     private Location user_location;
@@ -44,7 +45,7 @@ public class Register extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextCity = findViewById(R.id.editTextCity);
         editTextCountry = findViewById(R.id.editTextCountry);
-        ProfilePIC = findViewById(R.id.profileIMG);
+        profilePicture = findViewById(R.id.profileIMG);
 
         locationHelper = new LocationHelper(this);
         if (locationHelper.isLocationPermissionMissing()) {
@@ -54,7 +55,7 @@ public class Register extends AppCompatActivity {
         }
     }
 
-    public void updateLocation(){
+    public void updateLocation() {
         user_location = locationHelper.getLocation();
         if (user_location != null) {
             String[] cityCountry = locationHelper.getCityCountryFromLocation(user_location);
@@ -66,7 +67,8 @@ public class Register extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == locationHelper.getRequestLocationPermissionCode()) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -85,16 +87,17 @@ public class Register extends AppCompatActivity {
                         Intent data = result.getData();
                         if (data != null) {
                             selectedImageUri = data.getData();
-                            ProfilePIC.setImageURI(selectedImageUri);
+                            profilePicture.setImageURI(selectedImageUri);
                         }
                     }
                 }
             });
 
-    public void UploaderPhoto(View view){
+    public void UploaderPhoto(View view) {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         mGetContent.launch(intent);
     }
+
     public void Login(View view) {
         Intent intent = new Intent(this, com.example.projectandroid1.Login.class);
         startActivity(intent);
@@ -111,16 +114,20 @@ public class Register extends AppCompatActivity {
     private boolean isValidEmail(String email) {
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
+
     private boolean isValidIG(String instagramHandle) {
 
-        return(instagramHandle.length() > 2 &&instagramHandle.charAt(0) != '@');
+        return (instagramHandle.length() > 2 && instagramHandle.charAt(0) != '@');
     }
+
     private boolean isValidCountry(String country) {
-        return(country.length() > 2);
+        return (country.length() > 2);
     }
+
     private boolean isValidCity(String city) {
-        return(city.length() > 2);
+        return (city.length() > 2);
     }
+
     public void B_Register(View view) {
         final String full_name = editTextFullName.getText().toString();
         final String password = editTextPass.getText().toString();
@@ -161,7 +168,6 @@ public class Register extends AppCompatActivity {
             flag = true;
         }
 
-
         // If any validation failed, return
         if (flag) {
             return;
@@ -184,8 +190,10 @@ public class Register extends AppCompatActivity {
                             fb.updateUserImage(selectedImageUri, user)
                                     .addOnCompleteListener(task -> {
                                         if (task.isSuccessful()) {
-                                            Toast.makeText(Register.this, "Registration successful", Toast.LENGTH_LONG).show();
-                                            Intent intent = new Intent(Register.this, com.example.projectandroid1.LayoutFragments.class);
+                                            Toast.makeText(Register.this, "Registration successful", Toast.LENGTH_LONG)
+                                                    .show();
+                                            Intent intent = new Intent(Register.this,
+                                                    com.example.projectandroid1.LayoutFragments.class);
                                             fb.getUserData(user).addOnCompleteListener(userDataTask -> {
                                                 if (userDataTask.isSuccessful()) {
                                                     intent.putExtra("user", userDataTask.getResult().toString());
@@ -193,18 +201,20 @@ public class Register extends AppCompatActivity {
                                                 }
                                             });
                                         } else {
-                                            Toast.makeText(Register.this, "Image upload failed", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(Register.this, "Image upload failed", Toast.LENGTH_LONG)
+                                                    .show();
                                         }
                                     });
                         } else {
                             Toast.makeText(Register.this, "Registration failed", Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        Toast.makeText(Register.this, "Registration failed: " + Objects.requireNonNull(registerTask.getException()).getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(Register.this,
+                                "Registration failed: "
+                                        + Objects.requireNonNull(registerTask.getException()).getMessage(),
+                                Toast.LENGTH_LONG).show();
                     }
                 });
     }
-
-
 
 }

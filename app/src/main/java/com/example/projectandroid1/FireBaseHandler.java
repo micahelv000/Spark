@@ -42,7 +42,7 @@ public class FireBaseHandler {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         return mAuth.getCurrentUser();
     }
-    
+
     public static Task<String> getFullName(String user_id) {
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         return mDatabase.child("users").child(user_id).child("full_name").get()
@@ -55,13 +55,14 @@ public class FireBaseHandler {
                 });
     }
 
-    public static Task<Void> sendPasswordResetEmail() {
+    public static void sendPasswordResetEmail() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = getCurrentUser();
-        return auth.sendPasswordResetEmail(Objects.requireNonNull(currentUser.getEmail()));
+        auth.sendPasswordResetEmail(Objects.requireNonNull(currentUser.getEmail()));
     }
 
-    public Task<Void> updateUserData(String full_name, String bio, String instagram_handle, Location user_location, String city, String country, Uri imageUri) {
+    public Task<Void> updateUserData(String full_name, String bio, String instagram_handle, Location user_location,
+            String city, String country, Uri imageUri) {
         Map<String, Object> userUpdates = new HashMap<>();
         userUpdates.put("full_name", full_name);
         userUpdates.put("bio", bio);
@@ -69,18 +70,18 @@ public class FireBaseHandler {
         userUpdates.put("user_location", user_location);
         userUpdates.put("city", city);
         userUpdates.put("country", country);
-    
+
         FirebaseUser currentUser = getCurrentUser();
-    
+
         if (imageUri != null) {
             return updateUserImage(imageUri, currentUser)
-                .continueWithTask(task -> {
-                    if (task.isSuccessful()) {
-                        return mDatabase.child("users").child(currentUser.getUid()).updateChildren(userUpdates);
-                    } else {
-                        return Tasks.forResult(null);
-                    }
-                });
+                    .continueWithTask(task -> {
+                        if (task.isSuccessful()) {
+                            return mDatabase.child("users").child(currentUser.getUid()).updateChildren(userUpdates);
+                        } else {
+                            return Tasks.forResult(null);
+                        }
+                    });
         } else {
             return mDatabase.child("users").child(currentUser.getUid()).updateChildren(userUpdates);
         }
@@ -97,6 +98,7 @@ public class FireBaseHandler {
                     }
                 });
     }
+
     public static Task<String> getProfilePic(String user_id) {
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         return mDatabase.child("users").child(user_id).child("profile_picture").get()
@@ -127,7 +129,8 @@ public class FireBaseHandler {
         mDatabase.child("users").child(uid).child("likes").child(post_id).get()
                 .continueWithTask(task -> {
                     if (task.isSuccessful()) {
-                        if ((isLike && task.getResult().getValue() == null) || (!isLike && task.getResult().getValue() != null)) {
+                        if ((isLike && task.getResult().getValue() == null)
+                                || (!isLike && task.getResult().getValue() != null)) {
                             handleUserLike(uid, post_id, isLike);
                             handlePostLike(uid, post_id, isLike);
                         }
@@ -149,20 +152,22 @@ public class FireBaseHandler {
         mDatabase.child("posts").child(post_id).child("total_likes").get()
                 .continueWithTask(task1 -> {
                     if (task1.isSuccessful()) {
-                        int total_likes = Integer.parseInt(Objects.requireNonNull(task1.getResult().getValue()).toString());
-                        mDatabase.child("posts").child(post_id).child("total_likes").setValue(isLike ? total_likes + 1 : total_likes - 1);
+                        int total_likes = Integer
+                                .parseInt(Objects.requireNonNull(task1.getResult().getValue()).toString());
+                        mDatabase.child("posts").child(post_id).child("total_likes")
+                                .setValue(isLike ? total_likes + 1 : total_likes - 1);
                         if (isLike) {
                             mDatabase.child("posts").child(post_id).child("likes").child(uid).setValue(true);
                         } else {
                             mDatabase.child("posts").child(post_id).child("likes").child(uid).removeValue();
                         }
-                        handleUserTotalLikes(uid, post_id, isLike);
+                        handleUserTotalLikes(post_id, isLike);
                     }
                     return Tasks.forResult(null);
                 });
     }
 
-    private void handleUserTotalLikes(String uid, String post_id, boolean isLike) {
+    private void handleUserTotalLikes(String post_id, boolean isLike) {
         mDatabase.child("posts").child(post_id).child("user_id").get()
                 .continueWithTask(task2 -> {
                     if (task2.isSuccessful()) {
@@ -170,8 +175,10 @@ public class FireBaseHandler {
                         mDatabase.child("users").child(user_id).child("total_likes").get()
                                 .continueWithTask(task3 -> {
                                     if (task3.isSuccessful()) {
-                                        int user_total_likes = Integer.parseInt(Objects.requireNonNull(task3.getResult().getValue()).toString());
-                                        mDatabase.child("users").child(user_id).child("total_likes").setValue(isLike ? user_total_likes + 1 : user_total_likes - 1);
+                                        int user_total_likes = Integer.parseInt(
+                                                Objects.requireNonNull(task3.getResult().getValue()).toString());
+                                        mDatabase.child("users").child(user_id).child("total_likes")
+                                                .setValue(isLike ? user_total_likes + 1 : user_total_likes - 1);
                                     }
                                     return Tasks.forResult(null);
                                 });
@@ -179,7 +186,7 @@ public class FireBaseHandler {
                     return Tasks.forResult(null);
                 });
     }
-    
+
     public static void logout() {
         FirebaseAuth.getInstance().signOut();
     }
@@ -200,28 +207,6 @@ public class FireBaseHandler {
         childUpdates.put("/posts/" + key, postMap);
         childUpdates.put("/users/" + uid + "/posts/" + key, true);
         mDatabase.updateChildren(childUpdates);
-    }
-
-    public Task<JSONObject> getPostData(String post_id) {
-        return mDatabase.child("posts").child(post_id).get()
-                .continueWithTask(task -> {
-                    if (task.isSuccessful()) {
-                        JSONObject postJson = new JSONObject();
-                        if (task.getResult().getValue() != null) {
-                            Object result = task.getResult().getValue();
-                            if (result instanceof Map<?, ?>) {
-                                Map<?, ?> resultMap = (Map<?, ?>) result;
-                                for (Map.Entry<?, ?> entry : resultMap.entrySet()) {
-                                    postJson.put(entry.getKey().toString(), convertToJSONObject(entry.getValue()));
-                                    postJson.put("post_id", entry.getKey());
-                                }
-                            }
-                        }
-                        return Tasks.forResult(postJson);
-                    } else {
-                        return Tasks.forResult(null);
-                    }
-                });
     }
 
     public Task<List<String>> getUserPostKeys(FirebaseUser user) {
@@ -276,8 +261,6 @@ public class FireBaseHandler {
                     }
                 });
     }
-
-
 
     public Task<FirebaseUser> registerUser(String email, String password) {
         return mAuth.createUserWithEmailAndPassword(email, password)
@@ -463,8 +446,10 @@ public class FireBaseHandler {
                                     postJson.put("image_url", ((Map<?, ?>) entry.getValue()).get("image_url"));
                                     postJson.put("car_type", ((Map<?, ?>) entry.getValue()).get("car_type"));
                                     if (((Map<?, ?>) entry.getValue()).get("parking_type") instanceof List<?>) {
-                                        List<?> parkingTypeList = (List<?>) ((Map<?, ?>) entry.getValue()).get("parking_type");
+                                        List<?> parkingTypeList = (List<?>) ((Map<?, ?>) entry.getValue())
+                                                .get("parking_type");
                                         JSONArray parkingTypeArray = new JSONArray();
+                                        assert parkingTypeList != null;
                                         for (Object parkingType : parkingTypeList) {
                                             parkingTypeArray.put(parkingType);
                                         }

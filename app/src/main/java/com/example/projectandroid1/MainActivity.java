@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ImageView logo = findViewById(R.id.logo);
-        TextView Line = findViewById(R.id.Line);
+        TextView line = findViewById(R.id.Line);
         String[] lines = {
                 "Drivers spend an average of 17 hours a year searching for parking spots\n",
                 "On average, an individual in a big city spends 18-20 minutes searching for a safe parking space\n",
@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
                 "Searching for Parking Costs Americans $73 Billion a Year\n",
                 "Search smarter not harder!\n"
 
-
         };
 
         for (int i = 0; i < lines.length; i++) {
@@ -50,10 +49,10 @@ public class MainActivity extends AppCompatActivity {
 
         Random rd = new Random();
         int random = rd.nextInt(lines.length);
-        Line.setText(lines[random]);
+        line.setText(lines[random]);
         Animation rotate = AnimationUtils.loadAnimation(this, R.anim.fadein);
         logo.startAnimation(rotate);
-        Line.startAnimation(rotate);
+        line.startAnimation(rotate);
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
         if (FireBaseHandler.getCurrentUser() != null) {
             FirebaseUser user = FireBaseHandler.getCurrentUser();

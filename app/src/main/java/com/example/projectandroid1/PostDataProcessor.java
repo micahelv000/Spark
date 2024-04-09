@@ -155,8 +155,7 @@ public class PostDataProcessor {
                         try {
                             JSONArray userPosts = FireBaseHandler.filterPostsByKeys(allPosts, postKeys);
                             populateArraysFromPosts(userPosts, listener);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        } catch (JSONException ignored) {
                         }
                     }
                 });

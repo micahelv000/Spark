@@ -9,11 +9,11 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 public class MyPagerAdapter extends FragmentPagerAdapter {
     private static final int NUM_PAGES = 3; // Number of pages
-    private String userdata;
+    private final String userData;
 
-    public MyPagerAdapter(@NonNull FragmentManager fragmentManager ,String userDataString) {
+    public MyPagerAdapter(@NonNull FragmentManager fragmentManager, String userDataString) {
         super(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        userdata = userDataString;
+        userData = userDataString;
     }
 
     @NonNull
@@ -21,7 +21,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // Return the fragment for each position
         Bundle bundle = new Bundle();
-        bundle.putString("userData", userdata);
+        bundle.putString("userData", userData);
 
         switch (position) {
             // Pass user data to ProfileFragment
@@ -46,6 +46,5 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return NUM_PAGES;
     }
-
 
 }

@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ParkingMapsFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
@@ -48,7 +49,7 @@ public class ParkingMapsFragment extends Fragment implements OnMapReadyCallback 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+            @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         PostDataProcessor postDataProcessor = new PostDataProcessor();
         postDataProcessor.populateArrays(() -> {
@@ -73,7 +74,6 @@ public class ParkingMapsFragment extends Fragment implements OnMapReadyCallback 
                 }
             }
             posts = new Post[locations.size()]; // Initialize posts array here
-
 
             initializeMap(); // Call initializeMap after locationArray is populated
         });
@@ -113,14 +113,16 @@ public class ParkingMapsFragment extends Fragment implements OnMapReadyCallback 
         // Check if locations ArrayList is null or not
         if (locations != null) {
             for (int i = 0; i < locations.size(); i++) {
-                posts[i] = new Post(addressArray[i],epochsArray[i],likesArray[i],postPicturesArray[i],locationArray[i],userIdArray[i], postIDArray[i], likeStatusArray[i], carTypeArray[i], isFreeArray[i], parkingTypeArray[i]);
+                posts[i] = new Post(addressArray[i], epochsArray[i], likesArray[i], postPicturesArray[i],
+                        locationArray[i], userIdArray[i], postIDArray[i], likeStatusArray[i], carTypeArray[i],
+                        isFreeArray[i], parkingTypeArray[i]);
                 LatLng location = locations.get(i);
                 mMap.addMarker(new MarkerOptions().position(location).title(String.valueOf(i)));
             }
         }
         mMap.setOnMarkerClickListener(marker -> {
             try {
-                int markerIndex = Integer.parseInt(marker.getTitle());
+                int markerIndex = Integer.parseInt(Objects.requireNonNull(marker.getTitle()));
                 Intent intent = new Intent(getActivity(), Parking.class);
                 intent.putExtra("Parking", posts[markerIndex].toString());
                 startActivity(intent);
@@ -131,10 +133,6 @@ public class ParkingMapsFragment extends Fragment implements OnMapReadyCallback 
             return true;
         });
     }
-
-
-
-
 
     private void enableMyLocation() {
         if (ContextCompat.checkSelfPermission(requireContext(),

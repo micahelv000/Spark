@@ -25,20 +25,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 public class AddParking extends AppCompatActivity {
-    ImageView Parking_photo;
+    ImageView parkingPhotoImageView;
     Uri selectedImage;
-    SwitchCompat Switch1;
+    SwitchCompat parkingFeeSwitch;
     RadioGroup radioGroup;
     Location selectedLocation;
-    EditText EditTaddress;
+    EditText addressEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_parking);
 
-        Parking_photo = findViewById(R.id.imageView3);
-        Switch1 = findViewById(R.id.FreeParkingSwitch);
+        parkingPhotoImageView = findViewById(R.id.imageView3);
+        parkingFeeSwitch = findViewById(R.id.FreeParkingSwitch);
         radioGroup = findViewById(R.id.radio_group);
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             // Uncheck all other radio buttons when one is checked
@@ -47,23 +47,23 @@ public class AddParking extends AppCompatActivity {
                 radioButton.setChecked(radioButton.getId() == checkedId);
             }
         });
-        Switch1.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        parkingFeeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                Switch1.setText(getResources().getString(R.string.paid_parking));
+                parkingFeeSwitch.setText(getResources().getString(R.string.paid_parking));
             } else {
-                Switch1.setText(getResources().getString(R.string.free_parking));
+                parkingFeeSwitch.setText(getResources().getString(R.string.free_parking));
             }
         });
 
         Button submitButton = findViewById(R.id.b_Add_this);
         submitButton.setOnClickListener(this::onSubmitButtonClick);
-        EditTaddress = findViewById(R.id.addressEditText);
+        addressEditText = findViewById(R.id.addressEditText);
         LocationHelper locationHelper = new LocationHelper(this);
-        locationHelper.setAddressToTextView(EditTaddress, locationHelper.getLocation());
+        locationHelper.setAddressToTextView(addressEditText, locationHelper.getLocation());
     }
 
     public void onSubmitButtonClick(View view) {
-        if(Validation(view)) {
+        if (Validation(view)) {
             String[] parkingType = new String[2];
             if (((CheckBox) findViewById(R.id.ParallelParkingCheckBox)).isChecked()) {
                 parkingType[0] = "Parallel";
@@ -81,7 +81,7 @@ public class AddParking extends AppCompatActivity {
                 }
             }
 
-            boolean isFree = !Switch1.isChecked();
+            boolean isFree = !parkingFeeSwitch.isChecked();
 
             if (selectedLocation == null) {
                 String address = ((EditText) findViewById(R.id.addressEditText)).getText().toString();
@@ -89,7 +89,9 @@ public class AddParking extends AppCompatActivity {
             }
 
             FireBaseHandler fireBaseHandler = new FireBaseHandler();
-            fireBaseHandler.uploadPost(selectedImage, carType, parkingType, isFree, selectedLocation, FireBaseHandler.getCurrentUser(), this)
+            fireBaseHandler
+                    .uploadPost(selectedImage, carType, parkingType, isFree, selectedLocation,
+                            FireBaseHandler.getCurrentUser(), this)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             Intent intent = new Intent(this, LayoutFragments.class);
@@ -103,17 +105,17 @@ public class AddParking extends AppCompatActivity {
     }
 
     private boolean Validation(View view) {
-        //check that photo had been uploaded
-        if(selectedImage == null){
+        // check that photo had been uploaded
+        if (selectedImage == null) {
             Toast.makeText(AddParking.this, "You must upload a photo", Toast.LENGTH_SHORT).show();
             return false;
         }
-        //check address is not empty
-        if(EditTaddress.getText().toString().isEmpty()){
+        // check address is not empty
+        if (addressEditText.getText().toString().isEmpty()) {
             Toast.makeText(AddParking.this, "You must add an address", Toast.LENGTH_SHORT).show();
             return false;
         }
-        //check picked line 1
+        // check picked line 1
         boolean flag = false;
         for (int i = 0; i < radioGroup.getChildCount() && (!flag); i++) {
             RadioButton radioButton = (RadioButton) radioGroup.getChildAt(i);
@@ -121,17 +123,16 @@ public class AddParking extends AppCompatActivity {
                 flag = true;
             }
         }
-        if(!flag){
+        if (!flag) {
             Toast.makeText(AddParking.this, "Choose Parking size", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        //check picked line 2
-        boolean op1 =(((CheckBox) findViewById(R.id.ParallelParkingCheckBox)).isChecked());
-        boolean op2 =(((CheckBox) findViewById(R.id.PerpendicularParkingCheckBox)).isChecked());
+        // check picked line 2
+        boolean op1 = (((CheckBox) findViewById(R.id.ParallelParkingCheckBox)).isChecked());
+        boolean op2 = (((CheckBox) findViewById(R.id.PerpendicularParkingCheckBox)).isChecked());
 
-        if ((!op1) && (!op2))
-        {
+        if ((!op1) && (!op2)) {
             Toast.makeText(AddParking.this, "You must choose the type of the parking", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -140,24 +141,24 @@ public class AddParking extends AppCompatActivity {
     }
 
     ActivityResultLauncher<Intent> mGetContent2 = registerForActivityResult(
-    new ActivityResultContracts.StartActivityForResult(),
-    new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            if (result.getResultCode() == Activity.RESULT_OK) {
-                Intent data = result.getData();
-                if (data != null) {
-                    double latitude = data.getDoubleExtra("selected_latitude", 0.0);
-                    double longitude = data.getDoubleExtra("selected_longitude", 0.0);
-                    selectedLocation = new Location("");
-                    selectedLocation.setLatitude(latitude);
-                    selectedLocation.setLongitude(longitude);
-                    LocationHelper locationHelper = new LocationHelper(AddParking.this);
-                    locationHelper.setAddressToTextView(findViewById(R.id.addressEditText), selectedLocation);
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null) {
+                            double latitude = data.getDoubleExtra("selected_latitude", 0.0);
+                            double longitude = data.getDoubleExtra("selected_longitude", 0.0);
+                            selectedLocation = new Location("");
+                            selectedLocation.setLatitude(latitude);
+                            selectedLocation.setLongitude(longitude);
+                            LocationHelper locationHelper = new LocationHelper(AddParking.this);
+                            locationHelper.setAddressToTextView(findViewById(R.id.addressEditText), selectedLocation);
+                        }
+                    }
                 }
-            }
-        }
-    });
+            });
 
     public void openMapPopup(View view) {
         Intent intent = new Intent(this, MapPopupActivity.class);
@@ -173,12 +174,12 @@ public class AddParking extends AppCompatActivity {
                         Intent data = result.getData();
                         if (data != null) {
                             selectedImage = data.getData();
-                            Parking_photo.setImageURI(selectedImage);
+                            parkingPhotoImageView.setImageURI(selectedImage);
                         }
                     }
                 }
             });
-    
+
     public void AddPhotoFromGal(View view) {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         mGetContent.launch(intent);

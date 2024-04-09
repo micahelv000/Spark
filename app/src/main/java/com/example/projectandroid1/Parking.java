@@ -30,12 +30,12 @@ import java.util.stream.Collectors;
 
 public class Parking extends AppCompatActivity implements OnMapReadyCallback {
 
-    private ImageView Rep;
-    private ImageView profileIMG;
-    private TextView Username, info;
+    private ImageView likeButton;
+    private ImageView profileImage;
+    private TextView username, info;
     private double latitude; // Example latitude (San Francisco)
     private double longitude; // Example longitude (San Francisco)
-    private Post ParkingInfo;
+    private Post parkingInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,21 +45,21 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
         MapView mMapView = findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
         mMapView.getMapAsync(this);
-        Rep = findViewById(R.id.B_Report);
-        Username = findViewById(R.id.Username);
-        profileIMG = findViewById(R.id.profileIMG);
+        likeButton = findViewById(R.id.B_Report);
+        username = findViewById(R.id.Username);
+        profileImage = findViewById(R.id.profileIMG);
         ImageView parkingIMG = findViewById(R.id.imageView3);
         info = findViewById(R.id.textView2);
 
         Intent intent = getIntent();
         String ParkingInfoString = intent.getStringExtra("Parking");
         assert ParkingInfoString != null;
-        ParkingInfo = fromString(ParkingInfoString);
-        String userid = ParkingInfo.getuserID();
+        parkingInfo = fromString(ParkingInfoString);
+        String userid = parkingInfo.getUserID();
 
         FireBaseHandler.getUserName(userid).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Username.setText(String.format("@%s", task.getResult()));
+                username.setText(String.format("@%s", task.getResult()));
             }
         });
         FireBaseHandler.getProfilePic(userid).addOnCompleteListener(task -> {
@@ -67,27 +67,26 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
                 String img = task.getResult();
                 if (!Objects.equals(img, "")) {
                     Picasso.get().load(img).error(R.drawable.default_profile).placeholder(R.drawable.progress_animation)
-                            .into(profileIMG);
+                            .into(profileImage);
                 }
             }
         });
 
-        if (ParkingInfo.getLikeStatus()) {
-            Rep.setColorFilter(Color.RED);
+        if (parkingInfo.getLikeStatus()) {
+            likeButton.setColorFilter(Color.RED);
         } else {
 
-            Rep.setColorFilter(Color.BLACK);
+            likeButton.setColorFilter(Color.BLACK);
         }
 
         // parking img
-        if (ParkingInfo.getImage() != null) {
-            Picasso.get().load(ParkingInfo.getImage()).error(R.drawable.default_parking)
+        if (parkingInfo.getImage() != null) {
+            Picasso.get().load(parkingInfo.getImage()).error(R.drawable.default_parking)
                     .placeholder(R.drawable.progress_animation).into(parkingIMG);
         }
-        // Profile img
 
-        latitude = ParkingInfo.getLocation().getLatitude();
-        longitude = ParkingInfo.getLocation().getLongitude();
+        latitude = parkingInfo.getLocation().getLatitude();
+        longitude = parkingInfo.getLocation().getLongitude();
 
         updateInfo();
 
@@ -106,22 +105,22 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
     }
 
     public void B_Like(View view) {
-        Animation rotate = AnimationUtils.loadAnimation(Rep.getContext(), R.anim.hearbeat_anim);
-        Rep.startAnimation(rotate);
+        Animation rotate = AnimationUtils.loadAnimation(likeButton.getContext(), R.anim.hearbeat_anim);
+        likeButton.startAnimation(rotate);
 
-        String post_id = ParkingInfo.getPostID();
-        if (ParkingInfo.getLikeStatus()) {
-            Rep.setColorFilter(Color.BLACK);
+        String post_id = parkingInfo.getPostID();
+        if (parkingInfo.getLikeStatus()) {
+            likeButton.setColorFilter(Color.BLACK);
             FireBaseHandler fireBaseHandler = new FireBaseHandler();
             fireBaseHandler.unlikePost(post_id);
-            ParkingInfo.setTotalLikes(String.valueOf(Integer.parseInt(ParkingInfo.getTotalLikes()) - 1));
-            ParkingInfo.setLikeStatus(false);
+            parkingInfo.setTotalLikes(String.valueOf(Integer.parseInt(parkingInfo.getTotalLikes()) - 1));
+            parkingInfo.setLikeStatus(false);
         } else {
-            Rep.setColorFilter(Color.RED);
+            likeButton.setColorFilter(Color.RED);
             FireBaseHandler fireBaseHandler = new FireBaseHandler();
             fireBaseHandler.likePost(post_id);
-            ParkingInfo.setTotalLikes(String.valueOf(Integer.parseInt(ParkingInfo.getTotalLikes()) + 1));
-            ParkingInfo.setLikeStatus(true);
+            parkingInfo.setTotalLikes(String.valueOf(Integer.parseInt(parkingInfo.getTotalLikes()) + 1));
+            parkingInfo.setLikeStatus(true);
         }
 
         updateInfo();
@@ -130,13 +129,13 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
 
     private void updateInfo() {
         String price_text;
-        if (ParkingInfo.getIsFree()) {
+        if (parkingInfo.getIsFree()) {
             price_text = "The parking is Free";
         } else {
             price_text = "The parking is Paid";
         }
 
-        String[] parkingTypeArray = ParkingInfo.getParkingType();
+        String[] parkingTypeArray = parkingInfo.getParkingType();
         String parkingTypes = "";
 
         if (parkingTypeArray != null) {
@@ -145,11 +144,11 @@ public class Parking extends AppCompatActivity implements OnMapReadyCallback {
                     .collect(Collectors.joining(", "));
         }
 
-        String data = "\uD83D\uDCCD " + ParkingInfo.getAddress() +
-                "\n⏰ " + ParkingInfo.getEpoch() +
-                "\n♥ " + ParkingInfo.getTotalLikes() + " Likes" +
+        String data = "\uD83D\uDCCD " + parkingInfo.getAddress() +
+                "\n⏰ " + parkingInfo.getEpoch() +
+                "\n♥ " + parkingInfo.getTotalLikes() + " Likes" +
                 "\n\uD83D\uDD11 " + parkingTypes +
-                "\n\uD83D\uDE98 Fit For: " + ParkingInfo.getCarType() +
+                "\n\uD83D\uDE98 Fit For: " + parkingInfo.getCarType() +
                 "\n\uD83D\uDCB0 " + price_text;
 
         info.setText(data);

@@ -21,14 +21,14 @@ public class Login extends AppCompatActivity {
 
     private EditText emailEditText;
     private EditText passwordEditText;
-    boolean flag;
+    boolean isInputValid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        flag = true;
+        isInputValid = true;
         if (!isConnectedToInternet()) {
-            Intent intent = new Intent(this, NoInternet.class); 
+            Intent intent = new Intent(this, NoInternet.class);
             startActivity(intent);
             return;
         }
@@ -43,11 +43,12 @@ public class Login extends AppCompatActivity {
         ConnectivityManager cm = (ConnectivityManager) Login.this.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
             Network network = cm.getActiveNetwork();
-            if (network == null) return false;
+            if (network == null)
+                return false;
             NetworkCapabilities capabilities = cm.getNetworkCapabilities(network);
-            return capabilities != null && 
-                   (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || 
-                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR));
+            return capabilities != null &&
+                    (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR));
         }
         return false;
     }
@@ -58,17 +59,15 @@ public class Login extends AppCompatActivity {
 
         if (TextUtils.isEmpty(email)) {
             emailEditText.setError("Please enter your email");
-            flag = false;
+            isInputValid = false;
         }
         if (TextUtils.isEmpty(password)) {
             passwordEditText.setError("Please enter your password");
-            flag = false;
+            isInputValid = false;
         }
-        if(!flag){
+        if (!isInputValid) {
             return;
         }
-
-
 
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
         fireBaseHandler.loginUser(email, password).addOnCompleteListener(this, task -> {
