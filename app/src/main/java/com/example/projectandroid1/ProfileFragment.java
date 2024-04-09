@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.squareup.picasso.Picasso;
 
@@ -35,6 +36,8 @@ public class ProfileFragment extends Fragment {
     String userDataString;
     TextView textPosts,likesTextView,fullNameTextView,textZone,textIG;
     ImageView profileImage;
+    SwipeRefreshLayout swipeRefreshLayout;
+
     public ProfileFragment() {
     }
 
@@ -145,6 +148,8 @@ public class ProfileFragment extends Fragment {
             adapter = new CustomAdapter(dataSet, getActivity());
             recyclerView.setAdapter(adapter);
         });
+        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this::onResume);
 
         return rootView;
     }
@@ -166,6 +171,6 @@ public class ProfileFragment extends Fragment {
             likesTextView.setText(String.valueOf(sum));
         });
 
-
+        swipeRefreshLayout.setRefreshing(false); // Stop the refresh indicator
     }
 }

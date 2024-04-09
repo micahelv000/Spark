@@ -1,3 +1,7 @@
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@+id/swipe_refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -73,7 +77,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Full name"
-        android:textColor="#000000"
         android:textSize="20sp" />
 
     <TextView
@@ -121,7 +124,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="123"
-                    android:textColor="#000000"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -217,3 +219,4 @@
     <!--Top Header Layout-->
 
 </LinearLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
