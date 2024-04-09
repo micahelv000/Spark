@@ -163,6 +163,12 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
         adapter.notifyDataSetChanged();
     }
 
+    public void scrollToTop() {
+        if (recyclerView != null && adapter != null) {
+            recyclerView.scrollToPosition(0);
+        }
+    }
+
     @Override
     public void onFilterApplied(boolean isBigCar, boolean isRegularCar, boolean isSmallCar, boolean isParallelP,
             boolean isPerpendicularP, boolean isFreeP, boolean isPaidP, int typeDistance) {

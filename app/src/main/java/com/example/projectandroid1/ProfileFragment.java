@@ -33,7 +33,8 @@ public class ProfileFragment extends Fragment {
     private CustomAdapter adapter;
     private ImageView optionsMenuButton;
     String userDataString;
-
+    TextView textPosts,likesTextView,fullNameTextView,textZone,textIG;
+    ImageView profileImage;
     public ProfileFragment() {
     }
 
@@ -44,13 +45,13 @@ public class ProfileFragment extends Fragment {
             @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
-        TextView fullNameTextView = rootView.findViewById(R.id.textFname);
-        TextView textZone = rootView.findViewById(R.id.textZone);
-        TextView likesTextView = rootView.findViewById(R.id.textLikes);
-        TextView textPosts = rootView.findViewById(R.id.TextPosts);
+        fullNameTextView = rootView.findViewById(R.id.textFname);
+        textZone = rootView.findViewById(R.id.textZone);
+        likesTextView = rootView.findViewById(R.id.textLikes);
+        textPosts = rootView.findViewById(R.id.TextPosts);
         optionsMenuButton = rootView.findViewById(R.id.B_options);
-        TextView textIG = rootView.findViewById(R.id.TextIG);
-        ImageView profileImage = rootView.findViewById(R.id.profileIMG);
+        textIG = rootView.findViewById(R.id.TextIG);
+        profileImage = rootView.findViewById(R.id.profileIMG);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -153,6 +154,18 @@ public class ProfileFragment extends Fragment {
         super.onResume();
         for (CustomAdapter adapter : CustomAdapter.adapters) {
             adapter.notifyDataSetChanged();
+
         }
+        PostDataProcessor data = new PostDataProcessor();
+        data.populateUserArrays(FireBaseHandler.getCurrentUser(), () -> {
+            textPosts.setText(String.valueOf(data.addressArray.length));
+            int sum =0;
+            for (int i = 0; i < data.addressArray.length; i++) {
+                sum += Integer.parseInt(data.likesArray[i]);
+            }
+            likesTextView.setText(String.valueOf(sum));
+        });
+
+
     }
 }
