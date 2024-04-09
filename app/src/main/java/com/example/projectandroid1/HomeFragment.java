@@ -123,7 +123,11 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
             }
             filteredDataSet.clear();
             filteredDataSet.addAll(dataSet);
-            filteredDataSet.sort((post1, post2) -> post1.getEpoch().compareToIgnoreCase(post2.getEpoch()));
+            onFilterApplied(isBigCarSelected, isRegularCarSelected, isSmallCarSelected,
+                    isParallelParkingSelected, isPerpendicularParkingSelected, isFreeParkingSelected,
+                    isPaidParkingSelected, selectedDistanceType);
+            onFilterApplied(selectedSortType);
+
             adapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false); // Stop the refresh indicator
         });
@@ -228,6 +232,7 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
                 filteredDataSet.add(dataModel);
             }
         }
+        onFilterApplied(selectedSortType);
         adapter.notifyDataSetChanged();
     }
 
@@ -246,7 +251,8 @@ public class HomeFragment extends Fragment implements Dialog_filter.FilterListen
                 return Float.compare(distance1, distance2);
             });
         } else {
-            filteredDataSet.sort((post1, post2) -> post1.getEpoch().compareToIgnoreCase(post2.getEpoch()));
+            //time
+            filteredDataSet.sort((post1, post2) -> post2.getEpoch().compareToIgnoreCase(post1.getEpoch()));
         }
 
         adapter.notifyDataSetChanged();

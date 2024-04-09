@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
     private final ArrayList<Post> dataSet;
@@ -87,31 +88,40 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         // algorithm for Probability
         String dateString = dataModel.getEpoch();
         DateFormat format = new SimpleDateFormat("MMM d, yyyy h:mm", Locale.ENGLISH);
+        TimeZone localTimeZone = TimeZone.getDefault(); // Get user's local timezone
+        format.setTimeZone(localTimeZone); // Set timezone to user's local timezone
         long epochMillis;
         try {
             Date date = format.parse(dateString);
             assert date != null;
-            epochMillis = date.getTime(); // Get the time in milliseconds since the epoch
+            epochMillis = date.getTime(); // Get the time in milliseconds since the epoch in user's local timezone
         } catch (ParseException e) {
             return;
         }
+
         long currentTimeMillis = System.currentTimeMillis();
-        long differenceInMillis = currentTimeMillis - epochMillis;
-        long differenceInMinutes = differenceInMillis / (60 * 1000);
+        TimeZone utcTimeZone = TimeZone.getTimeZone("UTC"); // Get UTC timezone
+        long currentTimeMillisUtc = currentTimeMillis - localTimeZone.getRawOffset(); // Convert current time to UTC
+        long epochMillisUtc = epochMillis - localTimeZone.getRawOffset(); // Convert epoch time to UTC
+        long differenceInMillis = currentTimeMillisUtc - epochMillisUtc; // Calculate the difference in milliseconds
+        long differenceInMinutes = differenceInMillis / (60 * 1000); // Convert difference to minutes
+
         if (dataModel.getLikeStatus()) {
             holder.LikeButton.setColorFilter(Color.RED);
         } else {
             holder.LikeButton.setColorFilter(Color.BLACK);
         }
-        // Check if the difference is greater than 15 minutes
-        if (differenceInMinutes > 15) {
+
+// Check if the difference is greater than 60 minutes in the same timezone as the parsed date
+        if (differenceInMinutes > 60) {
             holder.Text_Probability.setText(R.string.low_chance);
             holder.Text_Probability.setTextColor(Color.parseColor("#f00505"));
         } else {
             holder.Text_Probability.setText(R.string.high_chance);
             holder.Text_Probability.setTextColor(Color.parseColor("#05f028"));
-
         }
+
+
     }
 
     private void B_Like(Post dataModel, MyViewHolder holder) {

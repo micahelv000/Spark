@@ -144,10 +144,12 @@ public class ProfileFragment extends Fragment {
                         data.isFreeArray[i],
                         data.parkingTypeArray[i]));
             }
+            dataSet.sort((post1, post2) -> post2.getEpoch().compareToIgnoreCase(post1.getEpoch()));
 
             adapter = new CustomAdapter(dataSet, getActivity());
             recyclerView.setAdapter(adapter);
         });
+
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this::onResume);
 
