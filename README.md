@@ -29,3 +29,6 @@ SPARK is an Android application designed to simplify the process of finding avai
     <img src="https://github.com/micahelv000/Spark/assets/74205460/09dbb41c-59bc-4a54-8d7f-903fbe1a1802" alt="Screenshot 7" width="250"/>
     <img src="https://github.com/micahelv000/Spark/assets/74205460/d3f9048e-7352-48de-9ce2-36d3f52e90d1" alt="Screenshot 5" width="250"/>
 </div>
+
+## License
+[Spark](https://github.com/micahelv000/Spark) by Liav Mordouch and Michael Volobuev is licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1)
