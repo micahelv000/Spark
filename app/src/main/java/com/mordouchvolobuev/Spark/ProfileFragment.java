@@ -144,7 +144,7 @@ public class ProfileFragment extends Fragment {
                         data.isFreeArray[i],
                         data.parkingTypeArray[i]));
             }
-            dataSet.sort((post1, post2) -> post2.getEpoch().compareToIgnoreCase(post1.getEpoch()));
+            dataSet.sort((post1, post2) -> post1.getEpoch().compareToIgnoreCase(post2.getEpoch()));
 
             adapter = new CustomAdapter(dataSet, getActivity());
             recyclerView.setAdapter(adapter);

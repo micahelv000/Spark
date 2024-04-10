@@ -88,8 +88,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         // algorithm for Probability
         String dateString = dataModel.getEpoch();
         DateFormat format = new SimpleDateFormat("MMM d, yyyy h:mm", Locale.ENGLISH);
-        TimeZone localTimeZone = TimeZone.getDefault(); // Get user's local timezone
-        format.setTimeZone(localTimeZone); // Set timezone to user's local timezone
         long epochMillis;
         try {
             Date date = format.parse(dateString);
@@ -99,11 +97,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
             return;
         }
 
-        long currentTimeMillis = System.currentTimeMillis();
-        TimeZone utcTimeZone = TimeZone.getTimeZone("UTC"); // Get UTC timezone
-        long currentTimeMillisUtc = currentTimeMillis - localTimeZone.getRawOffset(); // Convert current time to UTC
-        long epochMillisUtc = epochMillis - localTimeZone.getRawOffset(); // Convert epoch time to UTC
-        long differenceInMillis = currentTimeMillisUtc - epochMillisUtc; // Calculate the difference in milliseconds
+        long currentTimeMillis = (System.currentTimeMillis()); // get users epoch time
+
+        long differenceInMillis =   currentTimeMillis -epochMillis; // Calculate the difference in milliseconds
         long differenceInMinutes = differenceInMillis / (60 * 1000); // Convert difference to minutes
 
         if (dataModel.getLikeStatus()) {
