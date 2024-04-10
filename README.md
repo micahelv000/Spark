@@ -1,6 +1,6 @@
 # SPARK - Searching it for you!
  ![logo - Copy](https://github.com/micahelv000/Spark/assets/74205460/ac0645eb-501b-457c-97f0-9e551f9af0a5)
-SPARK is an Android application designed to simplify the process of finding available parking spaces in your area. With SPARK, users can quickly locate nearby parking spots, view real-time availability, and navigate to their desired destination hassle-free.
+SPARK is a free open-source Android application designed to simplify the process of finding available parking spaces in your area. With SPARK, users can quickly locate nearby parking spots, view real-time availability, and navigate to their desired destination hassle-free.
 
 ## Features
 
@@ -12,8 +12,10 @@ SPARK is an Android application designed to simplify the process of finding avai
 
 - **User Reviews and Ratings**: SPARK allows users to like the parking spaces, helping others make informed decisions and contribute to a community-driven platform.
   
-- **Adding parking spaces yourslef**: SPARK allows users to Add new parking spaces, helping others make informed decisions and contribute to a community-driven platform.
-  
+- **Adding parking spaces yourself**: SPARK allows users to Add new parking spaces, helping others make informed decisions and contribute to a community-driven platform.
+
+- **Availability algorithm**: Based on real statistics and deep research that we have collected over the years, tells you the chances that parking is available.
+
 ## Screenshots from the app:
 <div style="display: flex; justify-content: center; align-items: center;">
     <img src="https://github.com/micahelv000/Spark/assets/74205460/dc4cf2dc-0886-49cb-b902-b47b6ff6fb7f" alt="Screenshot 1" width="250"/>
