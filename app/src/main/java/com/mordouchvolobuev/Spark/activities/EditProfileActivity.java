@@ -1,4 +1,4 @@
-package com.mordouchvolobuev.Spark;
+package com.mordouchvolobuev.Spark.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,6 +17,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.mordouchvolobuev.Spark.firebase.FireBaseHandler;
+import com.mordouchvolobuev.Spark.R;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -31,7 +33,6 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText editTextCountry;
     private ImageView ProfilePIC;
     private Uri selectedImageUri;
-    private Location user_location;
     Intent intent;
     boolean flag;
 
@@ -137,7 +138,7 @@ public class EditProfileActivity extends AppCompatActivity {
         FireBaseHandler fb = new FireBaseHandler();
 
         Uri selectedImageUri = this.selectedImageUri;
-        fb.updateUserData(full_name, "", instagram_handle, user_location, city, country, selectedImageUri)
+        fb.updateUserData(full_name, "", instagram_handle, city, country, selectedImageUri)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Intent intent1 = new Intent(this, MainActivity.class);

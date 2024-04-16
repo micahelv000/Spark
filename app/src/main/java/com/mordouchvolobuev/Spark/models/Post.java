@@ -1,10 +1,12 @@
-package com.mordouchvolobuev.Spark;
+package com.mordouchvolobuev.Spark.models;
 
 import android.annotation.SuppressLint;
 import android.location.Location;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+
+import com.mordouchvolobuev.Spark.firebase.FireBaseHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package com.mordouchvolobuev.Spark;
+package com.mordouchvolobuev.Spark.utilities;
 
 import android.Manifest;
 import android.app.Activity;
@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.mordouchvolobuev.Spark.R;
 
 import java.io.IOException;
 import java.util.List;

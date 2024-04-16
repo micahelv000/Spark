@@ -1,9 +1,11 @@
-package com.mordouchvolobuev.Spark;
+package com.mordouchvolobuev.Spark.activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+
+import com.mordouchvolobuev.Spark.R;
 
 public class NoInternet extends Activity {
 

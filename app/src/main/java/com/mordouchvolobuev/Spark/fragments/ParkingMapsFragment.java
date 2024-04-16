@@ -1,4 +1,4 @@
-package com.mordouchvolobuev.Spark;
+package com.mordouchvolobuev.Spark.fragments;
 
 import android.Manifest;
 import android.content.Intent;
@@ -25,6 +25,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.mordouchvolobuev.Spark.models.Post;
+import com.mordouchvolobuev.Spark.utilities.PostDataProcessor;
+import com.mordouchvolobuev.Spark.R;
+import com.mordouchvolobuev.Spark.activities.Parking;
 
 import java.util.ArrayList;
 import java.util.Objects;

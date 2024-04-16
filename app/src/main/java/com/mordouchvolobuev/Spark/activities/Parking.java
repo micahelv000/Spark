@@ -1,6 +1,6 @@
-package com.mordouchvolobuev.Spark;
+package com.mordouchvolobuev.Spark.activities;
 
-import static com.mordouchvolobuev.Spark.Post.fromString;
+import static com.mordouchvolobuev.Spark.models.Post.fromString;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -22,6 +22,9 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.mordouchvolobuev.Spark.firebase.FireBaseHandler;
+import com.mordouchvolobuev.Spark.models.Post;
+import com.mordouchvolobuev.Spark.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;

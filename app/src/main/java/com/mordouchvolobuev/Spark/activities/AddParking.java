@@ -1,4 +1,4 @@
-package com.mordouchvolobuev.Spark;
+package com.mordouchvolobuev.Spark.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -24,6 +24,10 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+
+import com.mordouchvolobuev.Spark.firebase.FireBaseHandler;
+import com.mordouchvolobuev.Spark.utilities.LocationHelper;
+import com.mordouchvolobuev.Spark.R;
 
 public class AddParking extends AppCompatActivity {
     ImageView parkingPhotoImageView;
@@ -57,14 +61,14 @@ public class AddParking extends AppCompatActivity {
         });
 
         Button submitButton = findViewById(R.id.b_Add_this);
-        submitButton.setOnClickListener(this::onSubmitButtonClick);
+        submitButton.setOnClickListener(v -> onSubmitButtonClick());
         addressEditText = findViewById(R.id.addressEditText);
         LocationHelper locationHelper = new LocationHelper(this);
         locationHelper.setAddressToTextView(addressEditText, locationHelper.getLocation());
     }
 
-    public void onSubmitButtonClick(View view) {
-        if (Validation(view)) {
+    public void onSubmitButtonClick() {
+        if (Validation()) {
             String[] parkingType = new String[2];
             if (((CheckBox) findViewById(R.id.ParallelParkingCheckBox)).isChecked()) {
                 parkingType[0] = "Parallel";
@@ -105,7 +109,7 @@ public class AddParking extends AppCompatActivity {
         }
     }
 
-    private boolean Validation(View view) {
+    private boolean Validation() {
         // check that photo had been uploaded
         if (selectedImage == null) {
             Toast.makeText(AddParking.this, "You must upload a photo", Toast.LENGTH_SHORT).show();

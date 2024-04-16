@@ -1,4 +1,4 @@
-package com.mordouchvolobuev.Spark;
+package com.mordouchvolobuev.Spark.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.mordouchvolobuev.Spark.firebase.FireBaseHandler;
+import com.mordouchvolobuev.Spark.R;
 
 import org.json.JSONObject;
 

@@ -1,4 +1,4 @@
-package com.mordouchvolobuev.Spark;
+package com.mordouchvolobuev.Spark.activities;
 
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -13,6 +13,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayout.Tab;
+import com.mordouchvolobuev.Spark.adapters.MyPagerAdapter;
+import com.mordouchvolobuev.Spark.R;
 
 public class LayoutFragments extends AppCompatActivity {
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Dialog_filter">
+    tools:context=".dialogs.Dialog_filter">
 
     <LinearLayout
         android:id="@+id/cheackboxses"

@@ -1,4 +1,4 @@
-package com.mordouchvolobuev.Spark;
+package com.mordouchvolobuev.Spark.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,6 +22,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.mordouchvolobuev.Spark.firebase.FireBaseHandler;
+import com.mordouchvolobuev.Spark.utilities.LocationHelper;
+import com.mordouchvolobuev.Spark.R;
 
 import java.util.Objects;
 
@@ -99,7 +102,7 @@ public class Register extends AppCompatActivity {
     }
 
     public void Login(View view) {
-        Intent intent = new Intent(this, com.mordouchvolobuev.Spark.Login.class);
+        Intent intent = new Intent(this, Login.class);
         startActivity(intent);
     }
 
@@ -193,7 +196,7 @@ public class Register extends AppCompatActivity {
                                             Toast.makeText(Register.this, "Registration successful", Toast.LENGTH_LONG)
                                                     .show();
                                             Intent intent = new Intent(Register.this,
-                                                    com.mordouchvolobuev.Spark.LayoutFragments.class);
+                                                    LayoutFragments.class);
                                             fb.getUserData(user).addOnCompleteListener(userDataTask -> {
                                                 if (userDataTask.isSuccessful()) {
                                                     intent.putExtra("user", userDataTask.getResult().toString());

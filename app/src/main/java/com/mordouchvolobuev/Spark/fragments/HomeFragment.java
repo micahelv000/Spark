@@ -1,4 +1,4 @@
-package com.mordouchvolobuev.Spark;
+package com.mordouchvolobuev.Spark.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -17,6 +17,14 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.mordouchvolobuev.Spark.adapters.CustomAdapter;
+import com.mordouchvolobuev.Spark.dialogs.DialogSortBy;
+import com.mordouchvolobuev.Spark.dialogs.Dialog_filter;
+import com.mordouchvolobuev.Spark.utilities.LocationHelper;
+import com.mordouchvolobuev.Spark.models.Post;
+import com.mordouchvolobuev.Spark.utilities.PostDataProcessor;
+import com.mordouchvolobuev.Spark.R;
 
 import java.util.ArrayList;
 import java.util.Locale;

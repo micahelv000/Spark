@@ -1,4 +1,4 @@
-package com.mordouchvolobuev.Spark;
+package com.mordouchvolobuev.Spark.activities;
 
 import android.Manifest;
 import android.content.Context;
@@ -21,6 +21,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.mordouchvolobuev.Spark.R;
 
 public class MapPopupActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
     private static final int REQUEST_LOCATION_PERMISSION = 1001;

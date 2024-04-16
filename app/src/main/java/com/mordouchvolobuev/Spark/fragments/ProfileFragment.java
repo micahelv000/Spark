@@ -1,4 +1,4 @@
-package com.mordouchvolobuev.Spark;
+package com.mordouchvolobuev.Spark.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -19,6 +19,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.mordouchvolobuev.Spark.adapters.CustomAdapter;
+import com.mordouchvolobuev.Spark.firebase.FireBaseHandler;
+import com.mordouchvolobuev.Spark.models.Post;
+import com.mordouchvolobuev.Spark.utilities.PostDataProcessor;
+import com.mordouchvolobuev.Spark.R;
+import com.mordouchvolobuev.Spark.activities.EditProfileActivity;
+import com.mordouchvolobuev.Spark.activities.Login;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;

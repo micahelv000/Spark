@@ -1,4 +1,4 @@
-package com.mordouchvolobuev.Spark;
+package com.mordouchvolobuev.Spark.firebase;
 
 import android.content.Context;
 import android.location.Location;
@@ -16,6 +16,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.mordouchvolobuev.Spark.utilities.LocationHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,13 +62,12 @@ public class FireBaseHandler {
         auth.sendPasswordResetEmail(Objects.requireNonNull(currentUser.getEmail()));
     }
 
-    public Task<Void> updateUserData(String full_name, String bio, String instagram_handle, Location user_location,
+    public Task<Void> updateUserData(String full_name, String bio, String instagram_handle,
             String city, String country, Uri imageUri) {
         Map<String, Object> userUpdates = new HashMap<>();
         userUpdates.put("full_name", full_name);
         userUpdates.put("bio", bio);
         userUpdates.put("instagram_handle", instagram_handle);
-        userUpdates.put("user_location", user_location);
         userUpdates.put("city", city);
         userUpdates.put("country", country);
 

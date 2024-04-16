@@ -1,4 +1,4 @@
-package com.mordouchvolobuev.Spark;
+package com.mordouchvolobuev.Spark.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +15,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mordouchvolobuev.Spark.firebase.FireBaseHandler;
+import com.mordouchvolobuev.Spark.utilities.LocationHelper;
+import com.mordouchvolobuev.Spark.models.Post;
+import com.mordouchvolobuev.Spark.R;
+import com.mordouchvolobuev.Spark.activities.Parking;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -24,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
     private final ArrayList<Post> dataSet;

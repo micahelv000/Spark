@@ -1,4 +1,4 @@
-package com.mordouchvolobuev.Spark;
+package com.mordouchvolobuev.Spark.adapters;
 
 import android.os.Bundle;
 
@@ -6,6 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+
+import com.mordouchvolobuev.Spark.fragments.HomeFragment;
+import com.mordouchvolobuev.Spark.fragments.ParkingMapsFragment;
+import com.mordouchvolobuev.Spark.fragments.ProfileFragment;
 
 public class MyPagerAdapter extends FragmentPagerAdapter {
     private static final int NUM_PAGES = 3; // Number of pages

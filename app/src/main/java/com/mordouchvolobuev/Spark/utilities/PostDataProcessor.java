@@ -1,8 +1,9 @@
-package com.mordouchvolobuev.Spark;
+package com.mordouchvolobuev.Spark.utilities;
 
 import android.location.Location;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.mordouchvolobuev.Spark.firebase.FireBaseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,17 +13,17 @@ import java.util.List;
 import java.util.Locale;
 
 public class PostDataProcessor {
-    String[] addressArray;
-    String[] epochsArray;
-    String[] likesArray;
-    String[] postPicturesArray;
-    Location[] locationArray;
-    String[] userIdArray;
-    String[] postIdsArray;
-    boolean[] likeStatusArray;
-    String[] carTypeArray;
-    String[][] parkingTypeArray;
-    boolean[] isFreeArray;
+    public String[] addressArray;
+    public String[] epochsArray;
+    public String[] likesArray;
+    public String[] postPicturesArray;
+    public Location[] locationArray;
+    public String[] userIdArray;
+    public String[] postIdsArray;
+    public boolean[] likeStatusArray;
+    public String[] carTypeArray;
+    public String[][] parkingTypeArray;
+    public boolean[] isFreeArray;
 
     public boolean[] getLikeStatusArray() {
         return this.likeStatusArray;
